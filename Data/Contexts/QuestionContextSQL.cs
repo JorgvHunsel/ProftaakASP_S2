@@ -5,12 +5,11 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Fontys.PTS2.Prototype.Classes;
-using Fontys.PTS2.Prototype.Data.Contexts;
-using Fontys.PTS2.Prototype.View;
+using Data.Interfaces;
 using Microsoft.Win32.SafeHandles;
+using Models;
 
-namespace Fontys.PTS2.Prototype.Data
+namespace Data.Contexts
 {
     public class QuestionContextSQL : IQuestionContext
     {

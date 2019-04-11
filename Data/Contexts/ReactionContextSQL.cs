@@ -5,10 +5,10 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Fontys.PTS2.Prototype.Classes;
-using Fontys.PTS2.Prototype.Data.Contexts;
+using Data.Interfaces;
+using Models;
 
-namespace Fontys.PTS2.Prototype.Data
+namespace Data.Contexts
 {
     public class ReactionContextSQL : IReactionContext
     {

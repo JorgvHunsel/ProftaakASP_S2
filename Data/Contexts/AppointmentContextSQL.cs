@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using Fontys.PTS2.Prototype.Classes;
-using Fontys.PTS2.Prototype.Data.Contexts;
-using Fontys.PTS2.Prototype.Model;
+using Data.Interfaces;
+using Models;
 
-namespace Fontys.PTS2.Prototype.Data
+namespace Data.Contexts
 {
     public class AppointmentContextSQL : IAppointmentContext
     {

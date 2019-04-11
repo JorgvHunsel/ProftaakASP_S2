@@ -4,9 +4,9 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Fontys.PTS2.Prototype.Classes;
+using Models;
 
-namespace Fontys.PTS2.Prototype.Data.Contexts
+namespace Data.Interfaces
 {
     public interface IQuestionContext
     {

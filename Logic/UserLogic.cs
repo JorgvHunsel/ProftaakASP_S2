@@ -5,14 +5,14 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Fontys.PTS2.Prototype.Classes;
-using Fontys.PTS2.Prototype.Data;
+using Data.Contexts;
+using Models;
 
-namespace Fontys.PTS2.Prototype.Logic
+namespace Logic
 {
     public class UserLogic
     {
-        static UserRepository userRepo = new UserRepository();
+        static  UserContextSQL userRepo = new UserContextSQL();
 
         // hier komt de verbinding tussen de repos en de view. zie category repository
         public static bool CheckValidityUser(string email, string password)

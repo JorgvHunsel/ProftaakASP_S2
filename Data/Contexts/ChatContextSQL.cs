@@ -5,13 +5,12 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using Fontys.PTS2.Prototype.Classes;
-using Fontys.PTS2.Prototype.Data.Contexts;
+using Data.Interfaces;
+using Models;
 
-namespace Fontys.PTS2.Prototype.Data
+namespace Data.Contexts
 {
-    class ChatContextSQL : IChatContext
+    public class ChatContextSQL : IChatContext
     {
         private const string ConnectionString = @"Data Source=mssql.fhict.local;Initial Catalog=dbi423244;User ID=dbi423244;Password=wsx234;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
         private readonly SqlConnection _conn = new SqlConnection(ConnectionString);

@@ -4,27 +4,27 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using Fontys.PTS2.Prototype.Classes;
-using Fontys.PTS2.Prototype.Data;
+using Data.Contexts;
+using Models;
 
-namespace Fontys.PTS2.Prototype.Logic
+namespace Logic
 {
     class ChatLogic
     {
-        ChatRepository chatRepo = new ChatRepository();
+        ChatContextSQL chatRepo = new ChatContextSQL();
 
         public DataTable GetAllOpenChatsAsDataTable(int userid)
         {
             return GetAllOpenChatsAsDataTable(userid);
         }
 
-        public List<ChatMessage> LoadMessageListWithChatID(int chatID) => chatRepo.LoadMessageListWithChatID(chatID);
+        public List<ChatMessage> LoadMessageListWithChatID(int chatID) =>
+            chatRepo.LoadMessageAsListUsingChatLogID(chatID);
 
         //Wesley
         public static List<ChatLog> LoadOpenMessageList()
         {
-            ChatRepository chatRepo = new ChatRepository();
+            ChatContextSQL chatRepo = new ChatContextSQL();
             return chatRepo.LoadOpenChatsList();
         }
         //End Wesley
@@ -33,7 +33,8 @@ namespace Fontys.PTS2.Prototype.Logic
             chatRepo.SendMessage(chatid, receiverid, senderid, message);
         }
 
-        public List<ChatLog> GetAllOpenChatsWithVolunteerID(int userid) => chatRepo.GetAllChatsWithVolunteerID(userid);
+        public List<ChatLog> GetAllOpenChatsWithVolunteerID(int userid) =>
+            chatRepo.GetAllOpenChatsWithVolunteerID(userid);
         public List<ChatLog> GetAllOpenChatsWithCareRecipientID(int userid) => chatRepo.GetAllOpenChatsWithCareRecipientID(userid);
 
         public void CreateNewChatLog(int reactionID, int volunteerID, int careRecipientID) =>

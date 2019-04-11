@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Fontys.PTS2.Prototype.Classes
+namespace Models
 {
     public class Professional : User
     {

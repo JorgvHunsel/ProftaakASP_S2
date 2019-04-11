@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Fontys.PTS2.Prototype.Data;
-using Fontys.PTS2.Prototype.Model;
+using Data.Contexts;
+using Models;
 
-namespace Fontys.PTS2.Prototype.Logic
+namespace Logic
 {
     public class AppointmentLogic
     {
-        private AppointmentRepository appointmentRepo = new AppointmentRepository();
+        private AppointmentContextSQL appointmentRepo = new AppointmentContextSQL();
 
         public void CreateAppointment(Appointment appointment) =>
             appointmentRepo.CreateAppointment(appointment);

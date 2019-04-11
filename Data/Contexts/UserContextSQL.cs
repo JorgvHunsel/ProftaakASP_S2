@@ -9,13 +9,12 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using Fontys.PTS2.Prototype.Classes;
-using Fontys.PTS2.Prototype.Data.Contexts;
+using Data.Interfaces;
+using Models;
 
-namespace Fontys.PTS2.Prototype.Data
+namespace Data.Contexts
 {
-    class UserContextSQL : IUserContext
+    public class UserContextSQL : IUserContext
     {
         private const string ConnectionString =
             @"Data Source=mssql.fhict.local;Initial Catalog=dbi423244;User ID=dbi423244;Password=wsx234;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
@@ -96,7 +95,6 @@ namespace Fontys.PTS2.Prototype.Data
             }
             catch (Exception e)
             {
-                MessageBox.Show("Account wijzigen is niet gelukt:" + e);
                 throw;
             }
             finally
@@ -219,7 +217,6 @@ namespace Fontys.PTS2.Prototype.Data
                 }
                 else
                 {
-                    MessageBox.Show("Account not active!");
                     return false;
                 }
 
@@ -272,7 +269,6 @@ namespace Fontys.PTS2.Prototype.Data
                 }
                 else
                 {
-                    MessageBox.Show("Gebruiker bestaat niet of wachtwoord is verkeerd!");
                     return false;
                 }
 

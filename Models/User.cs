@@ -6,7 +6,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace Fontys.PTS2.Prototype.Classes
+namespace Models
 {
     public abstract class User
     {

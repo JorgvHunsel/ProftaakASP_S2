@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Fontys.PTS2.Prototype.Classes
+namespace Models
 {
-    class Admin : User
+    public class Admin : User
     {
         public Admin(string firstName, string lastName, string address, string city, string postalCode, string emailAddress, DateTime dateBirth, Gender userGender, bool status, AccountType accountType) : base(firstName, lastName, address, city, postalCode, emailAddress, dateBirth, userGender, status, accountType)
         {
