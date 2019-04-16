@@ -5,13 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Data.Contexts;
+using Data.Interfaces;
 using Models;
 
 namespace Logic
 {
     class ChatLogic
     {
-        ChatContextSQL chatRepo = new ChatContextSQL();
+        private readonly IChatContext _chat;
+
+        public ChatLogic(IChatContext chat)
+        {
+            _chat = chat;
+        }
 
         public DataTable GetAllOpenChatsAsDataTable(int userid)
         {
@@ -19,25 +25,24 @@ namespace Logic
         }
 
         public List<ChatMessage> LoadMessageListWithChatID(int chatID) =>
-            chatRepo.LoadMessageAsListUsingChatLogID(chatID);
+            _chat.LoadMessageAsListUsingChatLogID(chatID);
 
         //Wesley
-        public static List<ChatLog> LoadOpenMessageList()
+        public List<ChatLog> LoadOpenMessageList()
         {
-            ChatContextSQL chatRepo = new ChatContextSQL();
-            return chatRepo.LoadOpenChatsList();
+            return _chat.LoadOpenChatsList();
         }
         //End Wesley
         public void SendMessage(int chatid, int receiverid, int senderid, string message)
         {
-            chatRepo.SendMessage(chatid, receiverid, senderid, message);
+            _chat.SendMessage(chatid, receiverid, senderid, message);
         }
 
         public List<ChatLog> GetAllOpenChatsWithVolunteerID(int userid) =>
-            chatRepo.GetAllOpenChatsWithVolunteerID(userid);
-        public List<ChatLog> GetAllOpenChatsWithCareRecipientID(int userid) => chatRepo.GetAllOpenChatsWithCareRecipientID(userid);
+            _chat.GetAllOpenChatsWithVolunteerID(userid);
+        public List<ChatLog> GetAllOpenChatsWithCareRecipientID(int userid) => _chat.GetAllOpenChatsWithCareRecipientID(userid);
 
         public void CreateNewChatLog(int reactionID, int volunteerID, int careRecipientID) =>
-            chatRepo.CreateNewChatLog(reactionID, volunteerID, careRecipientID);
+            _chat.CreateNewChatLog(reactionID, volunteerID, careRecipientID);
     }
 }

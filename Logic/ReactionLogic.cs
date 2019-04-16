@@ -4,21 +4,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Data.Contexts;
+using Data.Interfaces;
 using Models;
 
 namespace Logic
 {
     class ReactionLogic
     {
-        static ReactionContextSQL reactionRepo = new ReactionContextSQL();
+        private readonly IReactionContext _reaction;
 
-        // hier komt de verbinding tussen de repos en de view. zie category repository
-        public static void PostReaction(Reaction reaction)
+        public ReactionLogic(IReactionContext reaction)
         {
-            reactionRepo.PostReaction(reaction);
+            _reaction = reaction;
         }
 
-        public static List<Reaction> GetAllCommentsWithQuestionID(int id) => reactionRepo.GetAllCommentsWithQuestionID(id);
+        // hier komt de verbinding tussen de repos en de view. zie category repository
+        public void PostReaction(Reaction reaction)
+        {
+            _reaction.PostReaction(reaction);
+        }
+
+        public List<Reaction> GetAllCommentsWithQuestionID(int id) => _reaction.GetAllCommentsWithQuestionID(id);
 
 
     }

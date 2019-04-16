@@ -13,11 +13,17 @@ namespace ProftaakASP_S2.Controllers
 {
     public class VolunteerController : Controller
     {
+        private readonly QuestionLogic _questionLogic;
+
+        public VolunteerController(QuestionLogic questionLogic)
+        {
+            _questionLogic = questionLogic;
+        }
+
         // GET: QuestionVolunteer
         public ActionResult QuestionOverview()
         {
-            QuestionLogic questionLogic = new QuestionLogic();
-            return View("../Volunteer/Question/Overview", questionLogic.GetAllOpenQuestions());
+            return View("../Volunteer/Question/Overview", _questionLogic.GetAllOpenQuestions());
         }
 
         // GET: QuestionVolunteer/Details/5

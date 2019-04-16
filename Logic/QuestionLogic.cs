@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Data.Contexts;
+using Data.Interfaces;
 using Models;
 
 
@@ -12,29 +13,34 @@ namespace Logic
 {
     public class QuestionLogic
     {
-        static QuestionContextSQL questionRepo = new QuestionContextSQL();
+        private readonly IQuestionContext _question;
 
-        public static void WriteQuestionToDatabase(Question askedQuestion)
+        public QuestionLogic(IQuestionContext question)
         {
-            questionRepo.WriteQuestionToDatabase(askedQuestion);
+            _question = question;
+        }
+
+        public void WriteQuestionToDatabase(Question askedQuestion)
+        {
+            _question.WriteQuestionToDatabase(askedQuestion);
         }
 
         public List<Question> GetAllOpenQuestions()
         {
-            return questionRepo.GetAllOpenQuestions();
+            return _question.GetAllOpenQuestions();
         }
 
-        public static List<Question> GetAllOpenQuestionCareRecipientID(int careRecipientID) =>
-            questionRepo.GetAllOpenQuestionsCareRecipientID(careRecipientID);
+        public List<Question> GetAllOpenQuestionCareRecipientID(int careRecipientID) =>
+            _question.GetAllOpenQuestionsCareRecipientID(careRecipientID);
 
-        public static Question GetSingleQuestion(int questionID)
+        public Question GetSingleQuestion(int questionID)
         {
-            return questionRepo.GetSingleQuestion(questionID);
+            return _question.GetSingleQuestion(questionID);
         }
 
-        public static void EditQuestion(int questionID, string subjectNew, string contentNew, Category category, string urgency)
+        public void EditQuestion(int questionID, string subjectNew, string contentNew, Category category, string urgency)
         {
-            questionRepo.EditQuestion(questionID, subjectNew, contentNew, category, urgency);
+            _question.EditQuestion(questionID, subjectNew, contentNew, category, urgency);
         }
 
     }

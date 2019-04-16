@@ -36,8 +36,17 @@ namespace ProftaakASP_S2
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddSingleton<UserLogic>();
+
+            services.AddSingleton<IAppointmentContext, AppointmentContextSQL>();
+            services.AddSingleton<ICategoryContext, CategoryContextSQL>();
+            services.AddSingleton<IChatContext, ChatContextSQL>();
+            services.AddSingleton<IQuestionContext, QuestionContextSQL>();
+            services.AddSingleton<IReactionContext, ReactionContextSQL>();
             services.AddSingleton<IUserContext, UserContextSQL>();
+
+            services.AddSingleton<UserLogic>();
+            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
