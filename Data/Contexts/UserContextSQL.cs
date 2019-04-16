@@ -235,45 +235,56 @@ namespace Data.Contexts
             return false;
         }
 
-        public bool CheckValidityUser(string email, string password)
+        public User CheckValidityUser(string emailAdress, string password)
         {
             try
             {
                 string query =
-                    "SELECT [Email], [Password], [Status] FROM [User] WHERE [Email] = @email AND [Password] = @password";
+                    "SELECT UserID, AccountType, FirstName, LastName, Birthdate, Sex, Email, Address, PostalCode, City, Status " +
+                    "FROM [User] " +
+                    "WHERE [Email] = @Email AND [Password] = @Password";
                 _conn.Open();
 
-                SqlParameter emailParam = new SqlParameter();
-                emailParam.ParameterName = "@email";
-                SqlParameter passParam = new SqlParameter();
-                passParam.ParameterName = "@password";
+                SqlDataAdapter cmd = new SqlDataAdapter();
+                cmd.SelectCommand = new SqlCommand(query, _conn);
 
-                SqlCommand cmd = new SqlCommand(query, _conn);
-                emailParam.Value = email;
-                passParam.Value = password;
-                cmd.Parameters.Add(emailParam);
-                cmd.Parameters.Add(passParam);
+                cmd.SelectCommand.Parameters.Add("@Email", SqlDbType.VarChar).Value = emailAdress;
+                cmd.SelectCommand.Parameters.Add("@Password", SqlDbType.VarChar).Value = password;
 
-                SqlDataReader reader = cmd.ExecuteReader();
+                DataTable dt = new DataTable();
+                cmd.Fill(dt);
 
-                if (reader.HasRows)
+                int userID = Convert.ToInt32((dt.Rows[0].ItemArray[0]));
+                string accountType = dt.Rows[0].ItemArray[1].ToString();
+                string firstName = dt.Rows[0].ItemArray[2].ToString();
+                string lastName = dt.Rows[0].ItemArray[3].ToString();
+                DateTime birthDate = Convert.ToDateTime(dt.Rows[0].ItemArray[4].ToString());
+                User.Gender gender = (User.Gender)Enum.Parse(typeof(User.Gender), dt.Rows[0].ItemArray[5].ToString());
+                string email = dt.Rows[0].ItemArray[6].ToString();
+                string address = dt.Rows[0].ItemArray[7].ToString();
+                string postalCode = dt.Rows[0].ItemArray[8].ToString();
+                string city = dt.Rows[0].ItemArray[9].ToString();
+                bool status = Convert.ToBoolean(dt.Rows[0].ItemArray[10].ToString());
+
+                if (accountType == "CareRecipient")
                 {
-                    while (reader.Read())
-                    {
-                        if (password == (string)reader[1])
-                        {
-                            _conn.Close();
-                            return true;
-                        }
-                    }
-                }
-                else
-                {
-                    return false;
+                    return new CareRecipient(userID, firstName, lastName, address, city, postalCode, email,
+                        birthDate, gender, status, User.AccountType.CareRecipient);
                 }
 
+                else if (accountType == "Volunteer")
+                {
+                    return new CareRecipient(userID, firstName, lastName, address, city, postalCode, email,
+                        birthDate, gender, status, User.AccountType.Volunteer);
+                }
+                else if ((accountType == "Admin"))
+                {
+                    return new CareRecipient(userID, firstName, lastName, address, city, postalCode, email,
+                         birthDate, gender, status, User.AccountType.Admin);
+                }
 
-                reader.Close();
+                return null;
+
             }
             catch (Exception e)
             {
@@ -284,7 +295,6 @@ namespace Data.Contexts
             {
                 _conn.Close();
             }
-            return false;
         }
 
         public bool CheckIfUserAlreadyExists(string email)

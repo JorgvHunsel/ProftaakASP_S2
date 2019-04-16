@@ -15,7 +15,7 @@ namespace Data.Interfaces
 
         int GetUserId(string firstName);
 
-        bool CheckValidityUser(string email, string password);
+        User CheckValidityUser(string email, string password);
 
         User getCurrentUserInfo(string email);
 

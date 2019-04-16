@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Data.Contexts;
+using Data.Interfaces;
+using Logic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -31,8 +34,10 @@ namespace ProftaakASP_S2
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddSingleton<UserLogic>();
+            services.AddSingleton<IUserContext, UserContextSQL>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -6,58 +6,64 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Data.Contexts;
+using Data.Interfaces;
 using Models;
 
 namespace Logic
 {
     public class UserLogic
     {
-        static  UserContextSQL userRepo = new UserContextSQL();
+        private readonly IUserContext _iUserContext;
+
+        public UserLogic(IUserContext iUserContext)
+        {
+            _iUserContext = iUserContext;
+        }
 
         // hier komt de verbinding tussen de repos en de view. zie category repository
-        public static bool CheckValidityUser(string email, string password)
+        public User CheckValidityUser(string email, string password)
         {
-            return userRepo.CheckValidityUser(email, password);
+            return _iUserContext.CheckValidityUser(email, password);
         }
 
-        public static int GetUserId(string firstName)
+        public int GetUserId(string firstName)
         {
-            return userRepo.GetUserId(firstName);
+            return _iUserContext.GetUserId(firstName);
         }
 
-        public static List<User> GetAllUsers()
+        public List<User> GetAllUsers()
         {
-            return userRepo.GetAllUsers();
+            return _iUserContext.GetAllUsers();
         }
 
-        public static void AddNewUser(User newUser, string password)
+        public void AddNewUser(User newUser, string password)
         {
-            userRepo.AddNewUser(newUser, password);
+            _iUserContext.AddNewUser(newUser, password);
         }
 
-        public static User getCurrentUserInfo(string email)
+        public User getCurrentUserInfo(string email)
         {
-            return userRepo.getCurrentUserInfo(email);
+            return _iUserContext.getCurrentUserInfo(email);
         }
 
-        public static void EditUser(User currentUser, string password)
+        public void EditUser(User currentUser, string password)
         {
-            userRepo.EditUser(currentUser, password);
+            _iUserContext.EditUser(currentUser, password);
         }
 
-        public static bool CheckIfUserAlreadyExists(string email)
+        public bool CheckIfUserAlreadyExists(string email)
         {
-            return userRepo.CheckIfUserAlreadyExists(email);
+            return _iUserContext.CheckIfUserAlreadyExists(email);
         }
 
-        public static bool IsEmailValid(string email)
+        public bool IsEmailValid(string email)
         {
-            return userRepo.IsEmailValid(email);
+            return _iUserContext.IsEmailValid(email);
         }
 
-        public static bool CheckIfAccountIsActive(string email)
+        public bool CheckIfAccountIsActive(string email)
         {
-            return userRepo.CheckIfAccountIsActive(email);
+            return _iUserContext.CheckIfAccountIsActive(email);
         }
 
     }
