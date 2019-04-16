@@ -19,4 +19,16 @@
     <Folder Include="Views\CareRecipient\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\Shared\_LayoutCareRecipient.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\_LayoutProfessional.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Shared\_LayoutVolunteer.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>
