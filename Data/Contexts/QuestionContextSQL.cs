@@ -18,110 +18,6 @@ namespace Data.Contexts
 
         private static readonly SqlConnection _conn = new SqlConnection(ConnectionString);
 
-        //public List<Question> GetAllQuestions()
-        //{
-        //    try
-        //    {
-        //        string query =
-        //            "SELECT QuestionID, CareRecipientID, CategoryId, Status, Title, Description, Datetime, Urgency " +
-        //            "FROM Question";
-        //        _conn.Open();
-        //        SqlDataAdapter sqlAdapter = new SqlDataAdapter(query, _conn);
-
-        //        DataTable dt = new DataTable();
-        //        sqlAdapter.Fill(dt);
-
-        //        List<Question> QuestionList = new List<Question>();
-
-        //        foreach (DataRow row in dt.Rows)
-        //        {
-        //            int questionId = (int)row["QuestionID"];
-        //            int careRecipientID = (int)row["CareRecipientID"];
-        //            int categoryId = (int)row["CategoryId"];
-        //            string status = row["Status"].ToString();
-        //            string title = row["Title"].ToString();
-        //            string description = row["Description"].ToString();
-        //            DateTime Datetime = (DateTime)row["Urgency"];
-        //            string urgency = row["Urgency"].ToString();
-
-
-        //        }
-
-        //        return QuestionList;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine(e.Message);
-        //        throw;
-        //    }
-        //    finally
-        //    {
-        //        _conn.Close();
-        //    }
-        //}
-
-        //public string GetQuestionName(int questionId)
-        //{
-        //    try
-        //    {
-        //        string query = "SELECT [Title] FROM [Question] WHERE [QuestionID] = " + questionId.ToString();
-        //        _conn.Open();
-        //        SqlDataAdapter sqlAdapter = new SqlDataAdapter(query, _conn);
-
-        //        DataTable dt = new DataTable();
-        //        sqlAdapter.Fill(dt);
-
-        //        string questionTitle = "";
-
-        //        foreach (DataRow row in dt.Rows)
-        //        {
-        //            questionTitle = row["Title"].ToString();
-        //        }
-
-        //        return questionTitle;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine(e.Message);
-        //        throw;
-        //    }
-        //    finally
-        //    {
-        //        _conn.Close();
-        //    }
-        //}
-
-        //public string GetQuestionDescription(int questionId)
-        //{
-        //    try
-        //    {
-        //        string query = "SELECT [Description] FROM [Question] WHERE [QuestionID] = " + questionId.ToString();
-        //        _conn.Open();
-        //        SqlDataAdapter sqlAdapter = new SqlDataAdapter(query, _conn);
-
-        //        DataTable dt = new DataTable();
-        //        sqlAdapter.Fill(dt);
-
-        //        string description = "";
-
-        //        foreach (DataRow row in dt.Rows)
-        //        {
-        //            description = row["Description"].ToString();
-        //        }
-
-        //        return description;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine(e.Message);
-        //        throw;
-        //    }
-        //    finally
-        //    {
-        //        _conn.Close();
-        //    }
-        //}
-
         public void WriteQuestionToDatabase(Question askedQuestion)
         {
             try
@@ -150,10 +46,12 @@ namespace Data.Contexts
             }
         }
 
-        public DataTable GetAllOpenQuestions()
+        public List<Question> GetAllOpenQuestions()
         {
             try
             {
+                List<Question> questionList = new List<Question>();
+
                 SqlCommand cmd = new SqlCommand("SelectAllOpenQuestions", _conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 _conn.Open();
@@ -161,8 +59,31 @@ namespace Data.Contexts
                 DataTable dt = new DataTable();
                 dt.Load(cmd.ExecuteReader());
 
-                return dt;
+                foreach (DataRow dr in dt.Rows)
+                {
+                    int questionId = Convert.ToInt32(dr["QuestionID"].ToString());
+                    string title = dr["Title"].ToString();
+                    string content = dr["Description"].ToString();
+                    DateTime date = Convert.ToDateTime(dr["Datetime"].ToString());
+                    string urgency = dr["Urgency"].ToString();
+                    Category category = new Category(0, dr["Name"].ToString(), null);
+                    int careRecipientId = Convert.ToInt32(dr["CareRecipientID"].ToString());
+                    string status = dr["Status"].ToString();
 
+                    Question question;
+                    if (status == "Open")
+                    {
+                        question = new Question(questionId, title, content, Question.QuestionStatus.Open, date, urgency, category, careRecipientId);
+                    }
+                    else
+                    {
+                        question = new Question(questionId, title, content, Question.QuestionStatus.Closed, date, urgency, category, careRecipientId);
+                    }
+                    questionList.Add(question);
+                    
+                }
+
+                return questionList;
             }
             catch (Exception e)
             {

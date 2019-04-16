@@ -5,18 +5,19 @@ using System.Threading.Tasks;
 using Logic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Internal;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Models;
 
 namespace ProftaakASP_S2.Controllers
 {
-    public class VolunteerQuestionController : Controller
+    public class VolunteerController : Controller
     {
         // GET: QuestionVolunteer
-        public ActionResult Overview()
+        public ActionResult QuestionOverview()
         {
             QuestionLogic questionLogic = new QuestionLogic();
-            return View();
+            return View("../Volunteer/Question/Overview", questionLogic.GetAllOpenQuestions());
         }
 
         // GET: QuestionVolunteer/Details/5
@@ -40,7 +41,7 @@ namespace ProftaakASP_S2.Controllers
             {
                 // TODO: Add insert logic here
 
-                return RedirectToAction(nameof(Overview));
+                return RedirectToAction(nameof(QuestionOverview));
             }
             catch
             {
@@ -63,7 +64,7 @@ namespace ProftaakASP_S2.Controllers
             {
                 // TODO: Add update logic here
 
-                return RedirectToAction(nameof(Overview));
+                return RedirectToAction(nameof(QuestionOverview));
             }
             catch
             {
@@ -86,7 +87,7 @@ namespace ProftaakASP_S2.Controllers
             {
                 // TODO: Add delete logic here
 
-                return RedirectToAction(nameof(Overview));
+                return RedirectToAction(nameof(QuestionOverview));
             }
             catch
             {
