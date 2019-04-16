@@ -11,7 +11,7 @@ namespace Data.Interfaces
     public interface IQuestionContext
     {
         void WriteQuestionToDatabase(Question askedQuestion);
-        DataTable GetAllOpenQuestions();
+        List<Question> GetAllOpenQuestions();
         Question GetSingleQuestion(int questionID);
         void EditQuestion(int questionID, string subjectNew, string contentNew, Category category, string urgency);
         List<Question> GetAllOpenQuestionsCareRecipientID(int careRecipientID);

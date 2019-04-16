@@ -61,7 +61,14 @@ namespace ProftaakASP_S2
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Login}/{action=Login}/{id?}");
+            });
+
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "Volunteer",
+                    template: "{controller=Volunteer}/{action=Index}/{id?}");
             });
         }
     }

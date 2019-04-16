@@ -19,7 +19,7 @@ namespace Logic
             questionRepo.WriteQuestionToDatabase(askedQuestion);
         }
 
-        public static DataTable GetAllOpenQuestions()
+        public List<Question> GetAllOpenQuestions()
         {
             return questionRepo.GetAllOpenQuestions();
         }
