@@ -1,0 +1,66 @@
+﻿@model IEnumerable<ProftaakASP_S2.Models.VolunteerQuestionViewModel>
+
+@{
+    ViewData["Title"] = "Overview";
+}
+
+<h2>Overview</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Onderwerp
+            </th>
+            <th>
+                Inhoud
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                Datum
+            </th>
+            <th>
+                Urgent
+            </th>
+            <th>
+                Categorie
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Content)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Status)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Urgency)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Category)
+                </td>
+                <td>
+                    @Html.ActionLink("Bekijk reacties", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Bewerk vraag", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

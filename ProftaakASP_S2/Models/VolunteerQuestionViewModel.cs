@@ -29,6 +29,17 @@ namespace ProftaakASP_S2.Models
             CareRecipientName = volunteer.FirstName;
         }
 
+        public VolunteerQuestionViewModel(Question question)
+        {
+            QuestionId = question.QuestionId;
+            Title = question.Title;
+            Content = question.Content;
+            Status = question.Status.ToString();
+            Date = question.Date;
+            Urgency = question.Urgency;
+            Category = question.Category.Name;
+        }
+
         public VolunteerQuestionViewModel()
         {
             

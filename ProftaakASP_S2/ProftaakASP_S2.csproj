@@ -16,10 +16,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\CareRecipient\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Update="Views\Shared\_LayoutCareRecipient.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
