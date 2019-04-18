@@ -6,7 +6,7 @@ using Models;
 
 namespace ProftaakASP_S2.Models
 {
-    public class VolunteerQuestionViewModel
+    public class QuestionViewModel
     {
         public int QuestionId { get; set; }
         public string Title { get; set; }
@@ -17,7 +17,7 @@ namespace ProftaakASP_S2.Models
         public string Category { get; set; }
         public string CareRecipientName { get; set; }
 
-        public VolunteerQuestionViewModel(Question question, User volunteer)
+        public QuestionViewModel(Question question, User volunteer)
         {
             QuestionId = question.QuestionId;
             Title = question.Title;
@@ -29,7 +29,7 @@ namespace ProftaakASP_S2.Models
             CareRecipientName = volunteer.FirstName;
         }
 
-        public VolunteerQuestionViewModel(Question question)
+        public QuestionViewModel(Question question)
         {
             QuestionId = question.QuestionId;
             Title = question.Title;
@@ -40,7 +40,7 @@ namespace ProftaakASP_S2.Models
             Category = question.Category.Name;
         }
 
-        public VolunteerQuestionViewModel()
+        public QuestionViewModel()
         {
             
         }

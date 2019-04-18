@@ -26,10 +26,10 @@ namespace ProftaakASP_S2.Controllers
         // GET: QuestionVolunteer
         public ActionResult QuestionOverview()
         {
-            List<VolunteerQuestionViewModel> questionView = new List<VolunteerQuestionViewModel>();
+            List<QuestionViewModel> questionView = new List<QuestionViewModel>();
             foreach (Question question in _questionLogic.GetAllOpenQuestions())
             {
-                questionView.Add(new VolunteerQuestionViewModel(question, _userLogic.GetUserById(question.CareRecipientId)));
+                questionView.Add(new QuestionViewModel(question, _userLogic.GetUserById(question.CareRecipientId)));
             }
 
             return View("../Volunteer/Question/Overview", questionView);

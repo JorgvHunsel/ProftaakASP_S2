@@ -22,10 +22,10 @@ namespace ProftaakASP_S2.Controllers
         // GET: CareRecipient
         public ActionResult Overview()
         {
-            List<VolunteerQuestionViewModel> questionView = new List<VolunteerQuestionViewModel>();
+            List<QuestionViewModel> questionView = new List<QuestionViewModel>();
             foreach (Question question in _questionLogic.GetAllOpenQuestionCareRecipientID(Convert.ToInt32(Request.Cookies["id"])))
             {
-                questionView.Add(new VolunteerQuestionViewModel(question));
+                questionView.Add(new QuestionViewModel(question));
             }
 
             return View("../CareRecipient/Question/Overview", questionView);
