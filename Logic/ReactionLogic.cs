@@ -25,7 +25,5 @@ namespace Logic
         }
 
         public List<Reaction> GetAllCommentsWithQuestionID(int id) => _reaction.GetAllCommentsWithQuestionID(id);
-
-
     }
 }
