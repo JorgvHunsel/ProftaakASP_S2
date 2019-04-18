@@ -56,8 +56,8 @@
                     @Html.DisplayFor(modelItem => item.Category)
                 </td>
                 <td>
-                    @Html.ActionLink("Bekijk reacties", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Bewerk vraag", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Bekijk reacties", "Index", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Bewerk vraag", "Edit", new {  id=item.QuestionId }) |
                     @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
                 </td>
             </tr>

@@ -25,16 +25,17 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">No user logged in</a>
+                </button>             
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Volunteer" asp-action="QuestionOverview">Openstaande hulpvragen vrijwilliger</a></li>
-                    <li><a asp-area="" asp-controller="CareRecipient" asp-action="Overview">Contact</a></li>
+                    <li><a asp-area="" asp-controller="Volunteer" asp-action="QuestionOverview">Hulpvragen vrijwilliger</a></li>
+                    <li><a asp-area="" asp-controller="CareRecipient" asp-action="Overview">Hulpvragen hulpbehoevende</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
+                    <li class="navbar-brand">No user logged in</li>
                     <li>
+                        
                         <a type="button" asp-area="" asp-controller="Login" asp-action="Login">
                             <span class="glyphicon glyphicon-user"></span>
                             Login
