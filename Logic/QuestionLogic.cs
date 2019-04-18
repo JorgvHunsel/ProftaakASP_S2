@@ -38,9 +38,9 @@ namespace Logic
             return _question.GetSingleQuestion(questionID);
         }
 
-        public void EditQuestion(int questionID, string subjectNew, string contentNew, Category category, string urgency)
+        public void EditQuestion(Question question)
         {
-            _question.EditQuestion(questionID, subjectNew, contentNew, category, urgency);
+            _question.EditQuestion(question);
         }
 
     }

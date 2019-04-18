@@ -33,22 +33,18 @@ namespace ProftaakASP_S2.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-             
-
-            
-
-            return View("../CareRecipient/Question/Edit", new QuestionViewModel(_questionLogic.GetSingleQuestion(id)));
+             return View("../CareRecipient/Question/Edit", new QuestionViewModel(_questionLogic.GetSingleQuestion(id)));
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, QuestionViewModel question)
         {
             try
             {
-                // TODO: Add update logic here
+                _questionLogic.EditQuestion(new Question(question.Title, question.Content, Question.QuestionStatus.Open, question.Date, question.Urgency, new Category(question.Category), question.CareRecipientId));
 
-                return RedirectToAction(nameof(Overview));
+                return RedirectToAction("Overview");
             }
             catch
             {

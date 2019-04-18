@@ -15,11 +15,11 @@ namespace Models
         public string Content { get; private set; }
         public QuestionStatus Status { get; set; }
         public DateTime Date { get; set; }
-        public string Urgency { get; set; }
+        public bool Urgency { get; set; }
         public Category Category { get; private set; }
         public int CareRecipientId { get; private set; }
 
-        public Question(int questionId, string title, string content, QuestionStatus status, DateTime date, string urgency, Category category, int careRecipientID)
+        public Question(int questionId, string title, string content, QuestionStatus status, DateTime date, bool urgency, Category category, int careRecipientID)
         {
             QuestionId = questionId;
             Title = title;
@@ -31,7 +31,7 @@ namespace Models
             CareRecipientId = careRecipientID;
         }
 
-        public Question(string title, string content, QuestionStatus status, DateTime date, string urgency, Category category, int careRecipientID)
+       public Question(string title, string content, QuestionStatus status, DateTime date, bool urgency, Category category, int careRecipientID)
         {
             Title = title;
             Content = content;

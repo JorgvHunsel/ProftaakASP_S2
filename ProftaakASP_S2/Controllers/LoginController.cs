@@ -19,8 +19,6 @@ namespace ProftaakASP_S2.Controllers
             _userLogic = userLogic;
         }
 
-
-
         [HttpGet]
         public ActionResult Login()
         {
@@ -46,7 +44,5 @@ namespace ProftaakASP_S2.Controllers
                 return View();
             }
         }
-
-
     }
 }

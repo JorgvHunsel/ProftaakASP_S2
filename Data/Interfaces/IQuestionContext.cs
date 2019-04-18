@@ -13,7 +13,7 @@ namespace Data.Interfaces
         void WriteQuestionToDatabase(Question askedQuestion);
         List<Question> GetAllOpenQuestions();
         Question GetSingleQuestion(int questionID);
-        void EditQuestion(int questionID, string subjectNew, string contentNew, Category category, string urgency);
+        void EditQuestion(Question question);
         List<Question> GetAllOpenQuestionsCareRecipientID(int careRecipientID);
     }
 }

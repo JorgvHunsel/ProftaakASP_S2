@@ -13,8 +13,9 @@ namespace ProftaakASP_S2.Models
         public string Content { get; set; }
         public string Status { get; set; }
         public DateTime Date { get; set; }
-        public string Urgency { get; set; }
+        public bool Urgency { get; set; }
         public string Category { get; set; }
+        public int CareRecipientId { get; set; }
         public string CareRecipientName { get; set; }
 
         public QuestionViewModel(Question question, User volunteer)
@@ -26,6 +27,7 @@ namespace ProftaakASP_S2.Models
             Date = question.Date;
             Urgency = question.Urgency;
             Category = question.Category.Name;
+            CareRecipientId = question.CareRecipientId;
             CareRecipientName = volunteer.FirstName;
         }
 
@@ -38,6 +40,7 @@ namespace ProftaakASP_S2.Models
             Date = question.Date;
             Urgency = question.Urgency;
             Category = question.Category.Name;
+            CareRecipientId = question.CareRecipientId;
         }
 
         public QuestionViewModel()

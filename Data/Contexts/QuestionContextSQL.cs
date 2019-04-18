@@ -65,7 +65,7 @@ namespace Data.Contexts
                     string title = dr["Title"].ToString();
                     string content = dr["Description"].ToString();
                     DateTime date = Convert.ToDateTime(dr["Datetime"].ToString());
-                    string urgency = dr["Urgency"].ToString();
+                    bool urgency = Convert.ToBoolean(dr["Urgency"]);
                     Category category = new Category(0, dr["Name"].ToString(), null);
                     int careRecipientId = Convert.ToInt32(dr["CareRecipientID"].ToString());
                     string status = dr["Status"].ToString();
@@ -117,7 +117,7 @@ namespace Data.Contexts
                     string content = dr["Description"].ToString();
                     Question.QuestionStatus status = Question.QuestionStatus.Open;
                     DateTime date = Convert.ToDateTime(dr["Datetime"]);
-                    string urgency = dr["Urgency"].ToString();
+                    bool urgency = Convert.ToBoolean(dr["Urgency"].ToString());
                     int careRecipientId = Convert.ToInt32(dr["CareRecipientID"]);
                     Category category = new Category(dr["Name"].ToString());
                     questionList.Add(new Question(questionId, title, content, status, date, urgency, category, careRecipientId));
@@ -156,7 +156,7 @@ namespace Data.Contexts
                 int QuestionID = Convert.ToInt32(dt.Rows[0]["QuestionID"].ToString());
                 string title = (dt.Rows[0]["Title"].ToString());
                 string content = (dt.Rows[0]["QDescription"].ToString());
-                string urgency = (dt.Rows[0]["Urgency"].ToString());
+                bool urgency = Convert.ToBoolean(dt.Rows[0]["Urgency"]);
 
                 DateTime timeStamp = Convert.ToDateTime(dt.Rows[0]["TimeStamp"].ToString());
 
@@ -176,24 +176,25 @@ namespace Data.Contexts
             }
         }
 
-        public void EditQuestion(int questionID, string subjectNew, string contentNew, Category category, string urgency)
+        public void EditQuestion(Question question)
         {
             try
             {
+                _conn.Open();
                 SqlCommand cmd = new SqlCommand("EditQuestion", _conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@categoryid", SqlDbType.Int).Value = category.CategoryID;
-                cmd.Parameters.Add("@title", SqlDbType.NVarChar).Value = subjectNew;
-                cmd.Parameters.Add("@description", SqlDbType.NVarChar).Value = contentNew;
-                cmd.Parameters.Add("@urgency", SqlDbType.NVarChar).Value = urgency;
-                cmd.Parameters.Add("@questionid", SqlDbType.Int).Value = questionID;
+                cmd.Parameters.Add("@categoryid", SqlDbType.Int).Value = question.Category.CategoryID;
+                cmd.Parameters.Add("@title", SqlDbType.NVarChar).Value = question.Title;
+                cmd.Parameters.Add("@description", SqlDbType.NVarChar).Value = question.Content;
+                cmd.Parameters.Add("@urgency", SqlDbType.Bit).Value = question.Urgency;
+                cmd.Parameters.Add("@questionid", SqlDbType.Int).Value = question.QuestionId;
 
-                _conn.Open();
+
                 cmd.ExecuteNonQuery();
             }
             catch (Exception e)
             {
-
+                throw;
 
             }
             finally
