@@ -1,37 +1,28 @@
-﻿@model IEnumerable<Models.Question>
+﻿@model IEnumerable<VolunteerQuestionViewModel>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "QuestionOverview";
 }
 
-<h2>Index</h2>
+<h2>Vrijwilliger - Openstaande hulpvragen</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.QuestionId)
+                Onderwerp
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                Hulpbehoevende
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Content)
+                Datum
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Status)
+                Urgent
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Urgency)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CareRecipientId)
+                Categorie
             </th>
             <th></th>
         </tr>
@@ -40,16 +31,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.QuestionId)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.Title)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Content)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Status)
+                @Html.DisplayFor(modelItem => item.CareRecipientName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Date)
@@ -58,12 +43,10 @@
                 @Html.DisplayFor(modelItem => item.Urgency)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CareRecipientId)
+                @Html.DisplayFor(modelItem => item.Category)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                @Html.ActionLink("Reageer", "Edit", new { /* id=item.PrimaryKey */ }) @*notimplemented*@
             </td>
         </tr>
 }

@@ -13,58 +13,64 @@ namespace Logic
 {
     public class UserLogic
     {
-        private readonly IUserContext _iUserContext;
+        private readonly IUserContext _user;
 
-        public UserLogic(IUserContext iUserContext)
+        public UserLogic(IUserContext user)
         {
-            _iUserContext = iUserContext;
+            _user = user;
         }
 
         // hier komt de verbinding tussen de repos en de view. zie category repository
         public User CheckValidityUser(string email, string password)
         {
-            return _iUserContext.CheckValidityUser(email, password);
+            return _user.CheckValidityUser(email, password);
         }
 
         public int GetUserId(string firstName)
         {
-            return _iUserContext.GetUserId(firstName);
+            return _user.GetUserId(firstName);
         }
 
         public List<User> GetAllUsers()
         {
-            return _iUserContext.GetAllUsers();
+            return _user.GetAllUsers();
         }
 
         public void AddNewUser(User newUser, string password)
         {
-            _iUserContext.AddNewUser(newUser, password);
+            _user.AddNewUser(newUser, password);
         }
 
         public User getCurrentUserInfo(string email)
         {
-            return _iUserContext.getCurrentUserInfo(email);
+            return _user.getCurrentUserInfo(email);
         }
 
         public void EditUser(User currentUser, string password)
         {
-            _iUserContext.EditUser(currentUser, password);
+            _user.EditUser(currentUser, password);
         }
 
         public bool CheckIfUserAlreadyExists(string email)
         {
-            return _iUserContext.CheckIfUserAlreadyExists(email);
+            return _user.CheckIfUserAlreadyExists(email);
         }
 
         public bool IsEmailValid(string email)
         {
-            return _iUserContext.IsEmailValid(email);
+            return _user.IsEmailValid(email);
         }
 
         public bool CheckIfAccountIsActive(string email)
         {
-            return _iUserContext.CheckIfAccountIsActive(email);
+            return _user.CheckIfAccountIsActive(email);
         }
+
+        public User GetUserById(int userId)
+        {
+            return _user.GetUserById(userId);
+        }
+
 
     }
 }

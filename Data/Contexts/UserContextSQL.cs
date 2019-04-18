@@ -391,6 +391,67 @@ namespace Data.Contexts
             }
         }
 
+        public User GetUserById(int userId)
+        {
+            try
+            {
+                string query =
+                    "SELECT UserID, AccountType, FirstName, LastName, Birthdate, Sex, Email, Address, PostalCode, City, Status " +
+                    "FROM [User] " +
+                    "WHERE [UserID] = @UserId";
+                _conn.Open();
+
+                SqlDataAdapter cmd = new SqlDataAdapter();
+                cmd.SelectCommand = new SqlCommand(query, _conn);
+
+                cmd.SelectCommand.Parameters.Add("@UserId", SqlDbType.Int).Value = userId;
+
+                DataTable dt = new DataTable();
+                cmd.Fill(dt);
+
+                int userID = Convert.ToInt32((dt.Rows[0].ItemArray[0]));
+                string accountType = dt.Rows[0].ItemArray[1].ToString();
+                string firstName = dt.Rows[0].ItemArray[2].ToString();
+                string lastName = dt.Rows[0].ItemArray[3].ToString();
+                DateTime birthDate = Convert.ToDateTime(dt.Rows[0].ItemArray[4].ToString());
+                User.Gender gender = (User.Gender)Enum.Parse(typeof(User.Gender), dt.Rows[0].ItemArray[5].ToString());
+                string email = dt.Rows[0].ItemArray[6].ToString();
+                string address = dt.Rows[0].ItemArray[7].ToString();
+                string postalCode = dt.Rows[0].ItemArray[8].ToString();
+                string city = dt.Rows[0].ItemArray[9].ToString();
+                bool status = Convert.ToBoolean(dt.Rows[0].ItemArray[10].ToString());
+
+                if (accountType == "CareRecipient")
+                {
+                    return new CareRecipient(userID, firstName, lastName, address, city, postalCode, email,
+                        birthDate, gender, status, User.AccountType.CareRecipient);
+                }
+
+                else if (accountType == "Volunteer")
+                {
+                    return new CareRecipient(userID, firstName, lastName, address, city, postalCode, email,
+                        birthDate, gender, status, User.AccountType.Volunteer);
+                }
+                else if ((accountType == "Admin"))
+                {
+                    return new CareRecipient(userID, firstName, lastName, address, city, postalCode, email,
+                         birthDate, gender, status, User.AccountType.Admin);
+                }
+
+                return null;
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
+
         public bool IsEmailValid(string email)
         {
             if (string.IsNullOrWhiteSpace(email))

@@ -201,32 +201,5 @@ namespace Data.Contexts
                 _conn.Close();
             }
         }
-
-        //public static void EditQuestion(int questionID, string subjectNew, string contentNew, string urgency)
-        //{
-        //    try
-        //    {
-        //        _conn.Open();
-        //        SqlCommand cmd = new SqlCommand
-        //        {
-
-        //            CommandType = System.Data.CommandType.Text,
-        //            CommandText =
-        //                "UPDATE Question SET Title = '" + subjectNew + "', Description = '" + contentNew + "', Urgency = '" + urgency + "' WHERE QuestionID = '" + questionID + "'"
-        //        };
-
-        //        cmd.Connection = _conn;
-        //        cmd.ExecuteNonQuery();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Console.WriteLine(e.Message);
-        //        throw e;
-        //    }
-        //    finally
-        //    {
-        //        _conn.Close();
-        //    }
-        //}
     }
 }
