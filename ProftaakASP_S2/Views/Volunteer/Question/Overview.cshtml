@@ -46,7 +46,7 @@
                 @Html.DisplayFor(modelItem => item.Category)
             </td>
             <td>
-                @Html.ActionLink("Reageer", "Edit", new { /* id=item.PrimaryKey */ }) @*notimplemented*@
+                @Html.ActionLink("Reageer", "ReactionCreate", new QuestionViewModel(item.QuestionId, item.Title, item.CareRecipientName))
             </td>
         </tr>
 }

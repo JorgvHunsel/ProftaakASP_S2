@@ -16,11 +16,13 @@ namespace ProftaakASP_S2.Controllers
     {
         private readonly QuestionLogic _questionLogic;
         private readonly UserLogic _userLogic;
+        private readonly ReactionLogic _reactionLogic;
 
-        public VolunteerController(QuestionLogic questionLogic, UserLogic userLogic)
+        public VolunteerController(QuestionLogic questionLogic, UserLogic userLogic, ReactionLogic reactionLogic)
         {
             _questionLogic = questionLogic;
             _userLogic = userLogic;
+            _reactionLogic = reactionLogic;
         }
 
         // GET: QuestionVolunteer
@@ -55,6 +57,35 @@ namespace ProftaakASP_S2.Controllers
             try
             {
                 // TODO: Add insert logic here
+
+                return RedirectToAction(nameof(QuestionOverview));
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        // GET: QuestionVolunteer/Create
+        public ActionResult ReactionCreate(QuestionViewModel questionViewModel)
+        {
+            return View("../Volunteer/Question/ReactionCreate", new ReactionViewModel(questionViewModel.QuestionId, questionViewModel.Title, questionViewModel.CareRecipientName));
+        }
+
+        // POST: QuestionVolunteer/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ReactionCreate(int questionid, IFormCollection collection)
+        {
+            try
+            {
+                int questionID = Convert.ToInt32(collection["QuestionId"]);
+                string description = collection["Description"];
+               
+                //TODO
+                int senderid = 24;
+                
+                _reactionLogic.PostReaction(new Reaction(questionID, senderid, description));
 
                 return RedirectToAction(nameof(QuestionOverview));
             }

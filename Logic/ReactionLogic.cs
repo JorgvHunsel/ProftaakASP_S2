@@ -9,7 +9,7 @@ using Models;
 
 namespace Logic
 {
-    class ReactionLogic
+    public class ReactionLogic
     {
         private readonly IReactionContext _reaction;
 
