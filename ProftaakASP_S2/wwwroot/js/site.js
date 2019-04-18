@@ -2,3 +2,21 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
+
+function setStarRating(ratingNumber) {
+    var starRating = document.getElementById('starRating');
+    for (var i = 0; i < starRating.children.length; i++) {
+        var starRatingChild = starRating.children[i];
+        for (var starPart = 0; starPart < starRatingChild.children.length; starPart++) {
+            if (starRatingChild.children[starPart].id <= ratingNumber) {
+                starRatingChild.children[starPart].classList.add("text-warning");
+            }
+            else
+            {
+                starRatingChild.children[starPart].classList.remove("text-warning");
+            }
+        }
+    }
+    var ratingId = document.getElementById('starAmount');
+    ratingId.value = ratingNumber;
+}

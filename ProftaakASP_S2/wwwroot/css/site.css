@@ -35,3 +35,18 @@ body {
         display: none;
     }
 }
+
+.w-37px {
+    width: 37px;
+}
+
+.reviewTextArea {
+    resize: none;
+    height: 200px;
+    width: 900px;
+    margin-bottom: 10px;
+}
+
+.mb-10px {
+    margin-bottom: 10px;
+}

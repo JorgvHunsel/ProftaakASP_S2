@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewData["Title"] = "Review";
+}
+
+@model ReviewViewModel
+
+<h2>Review</h2>
+<div>
+    @{
+        using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.IdFor(x => x.VolunteerId == 0)
+            @Html.IdFor(x => x.CareRecipientId == 0)
+            @Html.IdFor(x => x.ReviewId == 0)
+            @Html.TextAreaFor(x => x.Review, new { @placeholder = "Geef een review A.U.B.", @class= "reviewTextArea" })
+            @Html.HiddenFor(x => x.starAmount)
+            int rating = 1;
+            <div class='container mb-10px'>
+                <div class='row' id="starRating">
+                    @for (int i = 0; i < 5; i++)
+                    {
+                        <div class="col-xs-2">
+                            @for (int star = 0; star < 2; star++)
+                            {
+                                if (star == 0)
+                                {
+                                    <i class="fas fa-star-half fa-5x w-37px" id=@rating></i>
+                                }
+                                else if (star == 1)
+                                {
+                                    <i class="fas fa-star-half fa-flip-horizontal fa-5x w-37px flip-img" id=@rating onclick="setStarRating(@rating)"></i>
+                                }
+                            
+                            }
+                        </div>
+                        rating++;
+                    }
+                </div>
+            </div>
+            <div class="text-center">
+                <button>@Html.ActionLink("Annuleren", "Cancel", "Review")</button>
+                <input type="submit" value="Bevestigen"/>
+            </div>
+        }
+    }
+</div>
+
