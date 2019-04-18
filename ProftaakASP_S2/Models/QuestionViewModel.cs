@@ -47,5 +47,12 @@ namespace ProftaakASP_S2.Models
         {
             
         }
+
+        public QuestionViewModel(int questionId, string title, string careRecipientName)
+        {
+            QuestionId = questionId;
+            Title = title;
+            CareRecipientName = careRecipientName;
+        }
     }
 }

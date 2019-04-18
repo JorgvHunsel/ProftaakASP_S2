@@ -1,0 +1,46 @@
+﻿@model ProftaakASP_S2.Models.ReactionViewModel
+
+@{
+    ViewData["Title"] = "Reaction";
+}
+
+<h2>Plaats reactie</h2>
+
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ReactionCreate">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <b>Hulpvraag:</b>
+            <div class="form-group">
+            </div>
+                <input asp-for="QuestionId" class="form-control" type="hidden"/>
+                <input asp-for="QuestionTitle" class="form-control" disabled/>
+                <input asp-for="CareRecipientName" class="form-control" disabled/>
+            
+            
+
+                </br>
+
+            <div class="form-group">
+                <b>Reactie</b>
+                <textarea asp-for="Description" rows="3" class="form-control" class="span6" placeholder="Typ hier uw reactie.."></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Reageer" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="QuestionOverview">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

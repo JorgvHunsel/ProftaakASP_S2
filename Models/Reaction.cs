@@ -23,6 +23,13 @@ namespace Models
            VolunteerName = volunteerName;
        }
 
+       public Reaction(int questionId, int senderId, string description)
+       {
+           QuestionId = questionId;
+           SenderId = senderId;
+           Description = description;
+       }
+
        public Reaction(int reactionId, int questionId, int senderId, string description, string volunteerName, DateTime timeStamp)
        {
            ReactionId = reactionId;
