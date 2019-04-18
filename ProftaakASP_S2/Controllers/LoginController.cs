@@ -19,14 +19,14 @@ namespace ProftaakASP_S2.Controllers
             _userLogic = userLogic;
         }
 
-        
+
 
         [HttpGet]
         public ActionResult Login()
         {
             return View();
-        }     
-        
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginViewModel userViewModel)
@@ -35,22 +35,15 @@ namespace ProftaakASP_S2.Controllers
             {
                 User newCustomer = _userLogic.CheckValidityUser(userViewModel.EmailAddress, userViewModel.Password);
 
-                if (newCustomer != null)
-                {
-                    HttpContext.Response.Cookies.Append("id", newCustomer.UserId.ToString());
+                HttpContext.Response.Cookies.Append("id", newCustomer.UserId.ToString());
 
-                    ViewBag.Message = "Ingelogd!";
-                    return View();
-                }
-
-                ViewBag.Message = "Gegevens komen niet overeen";
+                ViewBag.Message = "Ingelogd!";
                 return View();
-
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
-                throw;
+                ViewBag.Message = "Gegevens komen niet overeen";
+                return View();
             }
         }
 

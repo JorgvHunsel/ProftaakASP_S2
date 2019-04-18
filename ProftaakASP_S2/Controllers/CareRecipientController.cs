@@ -19,7 +19,6 @@ namespace ProftaakASP_S2.Controllers
             _questionLogic = questionLogic;
         }
 
-        // GET: CareRecipient
         public ActionResult Overview()
         {
             List<QuestionViewModel> questionView = new List<QuestionViewModel>();
@@ -29,6 +28,32 @@ namespace ProftaakASP_S2.Controllers
             }
 
             return View("../CareRecipient/Question/Overview", questionView);
+        }
+
+        [HttpGet]
+        public ActionResult Edit(int id)
+        {
+             
+
+            
+
+            return View("../CareRecipient/Question/Edit", new QuestionViewModel(_questionLogic.GetSingleQuestion(id)));
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(int id, IFormCollection collection)
+        {
+            try
+            {
+                // TODO: Add update logic here
+
+                return RedirectToAction(nameof(Overview));
+            }
+            catch
+            {
+                return View();
+            }
         }
 
         // GET: CareRecipient/Details/5
@@ -60,28 +85,9 @@ namespace ProftaakASP_S2.Controllers
             }
         }
 
-        // GET: CareRecipient/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
+        
 
-        // POST: CareRecipient/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(Overview));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        
 
         // GET: CareRecipient/Delete/5
         public ActionResult Delete(int id)
