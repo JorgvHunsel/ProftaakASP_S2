@@ -12,10 +12,9 @@
         {
             @Html.AntiForgeryToken()
 
-            @Html.IdFor(x => x.VolunteerId == 0)
-            @Html.IdFor(x => x.CareRecipientId == 0)
-            @Html.IdFor(x => x.ReviewId == 0)
-            @Html.TextAreaFor(x => x.Review, new { @placeholder = "Geef een review A.U.B.", @class= "reviewTextArea" })
+            @Html.Hidden("VolunteerId", 1);
+            @Html.Hidden("CareRecipientId", 5);
+            @Html.TextAreaFor(x => x.Review, new { @placeholder = "Geef een review A.U.B.", @class = "reviewTextArea" })
             @Html.HiddenFor(x => x.starAmount)
             int rating = 1;
             <div class='container mb-10px'>
@@ -33,7 +32,7 @@
                                 {
                                     <i class="fas fa-star-half fa-flip-horizontal fa-5x w-37px flip-img" id=@rating onclick="setStarRating(@rating)"></i>
                                 }
-                            
+
                             }
                         </div>
                         rating++;
@@ -42,7 +41,7 @@
             </div>
             <div class="text-center">
                 <button>@Html.ActionLink("Annuleren", "Cancel", "Review")</button>
-                <input type="submit" value="Bevestigen"/>
+                <input type="submit" value="Bevestigen" />
             </div>
         }
     }
