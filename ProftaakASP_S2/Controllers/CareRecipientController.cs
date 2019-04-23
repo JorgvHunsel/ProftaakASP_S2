@@ -84,10 +84,6 @@ namespace ProftaakASP_S2.Controllers
             }
         }
 
-        
-
-        
-
         // GET: CareRecipient/Delete/5
         public ActionResult Delete(int id)
         {
