@@ -114,11 +114,14 @@ namespace Data.Contexts
                     int questionId = Convert.ToInt32(dr["QuestionID"]);
                     string title = dr["Title"].ToString();
                     string content = dr["Description"].ToString();
-                    Question.QuestionStatus status = Question.QuestionStatus.Open;
                     DateTime date = Convert.ToDateTime(dr["Datetime"]);
                     bool urgency = Convert.ToBoolean(dr["Urgency"].ToString());
                     int careRecipientId = Convert.ToInt32(dr["CareRecipientID"]);
                     Category category = new Category(dr["Name"].ToString());
+                    Question.QuestionStatus status;
+
+                    status = dr["Status"].ToString() == "Open" ? Question.QuestionStatus.Open : Question.QuestionStatus.Closed;
+
                     questionList.Add(new Question(questionId, title, content, status, date, urgency, category, careRecipientId));
                 }
                 return questionList;
@@ -195,6 +198,28 @@ namespace Data.Contexts
             {
                 throw;
 
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
+
+        public void ChangeStatus(int id, string status)
+        {
+            try
+            {
+                _conn.Open();
+                SqlCommand cmd = new SqlCommand("EditQuestionStatus", _conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@questionid", SqlDbType.Int).Value = id;
+                cmd.Parameters.Add("@questionstatus", SqlDbType.NVarChar).Value = status;
+                
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                throw;
             }
             finally
             {

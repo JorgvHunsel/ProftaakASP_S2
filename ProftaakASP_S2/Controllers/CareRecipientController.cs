@@ -125,27 +125,13 @@ namespace ProftaakASP_S2.Controllers
             }
         }
 
-        // GET: CareRecipient/Delete/5
-        public ActionResult Delete(int id)
+        
+        
+        public ActionResult ChangeStatus(int id, string status)
         {
-            return View();
+            _questionLogic.ChangeStatus(id, status);
+            return RedirectToAction(nameof(Overview));
         }
-
-        // POST: CareRecipient/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(Overview));
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        
     }
 }
