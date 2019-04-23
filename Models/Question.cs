@@ -18,6 +18,7 @@ namespace Models
         public bool Urgency { get; set; }
         public Category Category { get; private set; }
         public int CareRecipientId { get; private set; }
+        public int CategoryId { get; set; }
 
         public Question(int questionId, string title, string content, QuestionStatus status, DateTime date, bool urgency, Category category, int careRecipientID)
         {
@@ -31,14 +32,13 @@ namespace Models
             CareRecipientId = careRecipientID;
         }
 
-       public Question(string title, string content, QuestionStatus status, DateTime date, bool urgency, Category category, int careRecipientID)
+       public Question(string title, string content, QuestionStatus status, bool urgency, int categoryId, int careRecipientID)
         {
             Title = title;
             Content = content;
             Status = status;
-            Date = date;
             Urgency = urgency;
-            Category = category;
+            CategoryId = categoryId;
             CareRecipientId = careRecipientID;
         }
 

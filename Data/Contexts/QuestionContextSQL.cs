@@ -28,9 +28,8 @@ namespace Data.Contexts
                 cmd.Parameters.Add("@title", SqlDbType.NVarChar).Value = askedQuestion.Title;
                 cmd.Parameters.Add("@description", SqlDbType.NVarChar).Value = askedQuestion.Content;
                 cmd.Parameters.Add("@urgency", SqlDbType.NVarChar).Value = askedQuestion.Urgency;
-                cmd.Parameters.Add("@categoryID", SqlDbType.Int).Value = askedQuestion.Category.CategoryId;
+                cmd.Parameters.Add("@categoryID", SqlDbType.Int).Value = askedQuestion.CategoryId;
                 cmd.Parameters.Add("@careRecipientID", SqlDbType.Int).Value = askedQuestion.CareRecipientId;
-                cmd.Parameters.Add("@datetime", SqlDbType.DateTime).Value = DateTime.Now.ToString("yyyy-M-d hh:mm tt");
 
 
                 _conn.Open();
@@ -38,7 +37,7 @@ namespace Data.Contexts
             }
             catch (Exception e)
             {
-
+                throw;
             }
             finally
             {

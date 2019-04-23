@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Logic;
 using Microsoft.AspNetCore.Http;
@@ -64,17 +65,21 @@ namespace ProftaakASP_S2.Controllers
         // GET: CareRecipient/Create
         public ActionResult Create()
         {
-            return View();
+            ViewData["Categories"] = _categoryLogic.GetAllCategories();
+          
+            return View("../CareRecipient/Question/Create");
         }
 
         // POST: CareRecipient/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(QuestionViewModel question)
         {
             try
             {
-                // TODO: Add insert logic here
+
+                int userid = Convert.ToInt32(Request.Cookies["id"]);
+                _questionLogic.WriteQuestionToDatabase(new Question(question.Title, question.Content, Question.QuestionStatus.Open, question.Urgency, question.CategoryId, userid));
 
                 return RedirectToAction(nameof(Overview));
             }
