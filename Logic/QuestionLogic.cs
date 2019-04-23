@@ -43,5 +43,9 @@ namespace Logic
             _question.EditQuestion(question);
         }
 
+        public void ChangeStatus(int id, string status)
+        {
+            _question.ChangeStatus(id, status == "Open" ? "Closed" : "Open");
+        }
     }
 }
