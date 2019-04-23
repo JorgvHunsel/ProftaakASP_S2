@@ -12,8 +12,13 @@ namespace Models
     {
 
         public int CategoryId { get; private set; }
-        public string Name { get; private set; }
+        public string Name { get; set; }
         public string Description { get; private set; }
+
+        public Category()
+        {
+            
+        }
 
         public Category(string categoryName)
         {
