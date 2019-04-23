@@ -1,4 +1,5 @@
-﻿@model ProftaakASP_S2.Models.QuestionViewModel
+﻿@using Models
+@model ProftaakASP_S2.Models.QuestionViewModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -31,9 +32,18 @@
                 <span asp-validation-for="Content" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Category" class="control-label">Categorie</label>
-                <input asp-for="Category" class="form-control" />
-                <span asp-validation-for="Category" class="text-danger"></span>
+                <label asp-for="CategoryId" class="control-label"></label>
+                
+                <select asp-for="CategoryId">
+                    @foreach (var category in ViewData["Categories"] as IList<Category>)
+                    {
+                        <option value="
+                                @category.CategoryID
+                        ">
+                            @category.Name
+                        </option>
+                    }
+                </select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
