@@ -28,7 +28,7 @@ namespace Data.Contexts
                 cmd.Parameters.Add("@title", SqlDbType.NVarChar).Value = askedQuestion.Title;
                 cmd.Parameters.Add("@description", SqlDbType.NVarChar).Value = askedQuestion.Content;
                 cmd.Parameters.Add("@urgency", SqlDbType.NVarChar).Value = askedQuestion.Urgency;
-                cmd.Parameters.Add("@categoryID", SqlDbType.Int).Value = askedQuestion.Category.CategoryID;
+                cmd.Parameters.Add("@categoryID", SqlDbType.Int).Value = askedQuestion.Category.CategoryId;
                 cmd.Parameters.Add("@careRecipientID", SqlDbType.Int).Value = askedQuestion.CareRecipientId;
                 cmd.Parameters.Add("@datetime", SqlDbType.DateTime).Value = DateTime.Now.ToString("yyyy-M-d hh:mm tt");
 
@@ -183,7 +183,7 @@ namespace Data.Contexts
                 _conn.Open();
                 SqlCommand cmd = new SqlCommand("EditQuestion", _conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@categoryid", SqlDbType.Int).Value = question.Category.CategoryID;
+                cmd.Parameters.Add("@categoryid", SqlDbType.Int).Value = question.Category.CategoryId;
                 cmd.Parameters.Add("@title", SqlDbType.NVarChar).Value = question.Title;
                 cmd.Parameters.Add("@description", SqlDbType.NVarChar).Value = question.Content;
                 cmd.Parameters.Add("@urgency", SqlDbType.Bit).Value = question.Urgency;
