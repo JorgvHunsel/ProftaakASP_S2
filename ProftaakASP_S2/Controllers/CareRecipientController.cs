@@ -62,9 +62,11 @@ namespace ProftaakASP_S2.Controllers
         }
 
         // GET: CareRecipient/Create
-        public ActionResult Create()
+        public ActionResult Create(QuestionViewModel question)
         {
-            return View();
+            ViewData["Categories"] = _categoryLogic.GetAllCategories();
+            _questionLogic.WriteQuestionToDatabase(new Question(question.Title, question.Content, question.Status, question.CategoryId));
+            return View("../CareRecipient/Question/Create");
         }
 
         // POST: CareRecipient/Create

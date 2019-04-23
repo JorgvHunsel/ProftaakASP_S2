@@ -31,12 +31,11 @@ namespace Models
             CareRecipientId = careRecipientID;
         }
 
-       public Question(string title, string content, QuestionStatus status, DateTime date, bool urgency, Category category, int careRecipientID)
+       public Question(string title, string content, QuestionStatus status, bool urgency, Category category, int careRecipientID)
         {
             Title = title;
             Content = content;
             Status = status;
-            Date = date;
             Urgency = urgency;
             Category = category;
             CareRecipientId = careRecipientID;
