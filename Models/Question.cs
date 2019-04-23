@@ -63,7 +63,7 @@ namespace Models
 
         public override string ToString()
         {
-            return $" '{Status}', '{Title}', '{Content}', '{Date.ToString("yyyy-M-d hh:mm tt")}', '{Urgency}', '{Category.CategoryID}' ";
+            return $" '{Status}', '{Title}', '{Content}', '{Date.ToString("yyyy-M-d hh:mm tt")}', '{Urgency}', '{Category.CategoryId}' ";
         }
     }
 }

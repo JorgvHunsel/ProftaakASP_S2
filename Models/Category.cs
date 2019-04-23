@@ -11,7 +11,7 @@ namespace Models
     public class Category
     {
 
-        public int CategoryID { get; private set; }
+        public int CategoryId { get; private set; }
         public string Name { get; private set; }
         public string Description { get; private set; }
 
@@ -20,9 +20,14 @@ namespace Models
             Name = categoryName;
         }
 
+        public Category(int categoryId)
+        {
+            CategoryId = categoryId;
+        }
+
         public Category(int categoryID, string categoryName, string categoryDescription)
         {
-            this.CategoryID = categoryID;
+            this.CategoryId = categoryID;
             this.Name = categoryName;
             this.Description = categoryDescription;
         }

@@ -45,13 +45,13 @@ namespace ProftaakASP_S2.Controllers
         {
             try
             {
-                _questionLogic.EditQuestion(new Question(id, question.Title, question.Content, Question.QuestionStatus.Open, question.Date, question.Urgency, new Category(1), question.CareRecipientId));
+                _questionLogic.EditQuestion(new Question(id, question.Title, question.Content, Question.QuestionStatus.Open, question.Date, question.Urgency, new Category(question.CategoryId), question.CareRecipientId));
 
-                return View("../CareRecipient/Question/Overview");
+                return RedirectToAction("Overview");
             }
             catch
             {
-                return View("../CareRecipient/Question/Edit");
+                return RedirectToAction("Edit");
             }
         }
 
