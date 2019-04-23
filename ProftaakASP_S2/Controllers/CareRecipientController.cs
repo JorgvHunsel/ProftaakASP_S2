@@ -15,11 +15,15 @@ namespace ProftaakASP_S2.Controllers
     {
         private readonly QuestionLogic _questionLogic;
         private readonly CategoryLogic _categoryLogic;
+        private readonly ReactionLogic _reactionLogic;
+        private readonly UserLogic _userLogic;
 
-        public CareRecipientController(QuestionLogic questionLogic, CategoryLogic categoryLogic)
+        public CareRecipientController(QuestionLogic questionLogic, CategoryLogic categoryLogic, ReactionLogic reactionLogic, UserLogic userLogic)
         {
             _questionLogic = questionLogic;
             _categoryLogic = categoryLogic;
+            _reactionLogic = reactionLogic;
+            _userLogic = userLogic;
         }
 
         public ActionResult Overview()
@@ -56,17 +60,49 @@ namespace ProftaakASP_S2.Controllers
             }
         }
 
-        // GET: CareRecipient/Details/5
-        public ActionResult Details(int id)
+        [HttpGet]
+        public ActionResult ReactionOverview(int id)
         {
-            return View();
+
+            List<ReactionViewModel> reactionViews = new List<ReactionViewModel>();
+
+            if (_reactionLogic.GetAllCommentsWithQuestionID(id).Count > 0)
+            {
+
+                foreach (Reaction reaction in _reactionLogic.GetAllCommentsWithQuestionID(id))
+                {
+                    reactionViews.Add(new ReactionViewModel(reaction, _questionLogic.GetSingleQuestion(reaction.QuestionId),
+                        _userLogic.GetUserById(Convert.ToInt32(Request.Cookies["id"]))));
+                }
+                return View("Reaction/Overview", reactionViews);
+            }
+
+            ViewBag.Message = "Deze vraag heeft geen reacties";
+            return View("Question/Overview");
         }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ReactionOverview(int id, ReactionViewModel reaction)
+        {
+            try
+            {
+                return RedirectToAction("ReactionOverview");
+            }
+            catch
+            {
+                return RedirectToAction("Edit");
+            }
+        }
+
+
 
         // GET: CareRecipient/Create
         public ActionResult Create()
         {
             ViewData["Categories"] = _categoryLogic.GetAllCategories();
-          
+
             return View("../CareRecipient/Question/Create");
         }
 

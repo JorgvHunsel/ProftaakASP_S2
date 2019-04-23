@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Models;
 
 namespace ProftaakASP_S2.Models
 {
@@ -24,6 +25,18 @@ namespace ProftaakASP_S2.Models
             Description = description;
             VolunteerName = volunteerName;
             TimeStamp = timeStamp;
+        }
+
+        public ReactionViewModel(Reaction reaction, Question question, User user)
+        {
+            ReactionId = reaction.ReactionId;
+            QuestionId = reaction.QuestionId;
+            SenderId = reaction.SenderId;
+            Description = reaction.Description;
+            VolunteerName = reaction.VolunteerName;
+            TimeStamp = reaction.TimeStamp;
+            QuestionTitle = question.Title;
+            CareRecipientName = user.FirstName;
         }
 
         public ReactionViewModel(int questionId, string question, string careRecipientName)
