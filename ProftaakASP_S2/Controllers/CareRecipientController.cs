@@ -13,10 +13,12 @@ namespace ProftaakASP_S2.Controllers
     public class CareRecipientController : Controller
     {
         private readonly QuestionLogic _questionLogic;
+        private readonly CategoryLogic _categoryLogic;
 
-        public CareRecipientController(QuestionLogic questionLogic)
+        public CareRecipientController(QuestionLogic questionLogic, CategoryLogic categoryLogic)
         {
             _questionLogic = questionLogic;
+            _categoryLogic = categoryLogic;
         }
 
         public ActionResult Overview()
@@ -33,7 +35,8 @@ namespace ProftaakASP_S2.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-             return View("../CareRecipient/Question/Edit", new QuestionViewModel(_questionLogic.GetSingleQuestion(id)));
+            ViewData["Categories"] = _categoryLogic.GetAllCategories();
+            return View("../CareRecipient/Question/Edit", new QuestionViewModel(_questionLogic.GetSingleQuestion(id)));
         }
 
         [HttpPost]

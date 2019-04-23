@@ -17,6 +17,7 @@ namespace ProftaakASP_S2.Models
         public string Category { get; set; }
         public int CareRecipientId { get; set; }
         public string CareRecipientName { get; set; }
+        public int CategoryId { get; set; }
 
         public QuestionViewModel(Question question, User volunteer)
         {
