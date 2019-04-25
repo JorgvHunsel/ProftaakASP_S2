@@ -14,7 +14,6 @@ function setStarRating(ratingNumber) {
             else
             {
                 starRatingChild.children[starPart].children[0].style.fill = "";
-                starRatingChild.children[starPart].classList.remove("text-warning");
             }
         }
     }
