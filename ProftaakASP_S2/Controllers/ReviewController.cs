@@ -26,7 +26,8 @@ namespace ProftaakASP_S2.Controllers
                 ReviewInfo review = new ReviewInfo(model.ReviewId, model.VolunteerId, model.CareRecipientId, model.Review, model.starAmount);
                 reviewLogic.InsertReview(review);
             }
-            //TODO change to html
+
+            ViewBag.NotFilled = "Er moet een hoeveelheid sterren zijn ingevuld.";
             return View();
         }
 

@@ -7,7 +7,7 @@
 
 <div class="text-center">
     <h2>Review</h2>
-    <div>
+    <div class="top-padding-review">
         @{
             using (Html.BeginForm())
             {
@@ -18,7 +18,7 @@
                 @Html.TextAreaFor(x => x.Review, new { @placeholder = "Geef een review A.U.B.", @class = "reviewTextArea form-control" })
                 @Html.HiddenFor(x => x.starAmount)
                 int rating = 1;
-                <div class='mb-10px'>
+                <div class="top-padding-review">
                     <div id="starRating">
                         @for (int i = 0; i < 5; i++)
                         {
@@ -36,13 +36,15 @@
                                     rating++;
                                 }
                             </div>
-
                         }
                     </div>
                 </div>
-                <div class="text-center">
-                    <button class="btn btn-primary">@Html.ActionLink("Annuleren", "Cancel", "Review" , null, new { @class = "a-to-button-text" })</button>
-                    <input type="submit" value="Bevestigen" class="btn btn-primary"/>
+                <div class="text-center top-padding-review">
+                    <text class="text-danger">@ViewBag.NotFilled</text><br/>
+                    <div class="top-padding-review">
+                        <button class="btn btn-primary">@Html.ActionLink("Annuleren", "Cancel", "Review", null, new {@class = "a-to-button-text"})</button>
+                        <input type="submit" value="Bevestigen" class="btn btn-primary"/>
+                    </div>
                 </div>
             }
         }

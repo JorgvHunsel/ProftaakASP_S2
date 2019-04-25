@@ -63,10 +63,6 @@ body {
     margin-bottom: 10px;
 }
 
-.mb-10px {
-    margin-bottom: 10px;
-}
-
 .glue-stars {
     margin-right: -6px;
 }
@@ -82,4 +78,8 @@ body {
 .a-to-button-text:hover {
     color: white;
     text-decoration: none;
+}
+
+.top-padding-review {
+    padding-top: 20px;
 }
