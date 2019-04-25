@@ -8,11 +8,12 @@ function setStarRating(ratingNumber) {
     for (var i = 0; i < starRating.children.length; i++) {
         var starRatingChild = starRating.children[i];
         for (var starPart = 0; starPart < starRatingChild.children.length; starPart++) {
-            if (starRatingChild.children[starPart].id <= ratingNumber) {
-                starRatingChild.children[starPart].classList.add("text-warning");
+            if (starRatingChild.children[starPart].children[0].id <= ratingNumber) {
+                starRatingChild.children[starPart].children[0].style.fill = "goldenrod";
             }
             else
             {
+                starRatingChild.children[starPart].children[0].style.fill = "";
                 starRatingChild.children[starPart].classList.remove("text-warning");
             }
         }

@@ -36,18 +36,50 @@ body {
     }
 }
 
-.w-37px {
-    width: 37px;
+.star-width {
+    width: 46%;
+}
+
+@media screen and (min-width: 550px) {
+    .star-width {
+        width: 53px;
+    }
+}
+
+#starRating {
+    display: block;
+}
+
+@media screen and (max-width: 565px) {
+    #starRating {
+        display: flex;
+    }
 }
 
 .reviewTextArea {
     resize: none;
-    height: 200px;
-    width: 100%;
+    height: 200px !important;
     width: 100%;
     margin-bottom: 10px;
 }
 
 .mb-10px {
     margin-bottom: 10px;
+}
+
+.glue-stars {
+    margin-right: -6px;
+}
+
+.stars-on-line {
+    display: inline;
+}
+
+.a-to-button-text {
+    color: white;
+}
+
+.a-to-button-text:hover {
+    color: white;
+    text-decoration: none;
 }
