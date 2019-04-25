@@ -48,6 +48,7 @@ namespace ProftaakASP_S2
             services.AddSingleton<QuestionLogic>();
             services.AddSingleton<ReactionLogic>();
             services.AddSingleton<CategoryLogic>();
+            services.AddSingleton<ChatLogic>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

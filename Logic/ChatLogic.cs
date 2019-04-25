@@ -10,7 +10,7 @@ using Models;
 
 namespace Logic
 {
-    class ChatLogic
+    public class ChatLogic
     {
         private readonly IChatContext _chat;
 

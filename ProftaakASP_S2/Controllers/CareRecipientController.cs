@@ -17,13 +17,15 @@ namespace ProftaakASP_S2.Controllers
         private readonly CategoryLogic _categoryLogic;
         private readonly ReactionLogic _reactionLogic;
         private readonly UserLogic _userLogic;
+        private readonly ChatLogic _chatLogic;
 
-        public CareRecipientController(QuestionLogic questionLogic, CategoryLogic categoryLogic, ReactionLogic reactionLogic, UserLogic userLogic)
+        public CareRecipientController(QuestionLogic questionLogic, CategoryLogic categoryLogic, ReactionLogic reactionLogic, UserLogic userLogic, ChatLogic chatLogic)
         {
             _questionLogic = questionLogic;
             _categoryLogic = categoryLogic;
             _reactionLogic = reactionLogic;
             _userLogic = userLogic;
+            _chatLogic = chatLogic;
         }
 
         public ActionResult Overview()
@@ -135,8 +137,6 @@ namespace ProftaakASP_S2.Controllers
                 return View();
             }
         }
-
-        
         
         public ActionResult ChangeStatus(int id, string status, string path)
         {
@@ -152,6 +152,14 @@ namespace ProftaakASP_S2.Controllers
                 return RedirectToAction(nameof(OverviewClosed));
             }
         }
+
         
+        public ActionResult CreateChat(int reactionId, int volunteerId)
+        {
+            _chatLogic.CreateNewChatLog(reactionId, volunteerId, Convert.ToInt32(Request.Cookies["id"]));
+
+            return RedirectToAction(nameof(Overview));
+        }
+
     }
 }
