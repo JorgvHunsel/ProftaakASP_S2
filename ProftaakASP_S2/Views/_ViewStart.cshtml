@@ -1,20 +1,26 @@
-﻿@if(false)
-{
-    Layout = "_LayoutVolunteer";
+﻿@{
+    string currentRole = Context.Request.Cookies["role"];
+    ViewBag.Username = Context.Request.Cookies["name"];
 
-}
-else if(false)
-{
-    Layout = "_Layout";
-}
-else if (false)
-{
-    Layout = "_Layout";
-}
-else
-{
-    Layout = "_Layout";
-}
+    switch (currentRole)
+    {
+        case "CareRecipient":
+            Layout = "~/Views/Shared/_LayoutCareRecipient.cshtml";
 
+            break;
+        case "Volunteer":
+            Layout = "~/Views/Shared/_LayoutVolunteer.cshtml";
+            break;
+        case "Professional":
+            Layout = "~/Views/Shared/_LayoutProfessional.cshtml";
+            break;
+        case "Admin":
+            Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+            break;
+        default:
+            Layout = "~/Views/Shared/_Layout.cshtml";
+            break;
+    }
+}
 
 

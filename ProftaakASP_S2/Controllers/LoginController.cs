@@ -34,15 +34,24 @@ namespace ProftaakASP_S2.Controllers
                 User newCustomer = _userLogic.CheckValidityUser(userViewModel.EmailAddress, userViewModel.Password);
 
                 HttpContext.Response.Cookies.Append("id", newCustomer.UserId.ToString());
+                HttpContext.Response.Cookies.Append("name", newCustomer.FirstName);
+                HttpContext.Response.Cookies.Append("role", newCustomer.UserAccountType.ToString());
 
-                ViewBag.Message = "Ingelogd!";
-                return View();
+                return RedirectToAction("Login");
             }
             catch (Exception e)
             {
                 ViewBag.Message = "Gegevens komen niet overeen";
                 return View();
             }
+        }
+
+        public ActionResult Logout()
+        {
+            Response.Cookies.Delete("id");
+            Response.Cookies.Delete("name");
+            Response.Cookies.Delete("role");
+            return RedirectToAction("Login", "Login");
         }
     }
 }

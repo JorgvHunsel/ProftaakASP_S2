@@ -29,19 +29,32 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Volunteer" asp-action="QuestionOverview">Hulpvragen vrijwilliger</a></li>
-                    <li><a asp-area="" asp-controller="CareRecipient" asp-action="Overview">Hulpvragen hulpbehoevende</a></li>
-                    <li><a asp-area="" asp-controller="CareRecipient" asp-action="Create">Create Hulpvragen</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li class="navbar-brand">No user logged in</li>
-                    <li>
-                        
-                        <a type="button" asp-area="" asp-controller="Login" asp-action="Login">
-                            <span class="glyphicon glyphicon-user"></span>
-                            Login
-                        </a>
-                    </li>
+                    @if (ViewBag.Username != null)
+                    {
+                        <li>
+                            <a type="button">
+                                <span class="glyphicon glyphicon-user"></span>
+                                Welkom @ViewBag.Username
+                            </a>
+                        </li>
+                        <li>
+                            <a type="button" asp-area="" asp-controller="Login" asp-action="Logout">
+                                <span class="glyphicon glyphicon-log-out"></span>
+                                Uitloggen
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a type="button" asp-area="" asp-controller="Login" asp-action="Login">
+                                <span class="glyphicon glyphicon-user"></span>
+                                Login
+                            </a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>
