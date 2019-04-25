@@ -161,5 +161,17 @@ namespace ProftaakASP_S2.Controllers
             return RedirectToAction(nameof(Overview));
         }
 
+
+        public ActionResult ChatOverview()
+        {
+            List<ChatViewModel> chatView = new List<ChatViewModel>();
+            foreach (ChatLog chatLog in _chatLogic.GetAllOpenChatsWithCareRecipientID(Convert.ToInt32(Request.Cookies["id"])))
+            {
+                chatView.Add(new ChatViewModel(chatLog));
+            }
+
+            return View("../CareRecipient/Chat/Overview", chatView);
+        }
+
     }
 }
