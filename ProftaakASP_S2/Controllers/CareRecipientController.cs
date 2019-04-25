@@ -37,6 +37,17 @@ namespace ProftaakASP_S2.Controllers
             return View("../CareRecipient/Question/Overview", questionView);
         }
 
+        public ActionResult OverviewClosed()
+        {
+            List<QuestionViewModel> questionView = new List<QuestionViewModel>();
+            foreach (Question question in _questionLogic.GetAllClosedQuestionCareRecipientID(Convert.ToInt32(Request.Cookies["id"])))
+            {
+                questionView.Add(new QuestionViewModel(question));
+            }
+
+            return View("../CareRecipient/Question/OverviewClosed", questionView);
+        }
+
         [HttpGet]
         public ActionResult Edit(int id)
         {
@@ -127,10 +138,19 @@ namespace ProftaakASP_S2.Controllers
 
         
         
-        public ActionResult ChangeStatus(int id, string status)
+        public ActionResult ChangeStatus(int id, string status, string path)
         {
+            string[] redirectUrl = path.Split("/");
+
             _questionLogic.ChangeStatus(id, status);
-            return RedirectToAction(nameof(Overview));
+            if(redirectUrl[2] == "Overview")
+            {
+                return RedirectToAction(nameof(Overview));  
+            }
+            else
+            {
+                return RedirectToAction(nameof(OverviewClosed));
+            }
         }
         
     }

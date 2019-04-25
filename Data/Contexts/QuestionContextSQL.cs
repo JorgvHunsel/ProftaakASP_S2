@@ -137,6 +137,48 @@ namespace Data.Contexts
             }
         }
 
+        public List<Question> GetAllClosedQuestionsCareRecipientID(int careRecipientID)
+        {
+            List<Question> questionList = new List<Question>();
+
+            try
+            {
+                SqlCommand cmd = new SqlCommand("SelectAllClosedQuestionsCareRecipientID", _conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@careRecipientID", SqlDbType.Int).Value = careRecipientID;
+                _conn.Open();
+
+                DataTable dt = new DataTable();
+                dt.Load(cmd.ExecuteReader());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    int questionId = Convert.ToInt32(dr["QuestionID"]);
+                    string title = dr["Title"].ToString();
+                    string content = dr["Description"].ToString();
+                    DateTime date = Convert.ToDateTime(dr["Datetime"]);
+                    bool urgency = Convert.ToBoolean(dr["Urgency"].ToString());
+                    int careRecipientId = Convert.ToInt32(dr["CareRecipientID"]);
+                    Category category = new Category(dr["Name"].ToString());
+                    Question.QuestionStatus status;
+
+                    status = dr["Status"].ToString() == "Open" ? Question.QuestionStatus.Open : Question.QuestionStatus.Closed;
+
+                    questionList.Add(new Question(questionId, title, content, status, date, urgency, category, careRecipientId));
+                }
+                return questionList;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
+
         public Question GetSingleQuestion(int questionID)
         {
             try
@@ -205,7 +247,7 @@ namespace Data.Contexts
             }
         }
 
-        public void ChangeStatus(int id, string status)
+        public void ChangeQuestionStatus(int id, string status)
         {
             try
             {

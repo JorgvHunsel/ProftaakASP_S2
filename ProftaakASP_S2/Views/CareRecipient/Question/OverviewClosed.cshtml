@@ -1,15 +1,14 @@
 ﻿@using System.Linq
+@using Microsoft.AspNetCore.Http
 @model IEnumerable<ProftaakASP_S2.Models.QuestionViewModel>
 
 @{
     ViewData["Title"] = "Overview";
 }
 
-<h2>Overzicht hulpvragen</h2>
+<h2>Overzicht gesloten hulpvragen</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+
 <table class="table">
     <thead>
     <tr>
@@ -59,7 +58,8 @@
                 <td>
                     @Html.ActionLink("Bekijk reacties", "ReactionOverview", new {  id=item.QuestionId }) |
                     @Html.ActionLink("Bewerk vraag", "Edit", new {  id=item.QuestionId }) |
-                    @Html.ActionLink("Verander status", "ChangeStatus", new { id=item.QuestionId, status=item.Status, path=Context.Request.Path })
+                    @Html.ActionLink("Verander status", "ChangeStatus", new { id=item.QuestionId, status=item.Status, path=Context.Request.Path  })
+                    
                 </td>
             </tr>
         }

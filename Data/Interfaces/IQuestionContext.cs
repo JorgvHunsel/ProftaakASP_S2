@@ -15,6 +15,7 @@ namespace Data.Interfaces
         Question GetSingleQuestion(int questionID);
         void EditQuestion(Question question);
         List<Question> GetAllOpenQuestionsCareRecipientID(int careRecipientID);
-        void ChangeStatus(int id, string closed);
+        void ChangeQuestionStatus(int id, string closed);
+        List<Question> GetAllClosedQuestionsCareRecipientID(int careRecipientId);
     }
 }

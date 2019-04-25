@@ -16,6 +16,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Update="Views\CareRecipient\Question\OverviewClosed.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Shared\_LayoutCareRecipient.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
