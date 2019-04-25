@@ -1,4 +1,5 @@
-﻿@model IEnumerable<ProftaakASP_S2.Models.ChatViewModel>
+﻿@using Models
+@model IEnumerable<ProftaakASP_S2.Models.ChatViewModel>
 
 @{
     ViewData["Title"] = "Overview";
@@ -64,7 +65,7 @@
                 @Html.DisplayFor(modelItem => item.CareRecipientId)
             </td>
             <td>
-                @Html.ActionLink("Open", "OpenChat", new { id=item.ChatLogID })
+                @Html.ActionLink("Open", "OpenChat", new { id=item.ChatLogID, volunteerName=item.VolunteerName, careRecipientName=item.CareRecipientName })
                
             </td>
         </tr>

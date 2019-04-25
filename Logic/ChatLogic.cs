@@ -42,7 +42,9 @@ namespace Logic
             _chat.GetAllOpenChatsWithVolunteerID(userid);
         public List<ChatLog> GetAllOpenChatsWithCareRecipientID(int userid) => _chat.GetAllOpenChatsWithCareRecipientID(userid);
 
-        public void CreateNewChatLog(int reactionID, int volunteerID, int careRecipientID) =>
+        public int CreateNewChatLog(int reactionID, int volunteerID, int careRecipientID) =>
             _chat.CreateNewChatLog(reactionID, volunteerID, careRecipientID);
+
+        
     }
 }

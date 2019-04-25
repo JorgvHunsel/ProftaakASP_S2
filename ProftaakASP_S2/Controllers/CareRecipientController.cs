@@ -5,6 +5,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Logic;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using ProftaakASP_S2.Models;
@@ -138,6 +139,7 @@ namespace ProftaakASP_S2.Controllers
             }
         }
         
+
         public ActionResult ChangeStatus(int id, string status, string path)
         {
             string[] redirectUrl = path.Split("/");
@@ -156,8 +158,15 @@ namespace ProftaakASP_S2.Controllers
         
         public ActionResult CreateChat(int reactionId, int volunteerId)
         {
-            _chatLogic.CreateNewChatLog(reactionId, volunteerId, Convert.ToInt32(Request.Cookies["id"]));
-
+            int id = _chatLogic.CreateNewChatLog(reactionId, volunteerId, Convert.ToInt32(Request.Cookies["id"]));
+            if(id == 0)
+            {
+                // error
+            }
+            else
+            {
+                return RedirectToAction(nameof(OpenChat));
+            }
             return RedirectToAction(nameof(Overview));
         }
 
@@ -171,6 +180,18 @@ namespace ProftaakASP_S2.Controllers
             }
 
             return View("../CareRecipient/Chat/Overview", chatView);
+        }
+
+        [HttpGet]
+        public ActionResult OpenChat(int id)
+        {
+            List<MessageViewModel> messageView = new List<MessageViewModel>();
+            foreach (ChatMessage cMessage in _chatLogic.LoadMessageListWithChatID(id))
+            {
+                messageView.Add(new MessageViewModel(cMessage));
+            }
+
+            return View("../CareRecipient/Chat/Overview", messageView);
         }
 
     }

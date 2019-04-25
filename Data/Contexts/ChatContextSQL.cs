@@ -175,7 +175,7 @@ namespace Data.Contexts
             }
         }
 
-        public void CreateNewChatLog(int reactionID, int volunteerID, int careRecipientID)
+        public int CreateNewChatLog(int reactionID, int volunteerID, int careRecipientID)
         {
             try
             {
@@ -185,12 +185,18 @@ namespace Data.Contexts
                 cmd.Parameters.Add("@volunteerID", SqlDbType.Int).Value = volunteerID;
                 cmd.Parameters.Add("@careRecipientID", SqlDbType.Int).Value = careRecipientID;
 
+                SqlParameter sqlP = new SqlParameter("@identity", SqlDbType.Int);
+                sqlP.Direction = ParameterDirection.Output;
+                cmd.Parameters.Add(sqlP);
+
                 _conn.Open();
                 cmd.ExecuteNonQuery();
+                int ID = (int)sqlP.Value;
+                return ID;
             }
             catch (Exception e)
             {
-
+                return 0;
             }
             finally
             {
