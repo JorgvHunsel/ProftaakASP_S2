@@ -1,0 +1,42 @@
+﻿@using Microsoft.AspNetCore.Http
+@model IEnumerable<ProftaakASP_S2.Models.MessageViewModel>
+
+@{
+    ViewData["Title"] = "OpenChat";
+}
+
+<h2>OpenChat</h2>
+
+@if (Model.Count() == 0)
+{
+    @:Geen berichten
+}
+else
+{
+    foreach (var item in Model) {
+        <div>
+
+            @Html.DisplayFor(modelItem => item.ChatLogID)
+        </div>
+        <div>
+
+            @Html.DisplayFor(modelItem => item.MessageContent)
+        </div>
+
+        <div>
+            @Html.DisplayFor(modelItem => item.Timestamp)
+
+        </div>
+
+        <div>
+            @Html.DisplayFor(modelItem => item.SenderId)
+
+        </div>
+
+        <div>
+            @Html.DisplayFor(modelItem => item.ReceiverId)
+
+        </div>
+    }
+    
+}

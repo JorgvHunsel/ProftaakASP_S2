@@ -165,7 +165,7 @@ namespace ProftaakASP_S2.Controllers
             }
             else
             {
-                return RedirectToAction(nameof(OpenChat));
+                return RedirectToAction("OpenChat", new {id});
             }
             return RedirectToAction(nameof(Overview));
         }
@@ -182,7 +182,7 @@ namespace ProftaakASP_S2.Controllers
             return View("../CareRecipient/Chat/Overview", chatView);
         }
 
-        [HttpGet]
+        
         public ActionResult OpenChat(int id)
         {
             List<MessageViewModel> messageView = new List<MessageViewModel>();
@@ -191,7 +191,7 @@ namespace ProftaakASP_S2.Controllers
                 messageView.Add(new MessageViewModel(cMessage));
             }
 
-            return View("../CareRecipient/Chat/Overview", messageView);
+            return View("../CareRecipient/Chat/OpenChat", messageView);
         }
 
     }
