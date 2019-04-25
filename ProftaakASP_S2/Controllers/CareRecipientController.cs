@@ -134,7 +134,7 @@ namespace ProftaakASP_S2.Controllers
             }
             catch
             {
-                return View();
+                return View("../Shared/Error");
             }
         }
         
