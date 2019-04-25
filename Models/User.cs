@@ -11,7 +11,7 @@ namespace Models
     public abstract class User
     {
         public enum AccountType { CareRecipient, Volunteer, Professional, Admin }
-        public enum Gender { M, V, A }
+        public enum Gender { Man, Vrouw, Anders }
         public int UserId { get; private set; }
         public string FirstName { get; private set; }
         public string LastName { get; private set; }

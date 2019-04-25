@@ -346,7 +346,7 @@ namespace Data.Contexts
                 SqlCommand cmd = new SqlCommand(query, _conn);
                 emailParam.Value = email;
                 cmd.Parameters.Add(emailParam);
-                User currentUser = new Admin("a", "b", "c,", "d", "e", "f", Convert.ToDateTime("1988/12/20"), User.Gender.M, true, User.AccountType.CareRecipient);
+                User currentUser = new Admin("a", "b", "c,", "d", "e", "f", Convert.ToDateTime("1988/12/20"), User.Gender.Man, true, User.AccountType.CareRecipient);
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())

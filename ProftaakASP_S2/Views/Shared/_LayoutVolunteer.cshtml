@@ -41,7 +41,7 @@
                             </a>
                         </li>
                         <li>
-                            <a type="button" asp-area="" asp-controller="Login" asp-action="Logout">
+                            <a type="button" asp-area="" asp-controller="User" asp-action="Logout">
                                 <span class="glyphicon glyphicon-log-out"></span>
                                 Uitloggen
                             </a>
@@ -50,9 +50,15 @@
                     else
                     {
                         <li>
-                            <a type="button" asp-area="" asp-controller="Login" asp-action="Login">
+                            <a type="button" asp-area="" asp-controller="User" asp-action="Login">
                                 <span class="glyphicon glyphicon-user"></span>
                                 Login
+                            </a>
+                        </li>
+                        <li>
+                            <a type="button" asp-area="" asp-controller="User" asp-action="CreateAccount">
+                                <span class="glyphicon glyphicon-plus"></span>
+                                Account aanmaken
                             </a>
                         </li>
                     }
