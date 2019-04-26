@@ -19,7 +19,7 @@ namespace ProftaakASP_S2.Models
         public string PostalCode { get; set; }
         public string EmailAddress { get; set; }
         public string BirthDate { get; set; }
-        public global::Models.User.Gender UserGender { get; set; }
+        public string UserGender { get; set; }
         public global::Models.User.AccountType UserAccountType { get; set; }
         public bool Status { get; set; }
 
@@ -33,14 +33,14 @@ namespace ProftaakASP_S2.Models
             PostalCode = user.PostalCode;
             EmailAddress = user.EmailAddress;
             BirthDate = user.BirthDate.ToShortDateString();
-            UserGender = user.UserGender;
+            UserGender = user.UserGender.ToString();
             UserAccountType = user.UserAccountType;
             Status = user.Status;
         }
 
         public UserViewModel()
         {
-            
+
         }
     }
 }

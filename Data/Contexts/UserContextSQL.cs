@@ -25,20 +25,21 @@ namespace Data.Contexts
         {
             try
             {
-                string query = "INSERT INTO [User] (FirstName, LastName, Birthdate, Sex, Email, Address, PostalCode, City, Password, AccountType, Status) VALUES (@FirstName, @LastName, @Birthdate, @Sex, @Email, @Address, @PostalCode, @City, @Password, @AccountType, 'true')";
+                string query = "INSERT INTO [User] (FirstName, LastName, Birthdate, Sex, Email, Address, PostalCode, City, Password, AccountType, Status) VALUES (@FirstName, @LastName, @Birthdate, @Sex, @Email, @Address, @PostalCode, @City, @Password, @AccountType, @Status)";
                 _conn.Open();
                 using (SqlCommand cmd = new SqlCommand(query, _conn))
                 {
                     cmd.Parameters.AddWithValue("@FirstName", SqlDbType.NVarChar).Value = newUser.FirstName;
                     cmd.Parameters.AddWithValue("@LastName", SqlDbType.NVarChar).Value = newUser.LastName;
                     cmd.Parameters.AddWithValue("@Birthdate", SqlDbType.Date).Value = newUser.BirthDate;
-                    cmd.Parameters.AddWithValue("@Sex", SqlDbType.Char).Value = newUser.UserGender;
+                    cmd.Parameters.AddWithValue("@Sex", SqlDbType.NVarChar).Value = newUser.UserGender.ToString();
                     cmd.Parameters.AddWithValue("@Email", SqlDbType.NVarChar).Value = newUser.EmailAddress;
                     cmd.Parameters.AddWithValue("@Address", SqlDbType.NVarChar).Value = newUser.Address;
                     cmd.Parameters.AddWithValue("@PostalCode", SqlDbType.NChar).Value = newUser.PostalCode;
                     cmd.Parameters.AddWithValue("@City", SqlDbType.NVarChar).Value = newUser.City;
                     cmd.Parameters.AddWithValue("@Password", SqlDbType.NVarChar).Value = password;
                     cmd.Parameters.AddWithValue("@AccountType", SqlDbType.NVarChar).Value = newUser.UserAccountType.ToString();
+                    cmd.Parameters.AddWithValue("@Status", SqlDbType.Bit).Value = true;
                     cmd.ExecuteNonQuery();
                 }
             }

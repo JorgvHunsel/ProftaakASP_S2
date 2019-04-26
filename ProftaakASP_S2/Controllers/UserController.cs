@@ -62,26 +62,43 @@ namespace ProftaakASP_S2.Controllers
         [HttpPost]
         public ActionResult CreateAccount(UserViewModel userViewModel, string password, string passwordValidation)
         {
-            if (password == passwordValidation)
+            try
             {
-                if (userViewModel.UserAccountType == global::Models.User.AccountType.CareRecipient)
+                if (password == passwordValidation)
                 {
-                    _userLogic.AddNewUser(new CareRecipient(userViewModel.FirstName, userViewModel.LastName, userViewModel.Address, userViewModel.City, userViewModel.PostalCode, userViewModel.EmailAddress, Convert.ToDateTime(userViewModel.BirthDate), userViewModel.UserGender, true, global::Models.User.AccountType.CareRecipient), password);
+                    if (userViewModel.UserAccountType == global::Models.User.AccountType.CareRecipient)
+                    {
+                        _userLogic.AddNewUser(
+                            new CareRecipient(userViewModel.FirstName, userViewModel.LastName, userViewModel.Address,
+                                userViewModel.City, userViewModel.PostalCode, userViewModel.EmailAddress,
+                                Convert.ToDateTime(userViewModel.BirthDate), (User.Gender)Enum.Parse(typeof(User.Gender), userViewModel.UserGender) , true,
+                                global::Models.User.AccountType.CareRecipient), password);
+                    }
+                    else
+                    {
+                        _userLogic.AddNewUser(
+                            new Volunteer(userViewModel.FirstName, userViewModel.LastName, userViewModel.Address,
+                                userViewModel.City, userViewModel.PostalCode, userViewModel.EmailAddress,
+                                Convert.ToDateTime(userViewModel.BirthDate), (User.Gender)Enum.Parse(typeof(User.Gender), userViewModel.UserGender), true,
+                                global::Models.User.AccountType.Volunteer), password);
+                    }
                 }
                 else
                 {
-                    _userLogic.AddNewUser(new Volunteer(userViewModel.FirstName, userViewModel.LastName, userViewModel.Address, userViewModel.City, userViewModel.PostalCode, userViewModel.EmailAddress, Convert.ToDateTime(userViewModel.BirthDate), userViewModel.UserGender, true, global::Models.User.AccountType.Volunteer), password);
+                    ViewBag.Message = "De wachtwoorden komen niet overheen";
+                    return View();
                 }
+
+
             }
-            else
+            catch (FormatException e)
             {
-                ViewBag.Message = "De wachtwoorden komen niet overheen";
+                ViewBag.Message = "De geboortedatum is onjuist ingevoerd";
                 return View();
             }
 
 
-
-            return View();
+            return RedirectToAction("Login");
         }
     }
 }
