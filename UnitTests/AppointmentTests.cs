@@ -1,24 +1,31 @@
 using System;
+using System.Collections.Generic;
 using Autofac.Extras.Moq;
 using Data.Contexts;
+using Data.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models;
+using Logic;
+using Moq;
 
 namespace UnitTests
 {
     [TestClass]
     public class AppointmentTests
     {
+
         [TestMethod]
-        public void CreateAppointment_IsValid()
+        public void Create_Appointment_Is_Called_Exactly_Once()
         {
-        //    using (var mock = AutoMock.GetLoose())
-        //    {
-        //        mock.Mock<AppointmentContextSQL>()
-        //            .Setup(x => x.CreateAppointment(null))
-        //            .Assert
-        //    }
-        //    throw new NotImplementedException();
+            
+            Mock<IAppointmentContext> mockContext = new Mock<IAppointmentContext>();
+            Appointment appointment = new Mock<Appointment>(1, 3, 2, DateTime.Today).Object;
+            mockContext.Setup(x => x.CreateAppointment(appointment));
+
+            var _appointmentLogic = new AppointmentLogic(mockContext.Object);
+            _appointmentLogic.CreateAppointment(appointment);
+            mockContext.Verify(x => x.CreateAppointment(appointment), Times.Exactly(1));
+
         }
     }
 }
