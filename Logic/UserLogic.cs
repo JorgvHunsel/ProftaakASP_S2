@@ -43,7 +43,7 @@ namespace Logic
 
         public User getCurrentUserInfo(string email)
         {
-            return _user.getCurrentUserInfo(email);
+            return _user.GetCurrentUserInfo(email);
         }
 
         public void EditUser(User currentUser, string password)

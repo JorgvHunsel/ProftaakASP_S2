@@ -332,7 +332,7 @@ namespace Data.Contexts
             return true;
         }
 
-        public User getCurrentUserInfo(string email)
+        public User GetCurrentUserInfo(string email)
         {
             try
             {

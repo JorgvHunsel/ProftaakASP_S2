@@ -43,7 +43,7 @@ namespace ProftaakASP_S2.Controllers
         public ActionResult OverviewClosed()
         {
             List<QuestionViewModel> questionView = new List<QuestionViewModel>();
-            foreach (Question question in _questionLogic.GetAllClosedQuestionCareRecipientID(Convert.ToInt32(Request.Cookies["id"])))
+            foreach (Question question in _questionLogic.GetAllClosedQuestionsCareRecipientID(Convert.ToInt32(Request.Cookies["id"])))
             {
                 questionView.Add(new QuestionViewModel(question));
             }
