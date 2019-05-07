@@ -183,12 +183,12 @@ namespace ProftaakASP_S2.Controllers
         }
 
         
-        public ActionResult OpenChat(int id)
+        public ActionResult OpenChat(int id, string volunteerName, string careRecipientName)
         {
             List<MessageViewModel> messageView = new List<MessageViewModel>();
             foreach (ChatMessage cMessage in _chatLogic.LoadMessageListWithChatID(id))
             {
-                messageView.Add(new MessageViewModel(cMessage));
+                messageView.Add(new MessageViewModel(cMessage, Convert.ToInt32(Request.Cookies["id"]), volunteerName, careRecipientName));
             }
 
             return View("../CareRecipient/Chat/OpenChat", messageView);

@@ -14,29 +14,41 @@
 else
 {
     foreach (var item in Model) {
-        <div>
-
-            @Html.DisplayFor(modelItem => item.ChatLogID)
+        if (item.SenderId == item.UserId)
+        {
+        <div class="chatmessageSending">
+            <div class="chatmessagetext">
+                <div class="">
+                    @Html.DisplayFor(modelItem => item.VolunteerName)
+                </div>
+                <div>
+                    @Html.DisplayFor(modelItem => item.MessageContent)
+                </div>
+                <div>
+                    @Html.DisplayFor(modelItem => item.Timestamp)
+                </div>
+            </div>
         </div>
-        <div>
-
-            @Html.DisplayFor(modelItem => item.MessageContent)
-        </div>
-
-        <div>
-            @Html.DisplayFor(modelItem => item.Timestamp)
-
-        </div>
-
-        <div>
-            @Html.DisplayFor(modelItem => item.SenderId)
-
-        </div>
-
-        <div>
-            @Html.DisplayFor(modelItem => item.ReceiverId)
-
-        </div>
+            
+        }
+        else
+        {
+            <div class="chatmessageReceiving">
+                <div class="chatmessagetext">
+                    <div>
+                        @Html.DisplayFor(modelItem => item.CareRecipientName)
+                    </div>
+                    <div>
+                        @Html.DisplayFor(modelItem => item.MessageContent)
+                    </div>
+                    <div>
+                        @Html.DisplayFor(modelItem => item.Timestamp)
+                    </div>
+                </div>
+            </div>
+        }
+        <br/>
+        
     }
     
 }
