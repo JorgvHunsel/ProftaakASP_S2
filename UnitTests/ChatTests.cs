@@ -86,15 +86,17 @@ namespace UnitTests
         {
             Mock<IChatContext> mockContext = new Mock<IChatContext>();
 
-            int newChatLogId = 2;
-            mockContext.Setup(x => x.CreateNewChatLog(0, 1, 2))
+            int newChatLogId = 3;
+            mockContext.Setup(x => x.CreateNewChatLog(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()))
                 .Returns(newChatLogId);
 
             var _chatLogic = new ChatLogic(mockContext.Object);
-            var result = _chatLogic.CreateNewChatLog(0, 1, 2);
+            var result = _chatLogic.CreateNewChatLog(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>());
 
-            mockContext.Verify((x => x.CreateNewChatLog(0, 1, 2)), Times.Exactly(1));
+            mockContext.Verify(x => x.CreateNewChatLog(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()));
             Assert.IsInstanceOfType(result, typeof(int));
+            Assert.AreEqual(newChatLogId, result);
+            
 
         }
 

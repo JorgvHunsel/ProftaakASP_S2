@@ -92,7 +92,7 @@ namespace ProftaakASP_S2.Controllers
             }
 
             ViewBag.Message = "Deze vraag heeft geen reacties";
-            return View("Question/Overview");
+            return RedirectToAction("Question/Overview");
         }
 
 
