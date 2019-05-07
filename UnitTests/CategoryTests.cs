@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Autofac.Extras.Moq;
 using Data.Contexts;
 using Data.Interfaces;
+using Logic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models;
 
@@ -20,14 +21,13 @@ namespace UnitTests
                     .Setup(x => x.GetAllCategories())
                     .Returns(GetSampleCategory());
 
-                var cls = mock.Create<CategoryContextSQL>();
+                var cls = mock.Create<CategoryLogic>();
                 var expected = GetSampleCategory();
 
                 var actual = cls.GetAllCategories();
 
                 Assert.IsTrue(actual != null);
                 Assert.AreEqual(expected.Count, actual.Count);
-
             }
         }
 

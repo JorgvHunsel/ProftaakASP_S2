@@ -19,6 +19,7 @@ namespace Logic
             _chat = chat;
         }
 
+        //TODO: Check if method is still necessary
         public DataTable GetAllOpenChatsAsDataTable(int userid)
         {
             return GetAllOpenChatsAsDataTable(userid);
@@ -27,12 +28,14 @@ namespace Logic
         public List<ChatMessage> LoadMessageListWithChatID(int chatID) =>
             _chat.LoadMessageAsListUsingChatLogID(chatID);
 
+        //TODO: Check if method is still necessary
         //Wesley
         public List<ChatLog> LoadOpenMessageList()
         {
             return _chat.LoadOpenChatsList();
         }
         //End Wesley
+
         public void SendMessage(int chatid, int receiverid, int senderid, string message)
         {
             _chat.SendMessage(chatid, receiverid, senderid, message);

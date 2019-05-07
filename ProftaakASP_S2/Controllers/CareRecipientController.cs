@@ -31,6 +31,8 @@ namespace ProftaakASP_S2.Controllers
 
         public ActionResult Overview()
         {
+            ViewBag.Message = TempData["ErrorMessage"] as string;
+
             List<QuestionViewModel> questionView = new List<QuestionViewModel>();
             foreach (Question question in _questionLogic.GetAllOpenQuestionCareRecipientID(Convert.ToInt32(Request.Cookies["id"])))
             {
@@ -40,10 +42,21 @@ namespace ProftaakASP_S2.Controllers
             return View("../CareRecipient/Question/Overview", questionView);
         }
 
+        private List<QuestionViewModel> GetListQuestionViewModel(int id)
+        {
+            List<QuestionViewModel> questionView = new List<QuestionViewModel>();
+            foreach (Question question in _questionLogic.GetAllOpenQuestionCareRecipientID(Convert.ToInt32(Request.Cookies["id"])))
+            {
+                questionView.Add(new QuestionViewModel(question));
+            }
+
+            return questionView;
+        }
+
         public ActionResult OverviewClosed()
         {
             List<QuestionViewModel> questionView = new List<QuestionViewModel>();
-            foreach (Question question in _questionLogic.GetAllClosedQuestionCareRecipientID(Convert.ToInt32(Request.Cookies["id"])))
+            foreach (Question question in _questionLogic.GetAllClosedQuestionsCareRecipientID(Convert.ToInt32(Request.Cookies["id"])))
             {
                 questionView.Add(new QuestionViewModel(question));
             }
@@ -77,7 +90,6 @@ namespace ProftaakASP_S2.Controllers
         [HttpGet]
         public ActionResult ReactionOverview(int id)
         {
-
             List<ReactionViewModel> reactionViews = new List<ReactionViewModel>();
 
             if (_reactionLogic.GetAllCommentsWithQuestionID(id).Count > 0)
@@ -88,11 +100,16 @@ namespace ProftaakASP_S2.Controllers
                     reactionViews.Add(new ReactionViewModel(reaction, _questionLogic.GetSingleQuestion(reaction.QuestionId),
                         _userLogic.GetUserById(Convert.ToInt32(Request.Cookies["id"]))));
                 }
+
+                ViewBag.Message = null;
+
                 return View("Reaction/Overview", reactionViews);
             }
 
-            ViewBag.Message = "Deze vraag heeft geen reacties";
-            return View("Question/Overview");
+            //ViewBag.Message = "Deze vraag heeft geen reacties";
+
+            TempData["ErrorMessage"] = "Vraag heeft geen reacties";
+            return RedirectToAction("Overview");
         }
 
 

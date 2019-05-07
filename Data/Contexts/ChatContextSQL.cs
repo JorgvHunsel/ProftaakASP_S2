@@ -175,6 +175,7 @@ namespace Data.Contexts
             }
         }
 
+        //TODO Returns 0 as exceptionhandling
         public int CreateNewChatLog(int reactionID, int volunteerID, int careRecipientID)
         {
             try

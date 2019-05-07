@@ -1,43 +1,57 @@
 ﻿@model IEnumerable<ReactionViewModel>
 
-    @{
+@{
     ViewData["Title"] = "ReactionOverview";
+}
+
+<h2>Overzicht reacties op hulpvraag: @Model.First().QuestionTitle</h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>
+            Titel
+        </th>
+        <th>
+            Tijdstip van reactie
+        </th>
+        <th>
+            Naam vrijwilliger
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (ReactionViewModel item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimeStamp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VolunteerName)
+            </td>
+            <td>
+                @Html.ActionLink("Start chat", "CreateChat", new {reactionId = item.ReactionId, volunteerid = item.SenderId})
+            </td>
+        </tr>
     }
+    </tbody>
+</table>
 
-    <h2>Overzicht reacties op hulpvraag: @Model.First().QuestionTitle</h2>
+<div>
+    <a asp-action="Overview">Terug naar overzicht</a>
+</div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    Titel
-                </th>
-                <th>
-                    Tijdstip van reactie
-                </th>
-                <th>
-                    Naam vrijwilliger
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TimeStamp)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.VolunteerName)
-                </td>
-                <td>
-                    @Html.ActionLink("Start chat", "CreateChat", new { reactionId=item.ReactionId, volunteerid=item.SenderId})
-                </td>
-            </tr>
-    }
-        </tbody>
-    </table>
 
+@if (ViewBag.Message != null)
+{
+    <script type="text/javascript">
+        window.onload = function () {
+            alert("@ViewBag.Message");
+        };
+    </script>
+}

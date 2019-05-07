@@ -48,7 +48,7 @@ namespace Logic
             _question.ChangeQuestionStatus(id, status == "Open" ? "Closed" : "Open");
         }
 
-        public List<Question> GetAllClosedQuestionCareRecipientID(int careRecipient) =>
+        public List<Question> GetAllClosedQuestionsCareRecipientID(int careRecipient) =>
             _question.GetAllClosedQuestionsCareRecipientID(careRecipient);
     
     }
