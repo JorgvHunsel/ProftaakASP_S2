@@ -29,16 +29,15 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Admin" asp-action="QuestionOverview">Hulpvragen inzien</a></li>
-                    <li><a asp-area="" asp-controller="Admin" asp-action="UserOverview">Gebruiker overzicht</a></li>
-                    <li><a asp-area="" asp-controller="Admin" asp-action="ChatLogOverview">Chatlog inzien</a></li>
-                    <li><a asp-area="" asp-controller="CareRecipient" asp-action="EditAccount">Bewerk Account</a></li>
+                    <li><a asp-area="" asp-controller="Admin" asp-action="QuestionOverview">Hulpvragen</a></li>
+                    <li><a asp-area="" asp-controller="Admin" asp-action="UserOverview">Gebruikers</a></li>
+                    <li><a asp-area="" asp-controller="Admin" asp-action="ChatLogOverview">Chatlogs</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @if (ViewBag.Username != null)
                     {
                         <li>
-                            <a type="button">
+                            <a type="button" asp-area="" asp-controller="CareRecipient" asp-action="EditAccount">
                                 <span class="glyphicon glyphicon-user"></span>
                                 Welkom @ViewBag.Username
                             </a>
