@@ -25,6 +25,11 @@ namespace Logic
             _question.WriteQuestionToDatabase(askedQuestion);
         }
 
+        public void DeleteQuestionFromDatabase(Question askedQuestion)
+        {
+            _question.DeleteQuestionFromDatabase(askedQuestion);
+        }
+
         public List<Question> GetAllOpenQuestions()
         {
             return _question.GetAllOpenQuestions();
@@ -48,8 +53,15 @@ namespace Logic
             _question.ChangeQuestionStatus(id, status == "Open" ? "Closed" : "Open");
         }
 
-        public List<Question> GetAllClosedQuestionsCareRecipientID(int careRecipient) =>
-            _question.GetAllClosedQuestionsCareRecipientID(careRecipient);
+        public List<Question> GetAllClosedQuestionsCareRecipientID(int careRecipient)
+        {
+            return _question.GetAllClosedQuestionsCareRecipientID(careRecipient);
+        }
+
+        public List<Question> GetAllQuestions()
+        {
+            return _question.GetAllQuestions();
+        }
     
     }
 }

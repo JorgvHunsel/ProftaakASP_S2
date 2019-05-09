@@ -45,6 +45,28 @@ namespace Data.Contexts
             }
         }
 
+        public void DeleteQuestionFromDatabase(Question askedQuestion)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("DeleteQuestion", _conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@QuestionID", SqlDbType.Int).Value = askedQuestion.QuestionId;
+
+
+                _conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
+
         public List<Question> GetAllOpenQuestions()
         {
             try
@@ -101,7 +123,7 @@ namespace Data.Contexts
             {
                 List<Question> questionList = new List<Question>();
 
-                SqlCommand cmd = new SqlCommand("SelectAllOpenQuestions", _conn);
+                SqlCommand cmd = new SqlCommand("SelectAllQuestions", _conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 _conn.Open();
 
@@ -129,9 +151,7 @@ namespace Data.Contexts
                         question = new Question(questionId, title, content, Question.QuestionStatus.Closed, date, urgency, category, careRecipientId);
                     }
                     questionList.Add(question);
-
                 }
-
                 return questionList;
             }
             catch (Exception e)
