@@ -20,5 +20,12 @@ namespace Models
             VolunteerId = volunteerId;
             TimeStamp = timeStamp;
         }
+
+        public Appointment(int questionID, int careRecipientId, int volunteerId)
+        {
+            QuestionId = questionID;
+            CareRecipientId = careRecipientId;
+            VolunteerId = volunteerId;
+        }
     }
 }

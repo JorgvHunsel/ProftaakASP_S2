@@ -43,7 +43,13 @@ namespace Logic
 
         public List<ChatLog> GetAllOpenChatsWithVolunteerID(int userid) =>
             _chat.GetAllOpenChatsWithVolunteerID(userid);
+
         public List<ChatLog> GetAllOpenChatsWithCareRecipientID(int userid) => _chat.GetAllOpenChatsWithCareRecipientID(userid);
+
+        public List<ChatLog> GetAllOpenChatsByDate(int userid)
+        {
+            return _chat.GetAllOpenChatsWithCareRecipientID(userid).OrderByDescending(c => c.TimeStamp).ToList();
+        }
 
         public int CreateNewChatLog(int reactionID, int volunteerID, int careRecipientID) =>
             _chat.CreateNewChatLog(reactionID, volunteerID, careRecipientID);

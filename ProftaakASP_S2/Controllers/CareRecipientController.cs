@@ -204,7 +204,7 @@ namespace ProftaakASP_S2.Controllers
         public ActionResult ChatOverview()
         {
             List<ChatViewModel> chatView = new List<ChatViewModel>();
-            foreach (ChatLog chatLog in _chatLogic.GetAllOpenChatsWithCareRecipientID(Convert.ToInt32(Request.Cookies["id"])))
+            foreach (ChatLog chatLog in _chatLogic.GetAllOpenChatsByDate(Convert.ToInt32(Request.Cookies["id"])))
             {
                 chatView.Add(new ChatViewModel(chatLog));
             }

@@ -17,12 +17,17 @@ namespace ProftaakASP_S2.Controllers
         private readonly QuestionLogic _questionLogic;
         private readonly UserLogic _userLogic;
         private readonly ReactionLogic _reactionLogic;
+        private readonly ChatLogic _chatLogic;
+        private readonly AppointmentLogic _appointmentLogic;
+        
 
-        public VolunteerController(QuestionLogic questionLogic, UserLogic userLogic, ReactionLogic reactionLogic)
+        public VolunteerController(QuestionLogic questionLogic, UserLogic userLogic, ReactionLogic reactionLogic, ChatLogic chatLogic, AppointmentLogic appointmentLogic)
         {
             _questionLogic = questionLogic;
             _userLogic = userLogic;
             _reactionLogic = reactionLogic;
+            _chatLogic = chatLogic;
+            _appointmentLogic = appointmentLogic;
         }
 
         // GET: QuestionVolunteer
@@ -139,6 +144,33 @@ namespace ProftaakASP_S2.Controllers
             {
                 return View();
             }
+        }
+
+        public ActionResult ChatOverview()
+        {
+            List<ChatViewModel> chatView = new List<ChatViewModel>();
+            foreach (ChatLog chatLog in _chatLogic.GetAllOpenChatsWithVolunteerID(Convert.ToInt32(Request.Cookies["id"])))
+            {
+                chatView.Add(new ChatViewModel(chatLog));
+            }
+            return View("Chat/Overview", chatView);
+        }
+
+
+
+        [HttpGet]
+        public ActionResult CreateAppointment(int careRecipientId, int questionId, int volunteerId)
+        {
+            ViewBag.Firstname = _userLogic.GetUserById(careRecipientId).FirstName;
+
+            return View("Chat/CreateAppointment");
+        }
+
+ 
+        public ActionResult CreateAppointment(AppointmentViewModel appointmentView)
+        {
+            _appointmentLogic.CreateAppointment(new Appointment(appointmentView.QuestionId, appointmentView.CareRecipientId, appointmentView.VolunteerId, appointmentView.TimeStamp));
+            return RedirectToAction("ChatOverview");
         }
     }
 }
