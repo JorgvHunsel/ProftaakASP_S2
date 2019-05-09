@@ -127,6 +127,19 @@ namespace ProftaakASP_S2.Controllers
             }
         }
 
+        public ActionResult EditAccount()
+        {
+            List<string> userView = new List<string>();
+            User currentUser = _userLogic.getCurrentUserInfo(Request.Cookies["email"]);
+            userView.Add(currentUser.FirstName);
+            userView.Add(currentUser.LastName);
+            userView.Add(currentUser.EmailAddress);
+            userView.Add(currentUser.Address);
+            userView.Add(currentUser.PostalCode);
+            userView.Add(currentUser.City);
+
+            return View("../CareRecipient/Question/Overview", userView);
+        }
 
 
         // GET: CareRecipient/Create
