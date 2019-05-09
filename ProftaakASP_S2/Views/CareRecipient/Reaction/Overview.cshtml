@@ -8,39 +8,44 @@
 
 <table class="table">
     <thead>
-        <tr>
-            <th>
-                Titel
-            </th>
-            <th>
-                Tijdstip van reactie
-            </th>
-            <th>
-                Naam vrijwilliger
-            </th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>
+            Titel
+        </th>
+        <th>
+            Tijdstip van reactie
+        </th>
+        <th>
+            Naam vrijwilliger
+        </th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TimeStamp)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.VolunteerName)
-                </td>
-                <td>
-                    @Html.ActionLink("Start chat", "CreateChat", new { reactionId = item.ReactionId, volunteerid = item.SenderId })
-                </td>
-            </tr>
-        }
+    @foreach (ReactionViewModel item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimeStamp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VolunteerName)
+            </td>
+            <td>
+                @Html.ActionLink("Start chat", "CreateChat", new {reactionId = item.ReactionId, volunteerid = item.SenderId})
+            </td>
+        </tr>
+    }
     </tbody>
 </table>
+
+<div>
+    <a asp-action="Overview">Terug naar overzicht</a>
+</div>
+
 
 @if (ViewBag.Message != null)
 {

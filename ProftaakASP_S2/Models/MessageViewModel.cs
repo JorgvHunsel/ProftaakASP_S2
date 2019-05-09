@@ -13,18 +13,22 @@ namespace ProftaakASP_S2.Models
         public DateTime Timestamp { get; set; }
         public int SenderId { get; set; }
         public int ReceiverId { get; set; }
+        public int UserId { get; set; }
 
-        static string VolunteerName { get; set; }
-        static string CareRecipientName { get; set; }
+        public string VolunteerName { get; set; }
+        public string CareRecipientName { get; set; }
         
 
-        public MessageViewModel(ChatMessage cM)
+        public MessageViewModel(ChatMessage cM, int userId, string volunteerName, string careRecipientName)
         {
+            UserId = userId;
             ChatLogID = cM.ChatID;
             SenderId = cM.SenderID;
             ReceiverId = cM.ReceiverID;
             MessageContent = cM.MessageContent;
             Timestamp = cM.TimeStamp;
+            VolunteerName = volunteerName;
+            CareRecipientName = careRecipientName;
         }
     }
 }

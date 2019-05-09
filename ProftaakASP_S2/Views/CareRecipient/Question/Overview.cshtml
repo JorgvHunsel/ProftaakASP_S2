@@ -12,27 +12,27 @@
 </p>
 <table class="table">
     <thead>
-    <tr>
-        <th>
-            Onderwerp
-        </th>
-        <th>
-            Inhoud
-        </th>
-        <th>
-            Status
-        </th>
-        <th>
-            Datum
-        </th>
-        <th>
-            Urgent
-        </th>
-        <th>
-            Categorie
-        </th>
-        <th></th>
-    </tr>
+        <tr>
+            <th>
+                Onderwerp
+            </th>
+            <th>
+                Inhoud
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                Datum
+            </th>
+            <th>
+                Urgent
+            </th>
+            <th>
+                Categorie
+            </th>
+            <th></th>
+        </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
@@ -57,9 +57,9 @@
                     @Html.DisplayFor(modelItem => item.Category)
                 </td>
                 <td>
-                    @Html.ActionLink("Bekijk reacties", "ReactionOverview", new {  id=item.QuestionId }) |
-                    @Html.ActionLink("Bewerk vraag", "Edit", new {  id=item.QuestionId }) |
-                    @Html.ActionLink("Verander status", "ChangeStatus", new { id=item.QuestionId, status=item.Status, path=Context.Request.Path })
+                    @Html.ActionLink("Bekijk reacties", "ReactionOverview", new { id = item.QuestionId }) |
+                    @Html.ActionLink("Bewerk vraag", "Edit", new { id = item.QuestionId }) |
+                    @Html.ActionLink("Verander status", "ChangeStatus", new { id = item.QuestionId, status = item.Status, path = Context.Request.Path })
                 </td>
             </tr>
         }
@@ -74,4 +74,5 @@
         };
     </script>
 }
+
 
