@@ -48,9 +48,35 @@ namespace ProftaakASP_S2.Controllers
             return View();
         }
 
+
+        [HttpGet]
         public ActionResult UserOverview()
         {
-            return View();
+            List<UserViewModel> userViewList = new List<UserViewModel>();
+            foreach (User user in _userLogic.GetAllUsers())
+            {
+                userViewList.Add(new UserViewModel(user));
+            }
+
+            return View(userViewList);
+        }
+
+        public ActionResult BlockUser(int id)
+        {
+            User updatedUser = _userLogic.GetUserById(id);
+
+            if (updatedUser.Status)
+            {
+                updatedUser.Status = false;
+            }
+            else
+            {
+                updatedUser.Status = true;
+            }
+
+            _userLogic.EditUser(updatedUser, "");
+
+            return RedirectToAction("UserOverview");
         }
     }
 }

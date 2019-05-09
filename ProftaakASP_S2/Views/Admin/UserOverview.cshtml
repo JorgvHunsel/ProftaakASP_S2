@@ -78,13 +78,13 @@
             @if (item.Status)
             {
                 <td>
-                    @Html.ActionLink("Blokkeren", "Edit", new {  id = item.UserId  }) |
+                    @Html.ActionLink("Blokkeren", "BlockUser", new {  id = item.UserId  })
                 </td>
             }
             else
             {
                 <td>
-                    @Html.ActionLink("Deblokkeren", "Edit", new { id = item.UserId }) |
+                    @Html.ActionLink("Deblokkeren", "BlockUser", new { id = item.UserId })
                 </td>
             }           
         </tr>
