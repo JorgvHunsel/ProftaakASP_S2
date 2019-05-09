@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    public abstract class User
+    public class User
     {
         public enum AccountType { CareRecipient, Volunteer, Professional, Admin }
         public enum Gender { Man, Vrouw, Anders }
