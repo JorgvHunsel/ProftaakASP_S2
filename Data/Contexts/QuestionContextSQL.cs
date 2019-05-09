@@ -95,6 +95,56 @@ namespace Data.Contexts
             }
         }
 
+        public List<Question> GetAllQuestions()
+        {
+            try
+            {
+                List<Question> questionList = new List<Question>();
+
+                SqlCommand cmd = new SqlCommand("SelectAllOpenQuestions", _conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                _conn.Open();
+
+                DataTable dt = new DataTable();
+                dt.Load(cmd.ExecuteReader());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    int questionId = Convert.ToInt32(dr["QuestionID"].ToString());
+                    string title = dr["Title"].ToString();
+                    string content = dr["Description"].ToString();
+                    DateTime date = Convert.ToDateTime(dr["Datetime"].ToString());
+                    bool urgency = Convert.ToBoolean(dr["Urgency"]);
+                    Category category = new Category(0, dr["Name"].ToString(), null);
+                    int careRecipientId = Convert.ToInt32(dr["CareRecipientID"].ToString());
+                    string status = dr["Status"].ToString();
+
+                    Question question;
+                    if (status == "Open")
+                    {
+                        question = new Question(questionId, title, content, Question.QuestionStatus.Open, date, urgency, category, careRecipientId);
+                    }
+                    else
+                    {
+                        question = new Question(questionId, title, content, Question.QuestionStatus.Closed, date, urgency, category, careRecipientId);
+                    }
+                    questionList.Add(question);
+
+                }
+
+                return questionList;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
+
         public List<Question> GetAllOpenQuestionsCareRecipientID(int careRecipientID)
         {
             List<Question> questionList = new List<Question>();

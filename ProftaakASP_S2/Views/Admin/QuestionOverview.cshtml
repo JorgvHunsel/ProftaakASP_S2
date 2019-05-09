@@ -1,7 +1,61 @@
-﻿
+﻿@model IEnumerable<QuestionViewModel>
+
 @{
     ViewData["Title"] = "QuestionOverview";
 }
 
-<h2>QuestionOverview</h2>
+<h2>Administrator - Hulpvragen</h2>
 
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Onderwerp
+            </th>
+            <th>
+                Hulpbehoevende
+            </th>
+            <th>
+                Datum
+            </th>
+            <th>
+                Urgent
+            </th>
+            <th>
+                Categorie
+            </th>
+            <th>
+                Status
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CareRecipientName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Urgency)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Category)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                @Html.ActionLink("Verwijder", "ReactionDelete", new QuestionViewModel(item.QuestionId, item.Title, item.CareRecipientName))
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

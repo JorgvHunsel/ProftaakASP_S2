@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Logic;
+using ProftaakASP_S2.Models;
+using Models;
 
 namespace ProftaakASP_S2.Controllers
 {
@@ -31,6 +33,17 @@ namespace ProftaakASP_S2.Controllers
         }
 
         public ActionResult QuestionOverview()
+        {
+            List<QuestionViewModel> questionView = new List<QuestionViewModel>();
+            foreach (Question question in _questionLogic.GetAllOpenQuestions())
+            {
+                questionView.Add(new QuestionViewModel(question, _userLogic.GetUserById(question.CareRecipientId)));
+            }
+
+            return View("../Admin/QuestionOverview", questionView);
+        }
+
+        public ActionResult QuestionDelete(QuestionViewModel questionViewModel)
         {
             return View();
         }
