@@ -19,6 +19,21 @@ namespace Logic
             _chat = chat;
         }
 
+        public List<ChatLog> GetAllChatLogs()
+        {
+            return _chat.GetAllChatLogs();
+        }
+
+        public void DeleteChatLogFromDatabase(ChatLog chatLog)
+        {
+            _chat.DeleteChatLogFromDatabase(chatLog);
+        }
+
+        public void DeleteMessagesFromDatabase(ChatLog chatLog)
+        {
+            _chat.DeleteMessagesFromDatabase(chatLog);
+        }
+
         //TODO: Check if method is still necessary
         public DataTable GetAllOpenChatsAsDataTable(int userid)
         {
@@ -52,8 +67,6 @@ namespace Logic
         }
 
         public int CreateNewChatLog(int reactionID, int volunteerID, int careRecipientID) =>
-            _chat.CreateNewChatLog(reactionID, volunteerID, careRecipientID);
-
-        
+            _chat.CreateNewChatLog(reactionID, volunteerID, careRecipientID); 
     }
 }

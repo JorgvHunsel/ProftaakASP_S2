@@ -34,5 +34,10 @@ namespace Models
             TimeStamp = timeStamp;
             QuestionID = questionID;
         }
+
+        public ChatLog(int chatLogId)
+        {
+            ChatLogID = chatLogId;
+        }
     }
 }
