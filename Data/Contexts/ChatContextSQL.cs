@@ -62,6 +62,50 @@ namespace Data.Contexts
             }
         }
 
+        public List<ChatLog> GetAllChatLogs()
+        {
+            List<ChatLog> chatLogList = new List<ChatLog>();
+            try
+            {
+                SqlCommand cmd = new SqlCommand("GetAllChatLogs", _conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                _conn.Open();
+
+                DataTable dt = new DataTable();
+                dt.Load(cmd.ExecuteReader());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    int chatLogID = Convert.ToInt32(dr["ChatLogID"].ToString());
+                    string questionTitle = (dr["Title"].ToString());
+                    int careRecipientID = Convert.ToInt32(dr["CareRecipientID"].ToString());
+                    int volunteerID = Convert.ToInt32(dr["VolunteerID"].ToString());
+                    string careRecipientFirstName = dr["CareRecipientFirstName"].ToString();
+                    string careRecipientLastName = dr["CareRecipientLastName"].ToString();
+                    int questionID = Convert.ToInt32(dr["QuestionID"].ToString());
+
+                    string volunteerFirstName = dr["VolunteerFirstName"].ToString();
+                    string volunteerLastName = dr["VolunteerLastName"].ToString();
+
+                    DateTime timeStamp = Convert.ToDateTime(dr["TimeStamp"].ToString());
+
+                    ChatLog chatLog = new ChatLog(chatLogID, questionTitle, careRecipientID, volunteerID, careRecipientFirstName, careRecipientLastName, volunteerFirstName, volunteerLastName, timeStamp, questionID);
+                    chatLogList.Add(chatLog);
+                }
+                return chatLogList;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
+        
         public List<ChatLog> GetAllOpenChatsWithCareRecipientID(int userid)
         {
             List<ChatLog> chatLogList = new List<ChatLog>();
@@ -109,6 +153,49 @@ namespace Data.Contexts
             }
         }
 
+        public void DeleteChatLogFromDatabase(ChatLog chatLog)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("DeleteChatLog", _conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@chatLogID", SqlDbType.Int).Value = chatLog.ChatLogID;
+
+
+                _conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
+
+        public void DeleteMessagesFromDatabase(ChatLog chatLog)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("DeleteMessages", _conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@chatLogID", SqlDbType.Int).Value = chatLog.ChatLogID;
+
+
+                _conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
         public List<ChatMessage> LoadMessageAsListUsingChatLogID(int chatID)
         {
             List<ChatMessage> chatMessageList = new List<ChatMessage>();

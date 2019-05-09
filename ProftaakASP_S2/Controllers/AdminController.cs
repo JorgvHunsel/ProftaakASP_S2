@@ -29,7 +29,28 @@ namespace ProftaakASP_S2.Controllers
 
         public ActionResult ChatLogOverview()
         {
-            return View();
+            List<ChatViewModel> chatView = new List<ChatViewModel>();
+            foreach (ChatLog chatLog in _chatLogic.GetAllChatLogs())
+            {
+                chatView.Add(new ChatViewModel(chatLog));
+            }
+
+            return View("../Admin/ChatLogOverview", chatView);
+        }
+
+        public ActionResult ChatLogDelete(ChatViewModel chat)
+        {
+            try
+            {
+                _chatLogic.DeleteMessagesFromDatabase(new ChatLog(chat.ChatLogID));
+                _chatLogic.DeleteChatLogFromDatabase(new ChatLog(chat.ChatLogID));
+
+                return RedirectToAction("ChatLogOverview");
+            }
+            catch
+            {
+                return View("../Shared/Error");
+            }
         }
 
         public ActionResult QuestionOverview()

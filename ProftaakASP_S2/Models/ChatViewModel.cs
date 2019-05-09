@@ -17,16 +17,26 @@ namespace ProftaakASP_S2.Models
         public int VolunteerId { get; set; }
         public int CareRecipientId { get; set; }
 
-        public ChatViewModel(ChatLog c)
+        public ChatViewModel(ChatLog chat)
         {
-            ChatLogID = c.ChatLogID;
-            VolunteerName = c.VolunteerFirstName + " " + c.VolunteerLastName;
-            CareRecipientName = c.CareRecipientFirstName + " " + c.CareRecipientLastName;
-            TimeStamp = c.TimeStamp;
-            QuestionName = c.QuestionTitle;
-            QuestionId = c.QuestionID;
-            VolunteerId = c.VolunteerID;
-            CareRecipientId = c.CareRecipientID;
+            ChatLogID = chat.ChatLogID;
+            VolunteerName = chat.VolunteerFirstName + " " + chat.VolunteerLastName;
+            CareRecipientName = chat.CareRecipientFirstName + " " + chat.CareRecipientLastName;
+            TimeStamp = chat.TimeStamp;
+            QuestionName = chat.QuestionTitle;
+            QuestionId = chat.QuestionID;
+            VolunteerId = chat.VolunteerID;
+            CareRecipientId = chat.CareRecipientID;
+        }
+
+        public ChatViewModel(int chatlogId)
+        {
+            ChatLogID = chatlogId;
+        }
+
+        public ChatViewModel()
+        {
+
         }
     }
 

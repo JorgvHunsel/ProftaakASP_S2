@@ -20,5 +20,8 @@ namespace Data.Interfaces
         //End Wesley
         void SendMessage(int chatid, int receiverid, int senderid, string message);
         int CreateNewChatLog(int reactionID, int volunteerID, int careRecipientID);
+        void DeleteChatLogFromDatabase(ChatLog chatLog);
+        void DeleteMessagesFromDatabase(ChatLog chatLog);
+        List<ChatLog> GetAllChatLogs();
     }
 }
