@@ -35,7 +35,7 @@ namespace ProftaakASP_S2.Controllers
         public ActionResult QuestionOverview()
         {
             List<QuestionViewModel> questionView = new List<QuestionViewModel>();
-            foreach (Question question in _questionLogic.GetAllOpenQuestions())
+            foreach (Question question in _questionLogic.GetAllQuestions())
             {
                 questionView.Add(new QuestionViewModel(question, _userLogic.GetUserById(question.CareRecipientId)));
             }
@@ -43,9 +43,18 @@ namespace ProftaakASP_S2.Controllers
             return View("../Admin/QuestionOverview", questionView);
         }
 
-        public ActionResult QuestionDelete(QuestionViewModel questionViewModel)
+        public ActionResult QuestionDelete(QuestionViewModel question)
         {
-            return View();
+            try
+            {
+                _questionLogic.DeleteQuestionFromDatabase(new Question(question.QuestionId));
+
+                return RedirectToAction("QuestionOverview");
+            }
+            catch
+            {
+                return View("../Shared/Error");
+            }
         }
 
 

@@ -17,5 +17,7 @@ namespace Data.Interfaces
         List<Question> GetAllOpenQuestionsCareRecipientID(int careRecipientID);
         void ChangeQuestionStatus(int id, string closed);
         List<Question> GetAllClosedQuestionsCareRecipientID(int careRecipientId);
+        List<Question> GetAllQuestions();
+        void DeleteQuestionFromDatabase(Question askedQuestion);
     }
 }

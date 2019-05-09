@@ -42,23 +42,9 @@ namespace Models
             CareRecipientId = careRecipientID;
         }
 
-        public void PostQuestion(Question askedQuestion)
+        public Question(int questionID)
         {
-
-        }
-        public void DeleteQuestion(Question unwantedQuestion)
-        {
-
-        }
-
-        public void EditQuestion(Question editQuestion)
-        {
-
-        }
-
-        public DataTable GetAllQuestions()
-        {
-            return null;
+            QuestionId = questionID;
         }
 
         public override string ToString()
