@@ -283,8 +283,17 @@ namespace Data.Contexts
                     return new CareRecipient(userID, firstName, lastName, address, city, postalCode, email,
                          birthDate, gender, status, User.AccountType.Admin);
                 }
+                else if (accountType == "Professional")
+                {
+                    return new Professional(userID, firstName, lastName, address, city, postalCode, email,
+                        birthDate, gender, status, User.AccountType.Professional);
+                }
 
-                return null;
+
+                else
+                {
+                    throw new AggregateException("User not found");
+                }
 
             }
             catch (Exception e)
@@ -433,10 +442,15 @@ namespace Data.Contexts
                     return new CareRecipient(userID, firstName, lastName, address, city, postalCode, email,
                         birthDate, gender, status, User.AccountType.Volunteer);
                 }
-                else if ((accountType == "Admin"))
+                else if (accountType == "Admin")
                 {
                     return new CareRecipient(userID, firstName, lastName, address, city, postalCode, email,
                          birthDate, gender, status, User.AccountType.Admin);
+                }
+                else if (accountType == "Professional")
+                {
+                    return new Professional(userID, firstName, lastName, address, city, postalCode, email,
+                        birthDate, gender, status, User.AccountType.Professional);
                 }
 
                 return null;

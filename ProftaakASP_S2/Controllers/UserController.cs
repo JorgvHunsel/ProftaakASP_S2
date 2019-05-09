@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Logic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Models;
 using ProftaakASP_S2.Models;
 
@@ -31,6 +32,12 @@ namespace ProftaakASP_S2.Controllers
             try
             {
                 User newCustomer = _userLogic.CheckValidityUser(userViewModel.EmailAddress, userViewModel.Password);
+
+                if (!newCustomer.Status)
+                {
+                    ViewBag.Message = "Dit account is geblokkeerd. Neem contact op met de administrator.";
+                    return View();
+                }
 
                 HttpContext.Response.Cookies.Append("id", newCustomer.UserId.ToString());
                 HttpContext.Response.Cookies.Append("name", newCustomer.FirstName);
