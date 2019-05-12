@@ -97,20 +97,25 @@ namespace ProftaakASP_S2.Controllers
         {
             User updatedUser = _userLogic.GetUserById(id);
 
-            if (updatedUser.Status)
-            {
-                updatedUser.Status = false;
-            }
-            else
-            {
-                updatedUser.Status = true;
-            }
+            updatedUser.Status = !updatedUser.Status;
 
             _userLogic.EditUser(updatedUser, "");
 
             _logLogic.CreateUserLog(Convert.ToInt32(Request.Cookies["id"]), updatedUser);
 
             return RedirectToAction("UserOverview");
+        }
+
+        public ActionResult LogOverview()
+        {
+            List<LogViewModel> logList = new List<LogViewModel>();
+
+            foreach (Log log in _logLogic.GetAllLogs())
+            {
+                logList.Add(new LogViewModel(log));
+            }
+
+            return View("LogOverview", logList);
         }
     }
 }

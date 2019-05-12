@@ -7,6 +7,7 @@ namespace Data.Interfaces
 {
     public interface ILogContext
     {
-        void CreateUserLog(int userId, User user);
+        void CreateUserLog(Log log);
+        List<Log> GetAllLogs();
     }
 }
