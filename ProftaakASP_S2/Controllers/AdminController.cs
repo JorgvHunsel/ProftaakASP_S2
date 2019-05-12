@@ -17,14 +17,16 @@ namespace ProftaakASP_S2.Controllers
         private readonly ReactionLogic _reactionLogic;
         private readonly UserLogic _userLogic;
         private readonly ChatLogic _chatLogic;
+        private readonly LogLogic _logLogic;
 
-        public AdminController(QuestionLogic questionLogic, CategoryLogic categoryLogic, ReactionLogic reactionLogic, UserLogic userLogic, ChatLogic chatLogic)
+        public AdminController(QuestionLogic questionLogic, CategoryLogic categoryLogic, ReactionLogic reactionLogic, UserLogic userLogic, ChatLogic chatLogic, LogLogic logLogic)
         {
             _questionLogic = questionLogic;
             _categoryLogic = categoryLogic;
             _reactionLogic = reactionLogic;
             _userLogic = userLogic;
             _chatLogic = chatLogic;
+            _logLogic = logLogic;
         }
 
         public ActionResult ChatLogOverview()
@@ -105,6 +107,8 @@ namespace ProftaakASP_S2.Controllers
             }
 
             _userLogic.EditUser(updatedUser, "");
+
+            _logLogic.CreateUserLog(Convert.ToInt32(Request.Cookies["id"]), updatedUser);
 
             return RedirectToAction("UserOverview");
         }

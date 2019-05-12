@@ -43,6 +43,8 @@ namespace ProftaakASP_S2
             services.AddSingleton<IQuestionContext, QuestionContextSQL>();
             services.AddSingleton<IReactionContext, ReactionContextSQL>();
             services.AddSingleton<IUserContext, UserContextSQL>();
+            services.AddSingleton<ILogContext, LogContextSQL>();
+
 
             services.AddSingleton<UserLogic>();
             services.AddSingleton<QuestionLogic>();
@@ -50,6 +52,7 @@ namespace ProftaakASP_S2
             services.AddSingleton<CategoryLogic>();
             services.AddSingleton<ChatLogic>();
             services.AddSingleton<AppointmentLogic>();
+            services.AddSingleton<LogLogic>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
