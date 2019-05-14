@@ -56,7 +56,7 @@ namespace ProftaakASP_S2.Controllers
         public ActionResult OverviewClosed()
         {
             List<QuestionViewModel> questionView = new List<QuestionViewModel>();
-            foreach (Question question in _questionLogic.GetAllClosedQuestionsCareRecipientID(Convert.ToInt32(Request.Cookies["id"])))
+            foreach (Question question in _questionLogic.GetAllClosedQuestionsCareRecipientId(Convert.ToInt32(Request.Cookies["id"])))
             {
                 questionView.Add(new QuestionViewModel(question));
             }
@@ -106,8 +106,6 @@ namespace ProftaakASP_S2.Controllers
                 return View("Reaction/Overview", reactionViews);
             }
 
-            //ViewBag.Message = "Deze vraag heeft geen reacties";
-
             TempData["ErrorMessage"] = "Vraag heeft geen reacties";
             return RedirectToAction("Overview");
         }
@@ -141,8 +139,6 @@ namespace ProftaakASP_S2.Controllers
             return View("../CareRecipient/Question/Overview", userView);
         }
 
-
-        // GET: CareRecipient/Create
         public ActionResult Create()
         {
             ViewData["Categories"] = _categoryLogic.GetAllCategories();
@@ -150,7 +146,6 @@ namespace ProftaakASP_S2.Controllers
             return View("../CareRecipient/Question/Create");
         }
 
-        // POST: CareRecipient/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(QuestionViewModel question)
@@ -169,7 +164,7 @@ namespace ProftaakASP_S2.Controllers
             }
         }
         
-
+        
         public ActionResult ChangeStatus(int id, string status, string path)
         {
             string[] redirectUrl = path.Split("/");
