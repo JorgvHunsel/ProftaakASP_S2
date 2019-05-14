@@ -21,7 +21,7 @@ namespace Data.Contexts
 
         private static readonly SqlConnection _conn = new SqlConnection(ConnectionString);
 
-        public void AddNewUser(User newUser, string password)
+        public void AddNewUser(User newUser)
         {
             try
             {
@@ -37,7 +37,7 @@ namespace Data.Contexts
                     cmd.Parameters.AddWithValue("@Address", SqlDbType.NVarChar).Value = newUser.Address;
                     cmd.Parameters.AddWithValue("@PostalCode", SqlDbType.NChar).Value = newUser.PostalCode;
                     cmd.Parameters.AddWithValue("@City", SqlDbType.NVarChar).Value = newUser.City;
-                    cmd.Parameters.AddWithValue("@Password", SqlDbType.NVarChar).Value = password;
+                    cmd.Parameters.AddWithValue("@Password", SqlDbType.VarChar).Value = newUser.Password;
                     cmd.Parameters.AddWithValue("@AccountType", SqlDbType.NVarChar).Value = newUser.UserAccountType.ToString();
                     cmd.Parameters.AddWithValue("@Status", SqlDbType.Bit).Value = true;
                     cmd.ExecuteNonQuery();
@@ -110,7 +110,7 @@ namespace Data.Contexts
         public List<User> GetAllUsers()
         {
             string query =
-                "SELECT UserID, AccountType, FirstName, LastName, Birthdate, Sex, Email, Address, PostalCode, City, Status " +
+                "SELECT UserID, AccountType, FirstName, LastName, Birthdate, Sex, Email, Address, PostalCode, City, Status, Password " +
                 "FROM [User]";
 
             _conn.Open();
@@ -133,26 +133,28 @@ namespace Data.Contexts
                     string postalCode = reader.GetString(8);
                     string city = reader.GetString(9);
                     bool status = reader.GetBoolean(10);
+                    string password = reader.GetString(11);
+
 
 
                     if (accountType == "CareRecipient")
                     {
 
                         User user = new CareRecipient(userID, firstName, lastName, address, city, postalCode, email,
-                            birthDate, gender, status, User.AccountType.CareRecipient);
+                            birthDate, gender, status, User.AccountType.CareRecipient, password);
                         Users.Add(user);
                     }
 
                     else if (accountType == "Volunteer")
                     {
                         User user = new CareRecipient(userID, firstName, lastName, address, city, postalCode, email,
-                            birthDate, gender, status, User.AccountType.Volunteer);
+                            birthDate, gender, status, User.AccountType.Volunteer, password);
                         Users.Add(user);
                     }
                     else
                     {
                         User user = new CareRecipient(userID, firstName, lastName, address, city, postalCode, email,
-                            birthDate, gender, status, User.AccountType.Admin);
+                            birthDate, gender, status, User.AccountType.Admin, password);
                         Users.Add(user);
                     }
                 }
@@ -243,9 +245,9 @@ namespace Data.Contexts
             try
             {
                 string query =
-                    "SELECT UserID, AccountType, FirstName, LastName, Birthdate, Sex, Email, Address, PostalCode, City, Status " +
+                    "SELECT UserID, AccountType, FirstName, LastName, Birthdate, Sex, Email, Address, PostalCode, City, Status, Password " +
                     "FROM [User] " +
-                    "WHERE [Email] = @Email AND [Password] = @Password";
+                    "WHERE [Email] = @Email";
                 _conn.Open();
 
                 SqlDataAdapter cmd = new SqlDataAdapter();
@@ -268,27 +270,32 @@ namespace Data.Contexts
                 string postalCode = dt.Rows[0].ItemArray[8].ToString();
                 string city = dt.Rows[0].ItemArray[9].ToString();
                 bool status = Convert.ToBoolean(dt.Rows[0].ItemArray[10].ToString());
+                string hashedPassword = dt.Rows[0].ItemArray[11].ToString();
+
+
+                if(!Hasher.SecurePasswordHasher.Verify(password, hashedPassword))
+                    throw new ArgumentException("Password invalid");
 
                 if (accountType == "CareRecipient")
                 {
                     return new CareRecipient(userID, firstName, lastName, address, city, postalCode, email,
-                        birthDate, gender, status, User.AccountType.CareRecipient);
+                        birthDate, gender, status, User.AccountType.CareRecipient, hashedPassword);
                 }
 
                 else if (accountType == "Volunteer")
                 {
                     return new CareRecipient(userID, firstName, lastName, address, city, postalCode, email,
-                        birthDate, gender, status, User.AccountType.Volunteer);
+                        birthDate, gender, status, User.AccountType.Volunteer, hashedPassword);
                 }
                 else if ((accountType == "Admin"))
                 {
                     return new CareRecipient(userID, firstName, lastName, address, city, postalCode, email,
-                         birthDate, gender, status, User.AccountType.Admin);
+                         birthDate, gender, status, User.AccountType.Admin, hashedPassword);
                 }
                 else if (accountType == "Professional")
                 {
                     return new Professional(userID, firstName, lastName, address, city, postalCode, email,
-                        birthDate, gender, status, User.AccountType.Professional);
+                        birthDate, gender, status, User.AccountType.Professional, hashedPassword);
                 }
 
 
@@ -348,7 +355,7 @@ namespace Data.Contexts
             try
             {
                 string query =
-                    "SELECT UserID, AccountType, FirstName, LastName, Birthdate, Sex, Email, Address, PostalCode, City, Status " +
+                    "SELECT UserID, AccountType, FirstName, LastName, Birthdate, Sex, Email, Address, PostalCode, City, Status, Password " +
                     "FROM [User] " +
                     "WHERE Email = @email";
 
@@ -358,7 +365,7 @@ namespace Data.Contexts
                 SqlCommand cmd = new SqlCommand(query, _conn);
                 emailParam.Value = email;
                 cmd.Parameters.Add(emailParam);
-                User currentUser = new Admin("a", "b", "c,", "d", "e", "f", Convert.ToDateTime("1988/12/20"), User.Gender.Man, true, User.AccountType.CareRecipient);
+                User currentUser = new Admin("a", "b", "c,", "d", "e", "f", Convert.ToDateTime("1988/12/20"), User.Gender.Man, true, User.AccountType.CareRecipient, "");
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
@@ -370,22 +377,22 @@ namespace Data.Contexts
                         if (accountType == "Admin")
                         {
                             currentUser = new Admin(reader.GetInt32(0), reader.GetString(2), reader.GetString(3), reader.GetString(7), reader.GetString(9), reader.GetString(8), email,
-                                reader.GetDateTime(4), gender, reader.GetBoolean(10), User.AccountType.Admin);
+                                reader.GetDateTime(4), gender, reader.GetBoolean(10), User.AccountType.Admin, reader.GetString(11));
                         }
                         else if (accountType == "Professional")
                         {
                             currentUser = new Professional(reader.GetInt32(0), reader.GetString(2), reader.GetString(3), reader.GetString(7), reader.GetString(9), reader.GetString(8), email,
-                                reader.GetDateTime(4), gender, reader.GetBoolean(10), User.AccountType.Professional);
+                                reader.GetDateTime(4), gender, reader.GetBoolean(10), User.AccountType.Professional, reader.GetString(11));
                         }
                         else if (accountType == "Volunteer")
                         {
                             currentUser = new Volunteer(reader.GetInt32(0), reader.GetString(2), reader.GetString(3), reader.GetString(7), reader.GetString(9), reader.GetString(8), email,
-                                reader.GetDateTime(4), gender, reader.GetBoolean(10), User.AccountType.Volunteer);
+                                reader.GetDateTime(4), gender, reader.GetBoolean(10), User.AccountType.Volunteer, reader.GetString(11));
                         }
                         else
                         {
                             currentUser = new CareRecipient(reader.GetInt32(0), reader.GetString(2), reader.GetString(3), reader.GetString(7), reader.GetString(9), reader.GetString(8), email,
-                                reader.GetDateTime(4), gender, reader.GetBoolean(10), User.AccountType.CareRecipient);
+                                reader.GetDateTime(4), gender, reader.GetBoolean(10), User.AccountType.CareRecipient, reader.GetString(11));
                         }
                         return currentUser;
                     }
@@ -408,7 +415,7 @@ namespace Data.Contexts
             try
             {
                 string query =
-                    "SELECT UserID, AccountType, FirstName, LastName, Birthdate, Sex, Email, Address, PostalCode, City, Status " +
+                    "SELECT UserID, AccountType, FirstName, LastName, Birthdate, Sex, Email, Address, PostalCode, City, Status, Password " +
                     "FROM [User] " +
                     "WHERE [UserID] = @UserId";
                 _conn.Open();
@@ -432,27 +439,29 @@ namespace Data.Contexts
                 string postalCode = dt.Rows[0].ItemArray[8].ToString();
                 string city = dt.Rows[0].ItemArray[9].ToString();
                 bool status = Convert.ToBoolean(dt.Rows[0].ItemArray[10].ToString());
+                string password = dt.Rows[0].ItemArray[11].ToString();
+
 
                 if (accountType == "CareRecipient")
                 {
                     return new CareRecipient(userID, firstName, lastName, address, city, postalCode, email,
-                        birthDate, gender, status, User.AccountType.CareRecipient);
+                        birthDate, gender, status, User.AccountType.CareRecipient, password);
                 }
 
                 else if (accountType == "Volunteer")
                 {
                     return new CareRecipient(userID, firstName, lastName, address, city, postalCode, email,
-                        birthDate, gender, status, User.AccountType.Volunteer);
+                        birthDate, gender, status, User.AccountType.Volunteer, password);
                 }
                 else if (accountType == "Admin")
                 {
                     return new CareRecipient(userID, firstName, lastName, address, city, postalCode, email,
-                         birthDate, gender, status, User.AccountType.Admin);
+                         birthDate, gender, status, User.AccountType.Admin, password);
                 }
                 else if (accountType == "Professional")
                 {
                     return new Professional(userID, firstName, lastName, address, city, postalCode, email,
-                        birthDate, gender, status, User.AccountType.Professional);
+                        birthDate, gender, status, User.AccountType.Professional, password);
                 }
 
                 return null;

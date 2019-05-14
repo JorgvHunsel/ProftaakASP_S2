@@ -17,12 +17,12 @@ namespace UnitTests
         [TestMethod]
         public void AddNewUser_IsValid()
         {
-            mockContext.Setup(x => x.AddNewUser(user, "secret"));
+            mockContext.Setup(x => x.AddNewUser(user));
 
             var _userLogic = new UserLogic(mockContext.Object);
-            _userLogic.AddNewUser(user, "secret");
+            _userLogic.AddNewUser(user);
 
-            mockContext.Verify(x => x.AddNewUser(user, "secret"), Times.Exactly(1));
+            mockContext.Verify(x => x.AddNewUser(user), Times.Exactly(1));
         }
 
         [TestMethod]

@@ -88,11 +88,19 @@ namespace ProftaakASP_S2.Controllers
                 {
                     if (userViewModel.UserAccountType == global::Models.User.AccountType.CareRecipient)
                     {
-                        _userLogic.AddNewUser(
-                            new CareRecipient(userViewModel.FirstName, userViewModel.LastName, userViewModel.Address,
-                                userViewModel.City, userViewModel.PostalCode, userViewModel.EmailAddress,
-                                Convert.ToDateTime(userViewModel.BirthDate), (User.Gender)Enum.Parse(typeof(User.Gender), userViewModel.UserGender), true,
-                                global::Models.User.AccountType.CareRecipient), password);
+                        _userLogic.AddNewUser(new CareRecipient(userViewModel.FirstName, userViewModel.LastName,
+                            userViewModel.Address, userViewModel.City, userViewModel.PostalCode,
+                            userViewModel.EmailAddress, Convert.ToDateTime(userViewModel.BirthDate),
+                            (User.Gender) Enum.Parse(typeof(User.Gender), userViewModel.UserGender), true,
+                            global::Models.User.AccountType.CareRecipient, password));
+                    }
+                    else if(userViewModel.UserAccountType == global::Models.User.AccountType.Admin)
+                    {
+                        _userLogic.AddNewUser(new Admin(userViewModel.FirstName, userViewModel.LastName,
+                            userViewModel.Address, userViewModel.City, userViewModel.PostalCode,
+                            userViewModel.EmailAddress, Convert.ToDateTime(userViewModel.BirthDate),
+                            (User.Gender)Enum.Parse(typeof(User.Gender), userViewModel.UserGender), true,
+                            global::Models.User.AccountType.Admin, password));
                     }
                     else
                     {
@@ -100,7 +108,7 @@ namespace ProftaakASP_S2.Controllers
                             new Volunteer(userViewModel.FirstName, userViewModel.LastName, userViewModel.Address,
                                 userViewModel.City, userViewModel.PostalCode, userViewModel.EmailAddress,
                                 Convert.ToDateTime(userViewModel.BirthDate), (User.Gender)Enum.Parse(typeof(User.Gender), userViewModel.UserGender), true,
-                                global::Models.User.AccountType.Volunteer), password);
+                                global::Models.User.AccountType.Volunteer, password));
                     }
                 }
                 else
