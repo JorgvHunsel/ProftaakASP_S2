@@ -20,9 +20,18 @@ namespace Logic
             _user = user;
         }
 
-        // hier komt de verbinding tussen de repos en de view. zie category repository
         public User CheckValidityUser(string email, string password)
         {
+            if (email == "")
+                throw new ArgumentException("Emailadress can't be empty");
+            if (email.Length > 50)
+                throw new ArgumentException("Emailadress can't be too long");
+
+            if (password == "")
+                throw new ArgumentException("Password can't be empty");
+            if (password.Length > 50)
+                throw new ArgumentException("Password can't be too long");
+
             return _user.CheckValidityUser(email, password);
         }
 
@@ -41,7 +50,7 @@ namespace Logic
             _user.AddNewUser(newUser, password);
         }
 
-        public User getCurrentUserInfo(string email)
+        public User GetCurrentUserInfo(string email)
         {
             return _user.GetCurrentUserInfo(email);
         }

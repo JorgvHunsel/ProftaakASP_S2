@@ -24,21 +24,21 @@ namespace Logic
         public void WriteQuestionToDatabase(Question askedQuestion)
         {
             if(askedQuestion.Title == "")
-                throw new Exception("Title can't be empty");
+                throw new ArgumentException("Title can't be empty");
             if (askedQuestion.Title.Length > 100)
-                throw new Exception("Title can't be too long");
+                throw new ArgumentException("Title can't be too long");
 
             if (askedQuestion.Content == "")
-                throw new Exception("Content can't be empty");
+                throw new ArgumentException("Content can't be empty");
             if (askedQuestion.Content.Length > 500)
-                throw new Exception("Content can't be too long");
+                throw new ArgumentException("Content can't be too long");
 
             if (askedQuestion.Category.ToString() == "")
-                throw new Exception("Category can't be empty");
-            if (askedQuestion.Content.Length > 50)
-                throw new Exception("Category can't be too long");
+                throw new ArgumentException("Category can't be empty");
+            if (askedQuestion.Category.ToString().Length > 50)
+                throw new ArgumentException("Category can't be too long");
             if (new Regex(@"[^a-zA-Z0-9]").IsMatch(askedQuestion.Category.ToString()))
-                throw new Exception("Category can't contain special characters");
+                throw new ArgumentException("Category can't contain special characters");
 
             _question.WriteQuestionToDatabase(askedQuestion);
         }

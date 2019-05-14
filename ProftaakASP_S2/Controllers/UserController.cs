@@ -47,16 +47,22 @@ namespace ProftaakASP_S2.Controllers
                     return RedirectToAction("QuestionOverview", "Admin");
                 if (newCustomer.UserAccountType == global::Models.User.AccountType.Volunteer)
                     return RedirectToAction("QuestionOverview", "Volunteer");
-                
-                    return RedirectToAction("Overview", "CareRecipient");
-                
+
+                return RedirectToAction("Overview", "CareRecipient");
+
 
             }
-            catch (Exception)
+            catch (NullReferenceException)
             {
-                ViewBag.Message = "Gegevens komen niet overeen";
+                ViewBag.Message = "De gegevens zijn niet ingevuld";
                 return View();
             }
+            catch(IndexOutOfRangeException)
+            {
+                ViewBag.Message = "De gegevens komen niet overeen";
+                return View();
+            }
+
         }
 
         public ActionResult Logout()
