@@ -30,5 +30,10 @@ namespace ProftaakASP_S2.Models
             VolunteerName = volunteerName;
             CareRecipientName = careRecipientName;
         }
+
+        public MessageViewModel()
+        {
+            
+        }
     }
 }
