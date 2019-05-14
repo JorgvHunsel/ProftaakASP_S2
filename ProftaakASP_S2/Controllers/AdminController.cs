@@ -57,13 +57,13 @@ namespace ProftaakASP_S2.Controllers
 
         public ActionResult QuestionOverview()
         {
-            List<QuestionViewModel> questionView = new List<QuestionViewModel>();
+            List<QuestionViewModel> questionViews = new List<QuestionViewModel>();
             foreach (Question question in _questionLogic.GetAllQuestions())
             {
-                questionView.Add(new QuestionViewModel(question, _userLogic.GetUserById(question.CareRecipientId)));
+                questionViews.Add(new QuestionViewModel(question, _userLogic.GetUserById(question.CareRecipientId)));
             }
 
-            return View("../Admin/QuestionOverview", questionView);
+            return View("../Admin/QuestionOverview", questionViews);
         }
 
         public ActionResult QuestionDelete(QuestionViewModel question)

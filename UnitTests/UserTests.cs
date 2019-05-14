@@ -112,7 +112,7 @@ namespace UnitTests
                 .Returns(user);
 
             var _userLogic = new UserLogic(mockContext.Object);
-            var result = _userLogic.getCurrentUserInfo(user.EmailAddress);
+            var result = _userLogic.GetCurrentUserInfo(user.EmailAddress);
 
             mockContext.Verify(x => x.GetCurrentUserInfo(user.EmailAddress), Times.Exactly(1));
             Assert.IsInstanceOfType(result, typeof(User));

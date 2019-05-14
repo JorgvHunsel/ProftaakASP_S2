@@ -64,7 +64,7 @@ namespace UnitTests
                 .Returns(stub);
 
             var _questionLogic = new QuestionLogic(mockContext.Object);
-            var result = _questionLogic.GetAllClosedQuestionsCareRecipientID(user.UserId);
+            var result = _questionLogic.GetAllClosedQuestionsCareRecipientId(user.UserId);
 
             Assert.IsInstanceOfType(result, typeof(List<Question>));
         }

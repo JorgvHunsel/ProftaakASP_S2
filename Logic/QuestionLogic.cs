@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Data.Contexts;
 using Data.Interfaces;
@@ -22,6 +23,23 @@ namespace Logic
 
         public void WriteQuestionToDatabase(Question askedQuestion)
         {
+            if(askedQuestion.Title == "")
+                throw new ArgumentException("Title can't be empty");
+            if (askedQuestion.Title.Length > 100)
+                throw new ArgumentException("Title can't be too long");
+
+            if (askedQuestion.Content == "")
+                throw new ArgumentException("Content can't be empty");
+            if (askedQuestion.Content.Length > 500)
+                throw new ArgumentException("Content can't be too long");
+
+            if (askedQuestion.Category.ToString() == "")
+                throw new ArgumentException("Category can't be empty");
+            if (askedQuestion.Category.ToString().Length > 50)
+                throw new ArgumentException("Category can't be too long");
+            if (new Regex(@"[^a-zA-Z0-9]").IsMatch(askedQuestion.Category.ToString()))
+                throw new ArgumentException("Category can't contain special characters");
+
             _question.WriteQuestionToDatabase(askedQuestion);
         }
 
@@ -53,7 +71,7 @@ namespace Logic
             _question.ChangeQuestionStatus(id, status == "Open" ? "Closed" : "Open");
         }
 
-        public List<Question> GetAllClosedQuestionsCareRecipientID(int careRecipient)
+        public List<Question> GetAllClosedQuestionsCareRecipientId(int careRecipient)
         {
             return _question.GetAllClosedQuestionsCareRecipientID(careRecipient);
         }
