@@ -33,13 +33,6 @@ namespace Logic
             if (askedQuestion.Content.Length > 500)
                 throw new ArgumentException("Content can't be too long");
 
-            if (askedQuestion.Category.ToString() == "")
-                throw new ArgumentException("Category can't be empty");
-            if (askedQuestion.Category.ToString().Length > 50)
-                throw new ArgumentException("Category can't be too long");
-            if (new Regex(@"[^a-zA-Z0-9]").IsMatch(askedQuestion.Category.ToString()))
-                throw new ArgumentException("Category can't contain special characters");
-
             _question.WriteQuestionToDatabase(askedQuestion);
         }
 

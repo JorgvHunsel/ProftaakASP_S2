@@ -158,7 +158,7 @@ namespace ProftaakASP_S2.Controllers
 
                 return RedirectToAction(nameof(Overview));
             }
-            catch
+            catch(Exception exception)
             {
                 return View("../Shared/Error");
             }
