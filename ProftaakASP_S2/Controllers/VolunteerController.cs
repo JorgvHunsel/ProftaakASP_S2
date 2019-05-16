@@ -80,15 +80,15 @@ namespace ProftaakASP_S2.Controllers
         // POST: QuestionVolunteer/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ReactionCreate(int questionid, IFormCollection collection)
+        public ActionResult ReactionCreate(ReactionViewModel reactionViewModel)
         {
             try
             {
-                int questionID = Convert.ToInt32(collection["QuestionId"]);
-                string description = collection["Description"];
-               
+                int questionID = reactionViewModel.QuestionId;
+                string description = reactionViewModel.Description;
+
                 //TODO
-                int senderid = 24;
+                int senderid = Convert.ToInt32(Request.Cookies["id"]);
                 
                 _reactionLogic.PostReaction(new Reaction(questionID, senderid, description));
 

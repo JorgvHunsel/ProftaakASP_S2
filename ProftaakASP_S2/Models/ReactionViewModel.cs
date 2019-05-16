@@ -17,6 +17,11 @@ namespace ProftaakASP_S2.Models
         public string QuestionTitle { get; set; }
         public string CareRecipientName { get; set; }
 
+        public ReactionViewModel()
+        {
+            
+        }
+
         public ReactionViewModel(int reactionId, int questionId, int senderId, string description, string volunteerName, DateTime timeStamp)
         {
             ReactionId = reactionId;
