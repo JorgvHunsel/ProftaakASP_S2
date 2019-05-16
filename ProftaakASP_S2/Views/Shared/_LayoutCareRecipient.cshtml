@@ -29,7 +29,8 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="CareRecipient" asp-action="Overview">Hulpvragen</a></li>
+                    <li><a asp-area="" asp-controller="CareRecipient" asp-action="Overview">Hulpvragen Open</a></li>
+                    <li><a asp-area="" asp-controller="CareRecipient" asp-action="OverviewClosed">Hulpvragen Gesloten</a></li>
                     <li><a asp-area="" asp-controller="CareRecipient" asp-action="Create">Nieuwe hulpvraag</a></li>
                     <li><a asp-area="" asp-controller="CareRecipient" asp-action="ChatOverview">Chats</a></li>
                     <li><a asp-area="" asp-controller="User" asp-action="AccountOverview">Account inzien</a></li>
@@ -38,7 +39,7 @@
                     @if (ViewBag.Username != null)
                     {
                         <li>
-                            <a type="button" asp-area="" asp-controller="CareRecipient" asp-action="EditAccount">
+                            <a type="button" asp-area="" asp-controller="User" asp-action="EditAccount">
                                 <span class="glyphicon glyphicon-user"></span>
                                 Welkom @ViewBag.Username
                             </a>
