@@ -153,7 +153,7 @@ namespace ProftaakASP_S2.Controllers
             {
                 chatView.Add(new ChatViewModel(chatLog));
             }
-            return View("Chat/Overview", chatView);
+            return View("../Volunteer/Chat/Overview", chatView);
         }
 
 
@@ -171,6 +171,26 @@ namespace ProftaakASP_S2.Controllers
         {
             _appointmentLogic.CreateAppointment(new Appointment(appointmentView.QuestionId, appointmentView.CareRecipientId, appointmentView.VolunteerId, appointmentView.TimeStamp));
             return RedirectToAction("ChatOverview");
+        }
+
+        public ActionResult OpenChat(int id, string volunteerName, string careRecipientName, int careRecipientId)
+        {
+            List<MessageViewModel> messageView = new List<MessageViewModel>();
+            MessageViewModel2 messageView2 = new MessageViewModel2(careRecipientId, Convert.ToInt32(Request.Cookies["id"]), id);
+
+            foreach (ChatMessage cMessage in _chatLogic.LoadMessageListWithChatID(id))
+            {
+                messageView.Add(new MessageViewModel(cMessage, Convert.ToInt32(Request.Cookies["id"]), volunteerName, careRecipientName));
+            }
+
+            messageView2.Messages = messageView;
+            return View("../Volunteer/Chat/OpenChat", messageView2);
+        }
+
+        public ActionResult NewMessage(MessageViewModel2 mvMessageViewModel2)
+        {
+            _chatLogic.SendMessage(mvMessageViewModel2.ChatLogId, mvMessageViewModel2.ReceiverId, mvMessageViewModel2.SenderId, mvMessageViewModel2.NewMessage);
+            return RedirectToAction(nameof(ChatOverview));
         }
     }
 }
