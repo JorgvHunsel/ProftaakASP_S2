@@ -11,7 +11,7 @@ namespace UnitTests
     [TestClass]
     public class UserTests
     {
-        User user = new Mock<User>(1, "Jesse", "Oosterwijk", "Kleidonk 1", "Beuningen", "6641LM", "jesse.oosterwijk@outlook.com", DateTime.Today, User.Gender.Man, true, User.AccountType.CareRecipient).Object;
+        User user = new Mock<User>(1, "Jesse", "Oosterwijk", "Kleidonk 1", "Beuningen", "6641LM", "jesse.oosterwijk@outlook.com", DateTime.Today, User.Gender.Man, true, User.AccountType.CareRecipient,"1111").Object;
         Mock<IUserContext> mockContext = new Mock<IUserContext>();
 
         [TestMethod]
@@ -106,7 +106,7 @@ namespace UnitTests
         [TestMethod]
         public void GetCurrentUserInfo_IsValid()
         {
-            User user = new Mock<User>(1, "Jesse", "Oosterwijk", "Kleidonk 1", "Beuningen", "6641LM", "jesse.oosterwijk@outlook.com", DateTime.Today, User.Gender.Man, true, User.AccountType.CareRecipient).Object;
+            User user = new Mock<User>(1, "Jesse", "Oosterwijk", "Kleidonk 1", "Beuningen", "6641LM", "jesse.oosterwijk@outlook.com", DateTime.Today, User.Gender.Man, true, User.AccountType.CareRecipient,"1111").Object;
             
             mockContext.Setup(x => x.GetCurrentUserInfo(user.EmailAddress))
                 .Returns(user);
