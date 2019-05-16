@@ -42,6 +42,7 @@ namespace ProftaakASP_S2.Controllers
                 HttpContext.Response.Cookies.Append("id", newCustomer.UserId.ToString());
                 HttpContext.Response.Cookies.Append("name", newCustomer.FirstName);
                 HttpContext.Response.Cookies.Append("role", newCustomer.UserAccountType.ToString());
+                HttpContext.Response.Cookies.Append("email", newCustomer.EmailAddress);
 
                 return RedirectToAction("Login");
             }
@@ -57,6 +58,7 @@ namespace ProftaakASP_S2.Controllers
             Response.Cookies.Delete("id");
             Response.Cookies.Delete("name");
             Response.Cookies.Delete("role");
+            Response.Cookies.Delete("email");
             return RedirectToAction("Login", "User");
         }
 
@@ -106,6 +108,13 @@ namespace ProftaakASP_S2.Controllers
 
 
             return RedirectToAction("Login");
+        }
+
+        [HttpGet]
+        public ActionResult AccountOverview()
+        {
+            User currentUser = _userLogic.getCurrentUserInfo(Request.Cookies["email"]);
+            return View("AccountOverview", new UserViewModel(currentUser));
         }
     }
 }
