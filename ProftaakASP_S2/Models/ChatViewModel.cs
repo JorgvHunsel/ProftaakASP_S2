@@ -36,7 +36,7 @@ namespace ProftaakASP_S2.Models
 
         public ChatViewModel()
         {
-
+            
         }
     }
 
