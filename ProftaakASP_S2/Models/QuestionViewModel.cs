@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Models;
@@ -9,7 +10,9 @@ namespace ProftaakASP_S2.Models
     public class QuestionViewModel
     {
         public int QuestionId { get; set; }
+        [Required(ErrorMessage = "Het onderwerp moet worden ingevuld!")]
         public string Title { get; set; }
+        [Required(ErrorMessage = "De inhoud moet worden ingevuld!")]
         public string Content { get; set; }
         public string Status { get; set; }
         public DateTime Date { get; set; }

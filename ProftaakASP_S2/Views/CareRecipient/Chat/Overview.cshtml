@@ -35,7 +35,7 @@
                 @Html.DisplayFor(modelItem => item.TimeStamp)
             </td>
             <td>
-                @Html.ActionLink("Open", "OpenChat", new { id=item.ChatLogID, volunteerName=item.VolunteerName, careRecipientName=item.CareRecipientName })             
+                @Html.ActionLink("Open", "OpenChat", new { id=item.ChatLogID, volunteerName=item.VolunteerName, careRecipientName=item.CareRecipientName, volunteerId = item.VolunteerId })             
             </td>
         </tr>
 }

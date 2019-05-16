@@ -56,7 +56,7 @@ namespace ProftaakASP_S2.Controllers
         public ActionResult OverviewClosed()
         {
             List<QuestionViewModel> questionView = new List<QuestionViewModel>();
-            foreach (Question question in _questionLogic.GetAllClosedQuestionsCareRecipientID(Convert.ToInt32(Request.Cookies["id"])))
+            foreach (Question question in _questionLogic.GetAllClosedQuestionsCareRecipientId(Convert.ToInt32(Request.Cookies["id"])))
             {
                 questionView.Add(new QuestionViewModel(question));
             }
@@ -106,8 +106,6 @@ namespace ProftaakASP_S2.Controllers
                 return View("Reaction/Overview", reactionViews);
             }
 
-            //ViewBag.Message = "Deze vraag heeft geen reacties";
-
             TempData["ErrorMessage"] = "Vraag heeft geen reacties";
             return RedirectToAction("Overview");
         }
@@ -130,7 +128,7 @@ namespace ProftaakASP_S2.Controllers
         public ActionResult EditAccount()
         {
             List<string> userView = new List<string>();
-            User currentUser = _userLogic.getCurrentUserInfo(Request.Cookies["email"]);
+            User currentUser = _userLogic.GetCurrentUserInfo(Request.Cookies["email"]);
             userView.Add(currentUser.FirstName);
             userView.Add(currentUser.LastName);
             userView.Add(currentUser.EmailAddress);
@@ -141,8 +139,6 @@ namespace ProftaakASP_S2.Controllers
             return View("../CareRecipient/Question/Overview", userView);
         }
 
-
-        // GET: CareRecipient/Create
         public ActionResult Create()
         {
             ViewData["Categories"] = _categoryLogic.GetAllCategories();
@@ -150,7 +146,6 @@ namespace ProftaakASP_S2.Controllers
             return View("../CareRecipient/Question/Create");
         }
 
-        // POST: CareRecipient/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(QuestionViewModel question)
@@ -163,13 +158,13 @@ namespace ProftaakASP_S2.Controllers
 
                 return RedirectToAction(nameof(Overview));
             }
-            catch
+            catch(Exception exception)
             {
                 return View("../Shared/Error");
             }
         }
         
-
+        
         public ActionResult ChangeStatus(int id, string status, string path)
         {
             string[] redirectUrl = path.Split("/");
@@ -213,15 +208,25 @@ namespace ProftaakASP_S2.Controllers
         }
 
         
-        public ActionResult OpenChat(int id, string volunteerName, string careRecipientName)
+        public ActionResult OpenChat(int id, string volunteerName, string careRecipientName, int volunteerId)
         {
             List<MessageViewModel> messageView = new List<MessageViewModel>();
+            MessageViewModel2 messageView2 = new MessageViewModel2(volunteerId ,Convert.ToInt32(Request.Cookies["id"]), id);
+            
             foreach (ChatMessage cMessage in _chatLogic.LoadMessageListWithChatID(id))
             {
                 messageView.Add(new MessageViewModel(cMessage, Convert.ToInt32(Request.Cookies["id"]), volunteerName, careRecipientName));
             }
 
-            return View("../CareRecipient/Chat/OpenChat", messageView);
+            messageView2.Messages = messageView;
+            return View("../CareRecipient/Chat/OpenChat", messageView2);
+        }
+
+
+        public ActionResult NewMessage(MessageViewModel2 mvMessageViewModel2)
+        {
+            _chatLogic.SendMessage(mvMessageViewModel2.ChatLogId, mvMessageViewModel2.ReceiverId, mvMessageViewModel2.SenderId, mvMessageViewModel2.NewMessage);
+            return RedirectToAction(nameof(ChatOverview));
         }
 
     }

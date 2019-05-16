@@ -9,7 +9,7 @@ namespace Data.Interfaces
 {
     public interface IUserContext
     {
-        void AddNewUser(User newUser, string password);
+        void AddNewUser(User newUser);
         List<User> GetAllUsers();
         int GetUserId(string firstName);
         User CheckValidityUser(string email, string password);

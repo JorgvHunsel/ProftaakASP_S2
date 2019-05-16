@@ -23,8 +23,9 @@ namespace Models
         public Gender UserGender { get;  private set; }
         public AccountType UserAccountType { get; private set; }
         public bool Status { get; set; }
+        public string Password { get; set; }
 
-        protected User(string firstName, string lastName, string address, string city, string postalCode, string emailAddress, DateTime birthDate, Gender userGender, bool status, AccountType accountType)
+        protected User(string firstName, string lastName, string address, string city, string postalCode, string emailAddress, DateTime birthDate, Gender userGender, bool status, AccountType accountType, string password)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -36,9 +37,10 @@ namespace Models
             UserGender = userGender;
             Status = status;
             UserAccountType = accountType;
+            Password = password;
         }
 
-        protected User(int userId, string firstName, string lastName, string address, string city, string postalCode, string emailAddress, DateTime birthDate, Gender userGender, bool status, AccountType accountType)
+        protected User(int userId, string firstName, string lastName, string address, string city, string postalCode, string emailAddress, DateTime birthDate, Gender userGender, bool status, AccountType accountType, string password)
         {
             UserId = userId;
             FirstName = firstName;
@@ -51,6 +53,7 @@ namespace Models
             UserGender = userGender;
             Status = status;
             UserAccountType = accountType;
+            Password = password;
         }
 
         

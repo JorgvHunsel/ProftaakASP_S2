@@ -37,14 +37,14 @@ body {
 }
 
 
-.chatmessageSending {
+.chatmessageReceiving {
     position: relative;
     background: #3d4456;
     border-radius: .4em;
     color: white;
 }
 
-.chatmessageSending:after {
+.chatmessageReceiving:after {
     content: '';
     position: absolute;
     right: 0;
@@ -58,14 +58,14 @@ body {
     margin-right: -28px;
 }
 
-.chatmessageReceiving {
+.chatmessageSending {
     position: relative;
     background: #495181;
     border-radius: .4em;
     color: white;
 }
 
-.chatmessageReceiving:after {
+.chatmessageSending:after {
     content: '';
     position: absolute;
     left: 0;

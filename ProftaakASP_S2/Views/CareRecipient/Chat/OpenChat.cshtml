@@ -1,5 +1,5 @@
-﻿@using Microsoft.AspNetCore.Http
-@model IEnumerable<ProftaakASP_S2.Models.MessageViewModel>
+﻿@using Models
+@model MessageViewModel2
 
 @{
     ViewData["Title"] = "OpenChat";
@@ -7,35 +7,19 @@
 
 <h2>OpenChat</h2>
 
-@if (Model.Count() == 0)
+@if (Model.Messages.Count == 0)
 {
     @:Geen berichten
 }
 else
 {
-    foreach (var item in Model) {
+    foreach (var item in Model.Messages)
+    {
         if (item.SenderId == item.UserId)
         {
-        <div class="chatmessageSending">
-            <div class="chatmessagetext">
-                <div class="">
-                    @Html.DisplayFor(modelItem => item.VolunteerName)
-                </div>
-                <div>
-                    @Html.DisplayFor(modelItem => item.MessageContent)
-                </div>
-                <div>
-                    @Html.DisplayFor(modelItem => item.Timestamp)
-                </div>
-            </div>
-        </div>
-            
-        }
-        else
-        {
-            <div class="chatmessageReceiving">
+            <div class="chatmessageSending">
                 <div class="chatmessagetext">
-                    <div>
+                    <div class="">
                         @Html.DisplayFor(modelItem => item.CareRecipientName)
                     </div>
                     <div>
@@ -46,9 +30,34 @@ else
                     </div>
                 </div>
             </div>
+
         }
-        <br/>
-        
+        else
+        {
+            <div class="chatmessageReceiving">
+                <div class="chatmessagetext">
+                    <div>
+                        @Html.DisplayFor(modelItem => item.VolunteerName)
+                    </div>
+                    <div>
+                        @Html.DisplayFor(modelItem => item.MessageContent)
+                    </div>
+                    <div>
+                        @Html.DisplayFor(modelItem => item.Timestamp)
+                    </div>
+                </div>
+            </div>
+        }
+        <br />
     }
-    
 }
+
+    <form method="post" asp-action="NewMessage">
+        <input asp-for="NewMessage" />
+        <input type="hidden" asp-for="ReceiverId"/>
+        <input type="hidden" asp-for="SenderId"/>
+        <input type="hidden" asp-for="ChatLogId"/>
+        <input type="submit" value="Stuur" />
+
+    </form>
+ 

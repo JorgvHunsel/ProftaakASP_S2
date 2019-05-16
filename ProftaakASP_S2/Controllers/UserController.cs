@@ -44,13 +44,26 @@ namespace ProftaakASP_S2.Controllers
                 HttpContext.Response.Cookies.Append("role", newCustomer.UserAccountType.ToString());
                 HttpContext.Response.Cookies.Append("email", newCustomer.EmailAddress);
 
-                return RedirectToAction("Login");
+                if (newCustomer.UserAccountType == global::Models.User.AccountType.Admin)
+                    return RedirectToAction("QuestionOverview", "Admin");
+                if (newCustomer.UserAccountType == global::Models.User.AccountType.Volunteer)
+                    return RedirectToAction("QuestionOverview", "Volunteer");
+
+                return RedirectToAction("Overview", "CareRecipient");
+
+
             }
-            catch (Exception e)
+            catch (NullReferenceException)
             {
-                ViewBag.Message = "Gegevens komen niet overeen";
+                ViewBag.Message = "De gegevens zijn niet ingevuld";
                 return View();
             }
+            catch(IndexOutOfRangeException)
+            {
+                ViewBag.Message = "De gegevens komen niet overeen";
+                return View();
+            }
+
         }
 
         public ActionResult Logout()
@@ -77,11 +90,19 @@ namespace ProftaakASP_S2.Controllers
                 {
                     if (userViewModel.UserAccountType == global::Models.User.AccountType.CareRecipient)
                     {
-                        _userLogic.AddNewUser(
-                            new CareRecipient(userViewModel.FirstName, userViewModel.LastName, userViewModel.Address,
-                                userViewModel.City, userViewModel.PostalCode, userViewModel.EmailAddress,
-                                Convert.ToDateTime(userViewModel.BirthDate), (User.Gender)Enum.Parse(typeof(User.Gender), userViewModel.UserGender) , true,
-                                global::Models.User.AccountType.CareRecipient), password);
+                        _userLogic.AddNewUser(new CareRecipient(userViewModel.FirstName, userViewModel.LastName,
+                            userViewModel.Address, userViewModel.City, userViewModel.PostalCode,
+                            userViewModel.EmailAddress, Convert.ToDateTime(userViewModel.BirthDate),
+                            (User.Gender) Enum.Parse(typeof(User.Gender), userViewModel.UserGender), true,
+                            global::Models.User.AccountType.CareRecipient, password));
+                    }
+                    else if(userViewModel.UserAccountType == global::Models.User.AccountType.Admin)
+                    {
+                        _userLogic.AddNewUser(new Admin(userViewModel.FirstName, userViewModel.LastName,
+                            userViewModel.Address, userViewModel.City, userViewModel.PostalCode,
+                            userViewModel.EmailAddress, Convert.ToDateTime(userViewModel.BirthDate),
+                            (User.Gender)Enum.Parse(typeof(User.Gender), userViewModel.UserGender), true,
+                            global::Models.User.AccountType.Admin, password));
                     }
                     else
                     {
@@ -89,7 +110,7 @@ namespace ProftaakASP_S2.Controllers
                             new Volunteer(userViewModel.FirstName, userViewModel.LastName, userViewModel.Address,
                                 userViewModel.City, userViewModel.PostalCode, userViewModel.EmailAddress,
                                 Convert.ToDateTime(userViewModel.BirthDate), (User.Gender)Enum.Parse(typeof(User.Gender), userViewModel.UserGender), true,
-                                global::Models.User.AccountType.Volunteer), password);
+                                global::Models.User.AccountType.Volunteer, password));
                     }
                 }
                 else
