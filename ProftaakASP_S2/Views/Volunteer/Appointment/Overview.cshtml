@@ -6,9 +6,6 @@
 
 <h2>Jouw afpsraken</h2>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -43,7 +40,7 @@
                 @Html.DisplayFor(modelItem => item.Location)
             </td>
             <td>
-                @Html.ActionLink("Delete", "Delete", new {  questionId = item.AppointmentId })
+                @Html.ActionLink("Delete", "DeleteAppointment", new {  appointmentId = item.AppointmentId })
             </td>
         </tr>
 }

@@ -25,5 +25,10 @@ namespace Logic
         {
             return _appointment.GetAllAppointmentsFromUser(userId);
         }
+
+        public void DeleteAppointment(int appointmentId)
+        {
+            _appointment.DeleteAppointment(appointmentId);
+        }
     }
 }

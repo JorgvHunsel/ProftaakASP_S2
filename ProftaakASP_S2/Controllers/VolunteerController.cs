@@ -111,6 +111,12 @@ namespace ProftaakASP_S2.Controllers
             return View("Appointment/Overview", appointmentViews);
         }
 
+        public ActionResult DeleteAppointment(int appointmentId)
+        {
+            _appointmentLogic.DeleteAppointment(appointmentId);
+            return RedirectToAction("AppointmentOverview");
+        }
+
         public ActionResult OpenChat(int id, string volunteerName, string careRecipientName, int careRecipientId)
         {
             List<MessageViewModel> messageView = new List<MessageViewModel>();

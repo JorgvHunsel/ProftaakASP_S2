@@ -80,5 +80,26 @@ namespace Data.Contexts
                 _conn.Close();
             }
         }
+
+        public void DeleteAppointment(int appointmentId)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("DeleteAppointment", _conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@AppointmentId", SqlDbType.Int).Value = appointmentId;
+
+                _conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
     }
 }

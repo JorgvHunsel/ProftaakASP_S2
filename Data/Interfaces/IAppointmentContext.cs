@@ -11,5 +11,6 @@ namespace Data.Interfaces
     {
         void CreateAppointment(Appointment appointment);
         List<Appointment> GetAllAppointmentsFromUser(int userId);
+        void DeleteAppointment(int appointmentId);
     }
 }
