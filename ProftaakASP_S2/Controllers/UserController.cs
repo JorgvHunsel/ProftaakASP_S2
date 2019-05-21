@@ -13,10 +13,12 @@ namespace ProftaakASP_S2.Controllers
     public class UserController : Controller
     {
         private readonly UserLogic _userLogic;
+        private readonly LogLogic _logLogic;
 
-        public UserController(UserLogic userLogic)
+        public UserController(UserLogic userLogic, LogLogic logLogic)
         {
             _userLogic = userLogic;
+            _logLogic = logLogic;
         }
 
         [HttpGet]
@@ -176,6 +178,18 @@ namespace ProftaakASP_S2.Controllers
 
 
             return RedirectToAction("AccountOverview");
+        }
+        public ActionResult BlockUser(int userId)
+        {
+            User updatedUser = _userLogic.GetUserById(userId);
+
+            updatedUser.Status = !updatedUser.Status;
+
+            _userLogic.EditUser(updatedUser, "");
+
+            _logLogic.CreateUserLog(Convert.ToInt32(Request.Cookies["id"]), updatedUser);
+
+            return RedirectToAction("Logout");
         }
     }
 }
