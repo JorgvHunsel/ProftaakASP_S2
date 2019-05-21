@@ -11,8 +11,10 @@ namespace UnitTests
     [TestClass]
     public class QuestionTests
     {
+        private const string  MockMaxCharacters= "athornthwaite0mreynault01PGnJuDB9uNNathornthwaite0mreynault01PGnJuDB9uNNathornthwaite0mreynault01PGnJuDB9uNNathornthwaite0mreynault01PGnJuDB9uNNathornthwaite0mreynault01PGnJuDB9uNNathornthwaite0mreynault01PGnJuDB9uNNathornthwaite0mreynault01PGnJuDB9uNNathornthwaite0mreynault01PGnJuDB9uNNathornthwaite0mreynault01PGnJuDB9uNNmreynault01PGnJuDB9uNNathornthwaite0mreynault1PGnJuDB9uNNathornthwaite0mreynault01PGnJuDB9uNNathornthwaite0mreynault01PGnJuDB9uNNathornthwaite0mreynault01PGnJuDB9uNNatho@thetimes.co.uk";
+
         [TestMethod]
-        public void WriteQuestionToDatabase_IsValid()
+        public void WriteQuestionToDatabase_IsValid_True()
         {
             Mock<IQuestionContext> mockContext = new Mock<IQuestionContext>();
             Mock<Category> _category = new Mock<Category>("Medisch");
@@ -22,6 +24,29 @@ namespace UnitTests
             var _questionLogic = new QuestionLogic(mockContext.Object);
             _questionLogic.WriteQuestionToDatabase(_question.Object);
             mockContext.Verify(x => x.WriteQuestionToDatabase(_question.Object), Times.Exactly(1));
+        }
+
+        [TestMethod]
+        public void WriteQuestionToDatabase_IsValid_False()
+        {
+            Mock<IQuestionContext> mockContext = new Mock<IQuestionContext>();
+
+            Mock<Category> _category = new Mock<Category>("Medisch");
+
+            //To much characters
+            Mock<Question> _question = new Mock<Question>(1, MockMaxCharacters, "baa", Question.QuestionStatus.Open, DateTime.Today, true, _category.Object, 12);
+            Mock<Question> _question2 = new Mock<Question>(1, "sup", MockMaxCharacters, Question.QuestionStatus.Open, DateTime.Today, true, _category.Object, 12);
+
+            //Empty properties
+            Mock<Question> _question3 = new Mock<Question>(1, "", "baa", Question.QuestionStatus.Open, DateTime.Today, true, _category.Object, 12);
+            Mock<Question> _question4 = new Mock<Question>(1, "sup", "", Question.QuestionStatus.Open, DateTime.Today, true, _category.Object, 12);
+            QuestionLogic _questionLogic = new QuestionLogic(mockContext.Object);
+
+            Assert.ThrowsException<ArgumentException>(() => _questionLogic.WriteQuestionToDatabase(_question.Object));
+            Assert.ThrowsException<ArgumentException>(() => _questionLogic.WriteQuestionToDatabase(_question2.Object));
+
+            Assert.ThrowsException<ArgumentException>(() => _questionLogic.WriteQuestionToDatabase(_question3.Object));
+            Assert.ThrowsException<ArgumentException>(() => _questionLogic.WriteQuestionToDatabase(_question4.Object));
         }
 
         [TestMethod]
@@ -98,5 +123,7 @@ namespace UnitTests
             mockContext.Verify(x => x.EditQuestion(_question.Object), Times.Exactly(1));
 
         }
+
+
     }
 }
