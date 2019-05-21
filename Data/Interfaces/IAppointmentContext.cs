@@ -10,5 +10,6 @@ namespace Data.Interfaces
     public interface IAppointmentContext
     {
         void CreateAppointment(Appointment appointment);
+        List<Appointment> GetAllAppointmentsFromUser(int userId);
     }
 }

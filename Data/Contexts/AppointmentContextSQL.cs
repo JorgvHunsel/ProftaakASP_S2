@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using Data.Interfaces;
@@ -22,7 +23,9 @@ namespace Data.Contexts
                     cmd.Parameters.AddWithValue("@questionID", appointment.QuestionId);
                     cmd.Parameters.AddWithValue("@careRecipientID", appointment.CareRecipientId);
                     cmd.Parameters.AddWithValue("@volunteerID", appointment.VolunteerId);
-                    cmd.Parameters.AddWithValue("@timestampAppointment", appointment.TimeStamp);
+                    cmd.Parameters.AddWithValue("@timestampAppointment", appointment.TimeStampAppointment);
+                    cmd.Parameters.AddWithValue("@timestampCreation", appointment.TimeStampCreation);
+                    cmd.Parameters.AddWithValue("@location", appointment.Location);
 
                     cmd.ExecuteNonQuery();
                 }
@@ -30,6 +33,46 @@ namespace Data.Contexts
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                throw;
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
+
+        public List<Appointment> GetAllAppointmentsFromUser(int userId)
+        {
+            List<Appointment> appointments = new List<Appointment>();
+            try
+            {
+                SqlCommand cmd = new SqlCommand("GetAllAppointmentsFromUser", _conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@userId", SqlDbType.Int).Value = userId;
+
+                _conn.Open();
+
+                DataTable dt = new DataTable();
+                dt.Load(cmd.ExecuteReader());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    int appointmentId = Convert.ToInt32(dr["Appointment_ID"]);
+                    int questionId = Convert.ToInt32(dr["Question_ID"]);
+                    int careRecipientId = Convert.ToInt32(dr["CareRecipient_ID"]);
+                    int volunteerId = Convert.ToInt32(dr["Volunteer_ID"]);
+                    DateTime timestampCreation = Convert.ToDateTime(dr["TimeStamp_creation"]);
+                    DateTime timestampAppointment = Convert.ToDateTime(dr["TimeStamp_appointment"]);
+                    string location = dr["Location"].ToString();
+
+                    appointments.Add(new Appointment(appointmentId, questionId, careRecipientId, volunteerId, timestampCreation, timestampAppointment, location));
+                }
+
+                return appointments;
+            }
+            catch (Exception e)
+            {
+
                 throw;
             }
             finally
