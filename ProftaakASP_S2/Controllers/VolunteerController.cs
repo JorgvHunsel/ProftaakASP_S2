@@ -68,11 +68,6 @@ namespace ProftaakASP_S2.Controllers
             }
         }
 
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
         public ActionResult ChatOverview()
         {
             List<ChatViewModel> chatView = new List<ChatViewModel>();
@@ -90,7 +85,7 @@ namespace ProftaakASP_S2.Controllers
         {
             ViewBag.Firstname = _userLogic.GetUserById(careRecipientId).FirstName;
 
-            return View("Chat/CreateAppointment");
+            return View("Appointment/CreateAppointment");
         }
 
  
