@@ -129,10 +129,11 @@ namespace ProftaakASP_S2.Controllers
         [HttpPost]
         public ActionResult CreateProfessional(string emailaddress)
         {
-            //mail
-
-            //
-
+            if (_userLogic.SendEmailProfessional(emailaddress))
+            {
+                return
+            }
+            
 
             return View("Error");
         }
