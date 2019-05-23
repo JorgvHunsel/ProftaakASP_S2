@@ -55,7 +55,6 @@ namespace Models
             UserAccountType = accountType;
             Password = password;
         }
-
         
     }
 }
