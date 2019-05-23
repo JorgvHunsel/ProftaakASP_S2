@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -32,7 +34,7 @@ namespace Logic
             if (password.Length > 50)
                 throw new ArgumentException("Password can't be too long");
 
-            
+
             return _user.CheckValidityUser(email, password);
         }
 
@@ -48,7 +50,8 @@ namespace Logic
 
         public void AddNewUser(User newUser)
         {
-            newUser.Password = Hasher.SecurePasswordHasher.Hash(newUser.Password);
+            if (newUser.UserAccountType != User.AccountType.Professional)
+                newUser.Password = Hasher.SecurePasswordHasher.Hash(newUser.Password);
 
             _user.AddNewUser(newUser);
         }
@@ -83,6 +86,45 @@ namespace Logic
             return _user.GetUserById(userId);
         }
 
+        public bool SendEmailProfessional(string emailaddress)
+        {
+            
+            try
+            {
+                var fromAddress = new MailAddress("maileye4participation@gmail.com", "NoReply Eye4Participation");
+                var toAddress = new MailAddress(emailaddress);
+                const string fromPassword = "Test1234!";
+                const string subject = "New professional acocunt";
+                const string body = "Body";
+
+                var smtp = new SmtpClient
+                {
+                    Host = "smtp.gmail.com",
+                    Port = 587,
+                    EnableSsl = true,
+                    DeliveryMethod = SmtpDeliveryMethod.Network,
+                    UseDefaultCredentials = false,
+                    Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
+                };
+                using (var message = new MailMessage(fromAddress, toAddress)
+                {
+                    Subject = subject,
+                    Body = body
+                })
+                {
+                    smtp.Send(message);
+                }
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+        }
+
+
+        
 
     }
 }

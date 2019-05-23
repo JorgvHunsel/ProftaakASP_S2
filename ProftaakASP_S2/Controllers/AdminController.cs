@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Logic;
@@ -117,5 +119,24 @@ namespace ProftaakASP_S2.Controllers
 
             return View("LogOverview", logList);
         }
+
+        [HttpGet]
+        public ActionResult CreateProfessional()
+        {
+            return View("CreateProfessional");
+        }
+
+        [HttpPost]
+        public ActionResult CreateProfessional(string emailaddress)
+        {
+            if (_userLogic.SendEmailProfessional(emailaddress))
+            {
+                return
+            }
+            
+
+            return View("Error");
+        }
+
     }
 }
