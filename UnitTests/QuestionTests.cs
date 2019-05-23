@@ -124,6 +124,45 @@ namespace UnitTests
 
         }
 
+        [TestMethod]
+        public void DeleteQuestion_IsValid()
+        {
+            Mock<IQuestionContext> mockContext = new Mock<IQuestionContext>();
+            Mock<Category> _category = new Mock<Category>("Medisch");
+            Mock<Question> _question = new Mock<Question>(1, "foo", "baa", Question.QuestionStatus.Open, DateTime.Today, true, _category.Object, 12);
+            mockContext.Setup(x => x.DeleteQuestionFromDatabase(_question.Object));
+
+            var _questionLogic = new QuestionLogic(mockContext.Object);
+            _questionLogic.DeleteQuestionFromDatabase(_question.Object);
+
+            mockContext.Verify(x => x.DeleteQuestionFromDatabase(_question.Object), Times.Exactly(1));
+        }
+
+        [TestMethod]
+        public void GetAllQuestions_IsValid()
+        {
+            Mock<IQuestionContext> mockContext = new Mock<IQuestionContext>();
+
+            var _questionLogic = new QuestionLogic(mockContext.Object);
+            _questionLogic.GetAllQuestions();
+
+            mockContext.Verify(x => x.GetAllQuestions(), Times.Exactly(1));
+        }
+
+        [TestMethod]
+        public void ChangeQuestionStatus_IsValid()
+        {
+            Mock<IQuestionContext> mockContext = new Mock<IQuestionContext>();
+            Mock<Category> _category = new Mock<Category>("Medisch");
+            Mock<Question> _question = new Mock<Question>(1, "foo", "baa", "Open", DateTime.Today, true, _category.Object, 12);
+
+            QuestionLogic _questionLogic = new QuestionLogic(mockContext.Object);
+
+            _questionLogic.ChangeStatus(_question.Object.QuestionId, "Open");
+
+            // mockContext.Verify(x => x.ChangeQuestionStatus(_question.Object.QuestionId), Times.Exactly(1));
+            Assert.AreEqual(_question.Object.Status, "Closed");
+        }
 
     }
 }
