@@ -40,7 +40,11 @@
 
                     @if (chat.Status)
                     {
-                        @Html.ActionLink("Verwijder", "ChangeStatusChat", new { chatlogId = chat.ChatLogID })
+                        @Html.ActionLink("Stop chat", "ChangeStatusChat", new { chatlogId = chat.ChatLogID })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Start chat", "ChangeStatusChat", new { chatlogId = chat.ChatLogID })
                     }
                 </td>
             </tr>
