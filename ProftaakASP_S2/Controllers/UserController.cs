@@ -50,8 +50,10 @@ namespace ProftaakASP_S2.Controllers
                     return RedirectToAction("QuestionOverview", "Admin");
                 if (newCustomer.UserAccountType == global::Models.User.AccountType.Volunteer)
                     return RedirectToAction("QuestionOverview", "Volunteer");
-
+                if (newCustomer.UserAccountType == global::Models.User.AccountType.Professional)
+                    return RedirectToAction("QuestionOverview", "Professional");
                 return RedirectToAction("Overview", "CareRecipient");
+                
 
 
             }
@@ -122,6 +124,41 @@ namespace ProftaakASP_S2.Controllers
                 }
 
 
+            }
+            catch (FormatException e)
+            {
+                ViewBag.Message = "De geboortedatum is onjuist ingevoerd";
+                return View();
+            }
+
+
+            return RedirectToAction("Login");
+        }
+
+        [HttpGet]
+        public ActionResult CreateAccountProfessional()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreateAccountProfessional(UserViewModel userViewModel, string password, string passwordValidation)
+        {
+            try
+            {
+                if (password == passwordValidation)
+                {
+                    _userLogic.AddNewUser(new CareRecipient(userViewModel.FirstName, userViewModel.LastName,
+                        userViewModel.Address, userViewModel.City, userViewModel.PostalCode,
+                        userViewModel.EmailAddress, Convert.ToDateTime(userViewModel.BirthDate),
+                        (User.Gender)Enum.Parse(typeof(User.Gender), userViewModel.UserGender), true,
+                        global::Models.User.AccountType.Professional, password));
+                }
+                else
+                {
+                    ViewBag.Message = "De wachtwoorden komen niet overheen";
+                    return View();
+                }
             }
             catch (FormatException e)
             {

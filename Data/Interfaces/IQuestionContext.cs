@@ -19,5 +19,6 @@ namespace Data.Interfaces
         List<Question> GetAllClosedQuestionsCareRecipientID(int careRecipientId);
         List<Question> GetAllQuestions();
         void DeleteQuestionFromDatabase(Question askedQuestion);
+        List<Question> GetAllQuestionsProfessional(int userid, string status);
     }
 }

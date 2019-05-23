@@ -50,8 +50,7 @@ namespace Logic
 
         public void AddNewUser(User newUser)
         {
-            if (newUser.UserAccountType != User.AccountType.Professional)
-                newUser.Password = Hasher.SecurePasswordHasher.Hash(newUser.Password);
+            newUser.Password = Hasher.SecurePasswordHasher.Hash(newUser.Password);
 
             _user.AddNewUser(newUser);
         }

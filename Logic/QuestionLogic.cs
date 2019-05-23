@@ -41,6 +41,11 @@ namespace Logic
             _question.DeleteQuestionFromDatabase(askedQuestion);
         }
 
+        public List<Question> GetAllQuestionsProfessional(int userid, string statusrequest)
+        {
+            return _question.GetAllQuestionsProfessional(userid, statusrequest);
+        }
+
         public List<Question> GetAllOpenQuestions()
         {
             return _question.GetAllOpenQuestions();
