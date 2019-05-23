@@ -23,5 +23,7 @@ namespace Data.Interfaces
         void DeleteChatLogFromDatabase(ChatLog chatLog);
         void DeleteMessagesFromDatabase(ChatLog chatLog);
         List<ChatLog> GetAllChatLogs();
+        ChatLog GetSingleChatLog(int chatLogId);
+        void ChangeChatStatus(ChatLog chatLog);
     }
 }

@@ -38,6 +38,7 @@ namespace Data.Contexts
                     string careRecipientFirstName = dr["CareRecipientFirstName"].ToString();
                     string careRecipientLastName = dr["CareRecipientLastName"].ToString();
                     int questionID = Convert.ToInt32(dr["QuestionID"].ToString());
+                    bool status = Convert.ToBoolean(dr["Status"].ToString());
 
                     string volunteerFirstName = dr["VolunteerFirstName"].ToString();
                     string volunteerLastName = dr["VolunteerLastName"].ToString();
@@ -45,7 +46,7 @@ namespace Data.Contexts
                     DateTime timeStamp = Convert.ToDateTime(dr["TimeStamp"].ToString());
 
 
-                    ChatLog chatLog = new ChatLog(chatLogID, questionTitle, careRecipientID, volunteerID, careRecipientFirstName, careRecipientLastName, volunteerFirstName, volunteerLastName, timeStamp, questionID);
+                    ChatLog chatLog = new ChatLog(chatLogID, questionTitle, careRecipientID, volunteerID, careRecipientFirstName, careRecipientLastName, volunteerFirstName, volunteerLastName, timeStamp, questionID, status);
                     chatLogList.Add(chatLog);
                 }
 
@@ -84,13 +85,14 @@ namespace Data.Contexts
                     string careRecipientFirstName = dr["CareRecipientFirstName"].ToString();
                     string careRecipientLastName = dr["CareRecipientLastName"].ToString();
                     int questionID = Convert.ToInt32(dr["QuestionID"].ToString());
+                    bool status = Convert.ToBoolean(dr["Status"].ToString());
 
                     string volunteerFirstName = dr["VolunteerFirstName"].ToString();
                     string volunteerLastName = dr["VolunteerLastName"].ToString();
 
                     DateTime timeStamp = Convert.ToDateTime(dr["TimeStamp"].ToString());
 
-                    ChatLog chatLog = new ChatLog(chatLogID, questionTitle, careRecipientID, volunteerID, careRecipientFirstName, careRecipientLastName, volunteerFirstName, volunteerLastName, timeStamp, questionID);
+                    ChatLog chatLog = new ChatLog(chatLogID, questionTitle, careRecipientID, volunteerID, careRecipientFirstName, careRecipientLastName, volunteerFirstName, volunteerLastName, timeStamp, questionID, status);
                     chatLogList.Add(chatLog);
                 }
                 return chatLogList;
@@ -122,13 +124,14 @@ namespace Data.Contexts
 
                 foreach (DataRow dr in dt.Rows)
                 {
-                    int chatLogID = Convert.ToInt32(dr["ChatLogID"].ToString());
+                    int chatLogID = Convert.ToInt32(dr["ChatLogID"]);
                     string questionTitle = (dr["Title"].ToString());
-                    int careRecipientID = Convert.ToInt32(dr["CareRecipientID"].ToString());
-                    int volunteerID = Convert.ToInt32(dr["VolunteerID"].ToString());
+                    int careRecipientID = Convert.ToInt32(dr["CareRecipientID"]);
+                    int volunteerID = Convert.ToInt32(dr["VolunteerID"]);
                     string careRecipientFirstName = dr["CareRecipientFirstName"].ToString();
                     string careRecipientLastName = dr["CareRecipientLastName"].ToString();
-                    int questionID = Convert.ToInt32(dr["QuestionID"].ToString());
+                    int questionID = Convert.ToInt32(dr["QuestionID"]);
+                    bool status = Convert.ToBoolean(dr["ChatLogStatus"]);
 
                     string volunteerFirstName = dr["VolunteerFirstName"].ToString();
                     string volunteerLastName = dr["VolunteerLastName"].ToString();
@@ -136,7 +139,7 @@ namespace Data.Contexts
                     DateTime timeStamp = Convert.ToDateTime(dr["TimeStamp"].ToString());
 
 
-                    ChatLog chatLog = new ChatLog(chatLogID, questionTitle, careRecipientID, volunteerID, careRecipientFirstName, careRecipientLastName, volunteerFirstName, volunteerLastName, timeStamp, questionID);
+                    ChatLog chatLog = new ChatLog(chatLogID, questionTitle, careRecipientID, volunteerID, careRecipientFirstName, careRecipientLastName, volunteerFirstName, volunteerLastName, timeStamp, questionID, status);
                     chatLogList.Add(chatLog);
                 }
 
@@ -272,6 +275,7 @@ namespace Data.Contexts
                 cmd.Parameters.Add("@reactionID", SqlDbType.Int).Value = reactionID;
                 cmd.Parameters.Add("@volunteerID", SqlDbType.Int).Value = volunteerID;
                 cmd.Parameters.Add("@careRecipientID", SqlDbType.Int).Value = careRecipientID;
+                cmd.Parameters.Add("@status", SqlDbType.Bit).Value = true;
 
                 SqlParameter sqlP = new SqlParameter("@identity", SqlDbType.Int);
                 sqlP.Direction = ParameterDirection.Output;
@@ -339,6 +343,56 @@ namespace Data.Contexts
         }
         //End Wesley
 
+        public ChatLog GetSingleChatLog(int chatLogId)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("GetChatLogById", _conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@chatLogId", SqlDbType.Int).Value = chatLogId;
+                _conn.Open();
+
+                DataTable dt = new DataTable();
+                dt.Load(cmd.ExecuteReader());
+
+
+                int reactionId = Convert.ToInt32(dt.Rows[0]["ReactionID"]);
+                int volunteerId = Convert.ToInt32(dt.Rows[0]["VolunteerID"]);
+                int carerecipientId = Convert.ToInt32(dt.Rows[0]["CareRecipientID"]);
+                DateTime timeStamp = Convert.ToDateTime(dt.Rows[0]["TimeStamp"]);
+                bool status = Convert.ToBoolean(dt.Rows[0]["Status"]);
+
+                return new ChatLog(chatLogId, carerecipientId, volunteerId, timeStamp, status);
+
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
+
+        public void ChangeChatStatus(ChatLog chatLog)
+        {
+            try
+            {
+                _conn.Open();
+                SqlCommand cmd = new SqlCommand("ChatLogChangeStatus", _conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@ChatLogId", SqlDbType.Int).Value = chatLog.ChatLogID;
+                cmd.Parameters.Add("@Status", SqlDbType.Bit).Value = chatLog.Status;
+
+                cmd.ExecuteNonQuery();
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
 
     }
 }

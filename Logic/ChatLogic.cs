@@ -67,6 +67,16 @@ namespace Logic
         }
 
         public int CreateNewChatLog(int reactionID, int volunteerID, int careRecipientID) =>
-            _chat.CreateNewChatLog(reactionID, volunteerID, careRecipientID); 
+            _chat.CreateNewChatLog(reactionID, volunteerID, careRecipientID);
+
+        public ChatLog GetSingleChatLog(int chatLogId)
+        {
+            return _chat.GetSingleChatLog(chatLogId);
+        }
+
+        public void ChangeChatStatus(ChatLog chatLog)
+        {
+            _chat.ChangeChatStatus(chatLog);
+        }
     }
 }
