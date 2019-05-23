@@ -66,6 +66,7 @@ namespace Logic
 
         public void ChangeStatus(int id, string status)
         {
+           
             _question.ChangeQuestionStatus(id, status == "Open" ? "Closed" : "Open");
         }
 

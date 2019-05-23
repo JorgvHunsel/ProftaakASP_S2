@@ -19,9 +19,10 @@ namespace Models
         public DateTime TimeStamp { get; private set; }
         public List<ChatMessage> Messages = new List<ChatMessage>();
         public int QuestionID { get; private set; }
+        public bool Status { get; set; }
 
 
-        public ChatLog(int chatLogId, string questionTitle, int careRecipientId, int volunteerId, string careRecipientFirstName, string careRecipientLastName, string volunteerFirstName, string volunteerLastName, DateTime timeStamp, int questionID)
+        public ChatLog(int chatLogId, string questionTitle, int careRecipientId, int volunteerId, string careRecipientFirstName, string careRecipientLastName, string volunteerFirstName, string volunteerLastName, DateTime timeStamp, int questionID, bool status)
         {
             ChatLogID = chatLogId;
             QuestionTitle = questionTitle;
@@ -33,6 +34,16 @@ namespace Models
             VolunteerLastName = volunteerLastName;
             TimeStamp = timeStamp;
             QuestionID = questionID;
+            Status = status;
+        }
+
+        public ChatLog(int chatLogId, int careRecipientId, int volunteerId, DateTime timeStamp, bool status)
+        {
+            ChatLogID = chatLogId;
+            CareRecipientID = careRecipientId;
+            VolunteerID = volunteerId;
+            TimeStamp = timeStamp;
+            Status = status;
         }
 
         public ChatLog(int chatLogId)

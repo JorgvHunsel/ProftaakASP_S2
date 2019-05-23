@@ -19,8 +19,8 @@ namespace UnitTests
         {
             
             Mock<IAppointmentContext> mockContext = new Mock<IAppointmentContext>();
-            Appointment appointment = new Mock<Appointment>(1, 3, 2, DateTime.Today).Object;
-            mockContext.Setup(x => x.CreateAppointment(It.IsAny<Appointment>()));
+            Appointment appointment = new Mock<Appointment>(1, 3, 2, DateTime.Today,DateTime.Today,"Test").Object;
+            mockContext.Setup(x => x.CreateAppointment(appointment));
 
             var _appointmentLogic = new AppointmentLogic(mockContext.Object);
             _appointmentLogic.CreateAppointment(appointment);

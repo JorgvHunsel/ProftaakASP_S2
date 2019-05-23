@@ -16,6 +16,7 @@ namespace ProftaakASP_S2.Models
         public int QuestionId { get; set; }
         public int VolunteerId { get; set; }
         public int CareRecipientId { get; set; }
+        public bool Status { get; set; }
 
         public ChatViewModel(ChatLog chat)
         {
@@ -27,6 +28,7 @@ namespace ProftaakASP_S2.Models
             QuestionId = chat.QuestionID;
             VolunteerId = chat.VolunteerID;
             CareRecipientId = chat.CareRecipientID;
+            Status = chat.Status;
         }
 
         public ChatViewModel(int chatlogId)

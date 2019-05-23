@@ -19,14 +19,17 @@ namespace ProftaakASP_S2.Controllers
         private readonly ReactionLogic _reactionLogic;
         private readonly UserLogic _userLogic;
         private readonly ChatLogic _chatLogic;
+        private readonly AppointmentLogic _appointmentLogic;
+        
 
-        public CareRecipientController(QuestionLogic questionLogic, CategoryLogic categoryLogic, ReactionLogic reactionLogic, UserLogic userLogic, ChatLogic chatLogic)
+        public CareRecipientController(QuestionLogic questionLogic, CategoryLogic categoryLogic, ReactionLogic reactionLogic, UserLogic userLogic, ChatLogic chatLogic, AppointmentLogic appointmentLogic)
         {
             _questionLogic = questionLogic;
             _categoryLogic = categoryLogic;
             _reactionLogic = reactionLogic;
             _userLogic = userLogic;
             _chatLogic = chatLogic;
+            _appointmentLogic = appointmentLogic;
         }
 
         public ActionResult Overview()
@@ -150,7 +153,6 @@ namespace ProftaakASP_S2.Controllers
             }
         }
         
-        
         public ActionResult ChangeStatus(int id, string status, string path)
         {
             string[] redirectUrl = path.Split("/");
@@ -166,7 +168,6 @@ namespace ProftaakASP_S2.Controllers
             }
         }
 
-        
         public ActionResult CreateChat(int reactionId, int volunteerId)
         {
             int id = _chatLogic.CreateNewChatLog(reactionId, volunteerId, Convert.ToInt32(Request.Cookies["id"]));
@@ -181,7 +182,6 @@ namespace ProftaakASP_S2.Controllers
             return RedirectToAction(nameof(Overview));
         }
 
-
         public ActionResult ChatOverview()
         {
             List<ChatViewModel> chatView = new List<ChatViewModel>();
@@ -193,11 +193,11 @@ namespace ProftaakASP_S2.Controllers
             return View("../CareRecipient/Chat/Overview", chatView);
         }
 
-        
         public ActionResult OpenChat(int id, string volunteerName, string careRecipientName, int volunteerId)
         {
             List<MessageViewModel> messageView = new List<MessageViewModel>();
-            MessageViewModel2 messageView2 = new MessageViewModel2(volunteerId ,Convert.ToInt32(Request.Cookies["id"]), id);
+
+            MessageViewModel2 messageView2 = new MessageViewModel2(volunteerId ,Convert.ToInt32(Request.Cookies["id"]), id, _chatLogic.GetSingleChatLog(id).Status);
             
             foreach (ChatMessage cMessage in _chatLogic.LoadMessageListWithChatID(id))
             {
@@ -213,6 +213,20 @@ namespace ProftaakASP_S2.Controllers
         {
             _chatLogic.SendMessage(mvMessageViewModel2.ChatLogId, mvMessageViewModel2.ReceiverId, mvMessageViewModel2.SenderId, mvMessageViewModel2.NewMessage);
             return RedirectToAction(nameof(ChatOverview));
+        }
+
+
+        public ActionResult ChangeStatusChat(int chatlogId)
+        {
+            ChatLog chatLog = _chatLogic.GetSingleChatLog(chatlogId);
+
+            chatLog.Status = !chatLog.Status;
+
+            _chatLogic.ChangeChatStatus(chatLog);
+
+            _appointmentLogic.DeleteAppointmentByChat(chatlogId);
+
+            return RedirectToAction("ChatOverview");
         }
 
     }
