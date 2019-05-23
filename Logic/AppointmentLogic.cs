@@ -20,5 +20,15 @@ namespace Logic
 
         public void CreateAppointment(Appointment appointment) =>
             _appointment.CreateAppointment(appointment);
+
+        public List<Appointment> GetAllAppointmentsFromUser(int userId)
+        {
+            return _appointment.GetAllAppointmentsFromUser(userId);
+        }
+
+        public void DeleteAppointment(int appointmentId)
+        {
+            _appointment.DeleteAppointment(appointmentId);
+        }
     }
 }

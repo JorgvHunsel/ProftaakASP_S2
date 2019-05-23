@@ -32,7 +32,7 @@ namespace Logic
             if (password.Length > 50)
                 throw new ArgumentException("Password can't be too long");
 
-            
+
             return _user.CheckValidityUser(email, password);
         }
 
@@ -48,7 +48,8 @@ namespace Logic
 
         public void AddNewUser(User newUser)
         {
-            newUser.Password = Hasher.SecurePasswordHasher.Hash(newUser.Password);
+            if (newUser.UserAccountType != User.AccountType.Professional)
+                newUser.Password = Hasher.SecurePasswordHasher.Hash(newUser.Password);
 
             _user.AddNewUser(newUser);
         }

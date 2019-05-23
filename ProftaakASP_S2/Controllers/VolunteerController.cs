@@ -30,7 +30,6 @@ namespace ProftaakASP_S2.Controllers
             _appointmentLogic = appointmentLogic;
         }
 
-        // GET: QuestionVolunteer
         public ActionResult QuestionOverview()
         {
             List<QuestionViewModel> questionView = new List<QuestionViewModel>();
@@ -42,42 +41,11 @@ namespace ProftaakASP_S2.Controllers
             return View("../Volunteer/Question/Overview", questionView);
         }
 
-        // GET: QuestionVolunteer/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: QuestionVolunteer/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: QuestionVolunteer/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction(nameof(QuestionOverview));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: QuestionVolunteer/Create
         public ActionResult ReactionCreate(QuestionViewModel questionViewModel)
         {
             return View("../Volunteer/Question/ReactionCreate", new ReactionViewModel(questionViewModel.QuestionId, questionViewModel.Title, questionViewModel.CareRecipientName));
         }
 
-        // POST: QuestionVolunteer/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult ReactionCreate(ReactionViewModel reactionViewModel)
@@ -100,52 +68,6 @@ namespace ProftaakASP_S2.Controllers
             }
         }
 
-        // GET: QuestionVolunteer/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: QuestionVolunteer/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction(nameof(QuestionOverview));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: QuestionVolunteer/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: QuestionVolunteer/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction(nameof(QuestionOverview));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
         public ActionResult ChatOverview()
         {
             List<ChatViewModel> chatView = new List<ChatViewModel>();
@@ -153,7 +75,7 @@ namespace ProftaakASP_S2.Controllers
             {
                 chatView.Add(new ChatViewModel(chatLog));
             }
-            return View("Chat/Overview", chatView);
+            return View("../Volunteer/Chat/Overview", chatView);
         }
 
 
@@ -163,14 +85,51 @@ namespace ProftaakASP_S2.Controllers
         {
             ViewBag.Firstname = _userLogic.GetUserById(careRecipientId).FirstName;
 
-            return View("Chat/CreateAppointment");
+            return View("Appointment/CreateAppointment");
         }
 
  
         public ActionResult CreateAppointment(AppointmentViewModel appointmentView)
         {
-            _appointmentLogic.CreateAppointment(new Appointment(appointmentView.QuestionId, appointmentView.CareRecipientId, appointmentView.VolunteerId, appointmentView.TimeStamp));
+            _appointmentLogic.CreateAppointment(new Appointment(appointmentView.QuestionId, appointmentView.CareRecipientId, appointmentView.VolunteerId, DateTime.Now, appointmentView.TimeStamp, appointmentView.Location));
             return RedirectToAction("ChatOverview");
+        }
+
+        public ActionResult AppointmentOverview()
+        {
+            List<AppointmentViewModel> appointmentViews = new List<AppointmentViewModel>();
+            foreach (Appointment appointment in _appointmentLogic.GetAllAppointmentsFromUser(Convert.ToInt32(Request.Cookies["id"])))
+            {
+                appointmentViews.Add(new AppointmentViewModel(appointment, _questionLogic.GetSingleQuestion(appointment.QuestionId), _userLogic.GetUserById(appointment.CareRecipientId)));
+            }
+
+            return View("Appointment/Overview", appointmentViews);
+        }
+
+        public ActionResult DeleteAppointment(int appointmentId)
+        {
+            _appointmentLogic.DeleteAppointment(appointmentId);
+            return RedirectToAction("AppointmentOverview");
+        }
+
+        public ActionResult OpenChat(int id, string volunteerName, string careRecipientName, int careRecipientId)
+        {
+            List<MessageViewModel> messageView = new List<MessageViewModel>();
+            MessageViewModel2 messageView2 = new MessageViewModel2(careRecipientId, Convert.ToInt32(Request.Cookies["id"]), id);
+
+            foreach (ChatMessage cMessage in _chatLogic.LoadMessageListWithChatID(id))
+            {
+                messageView.Add(new MessageViewModel(cMessage, Convert.ToInt32(Request.Cookies["id"]), volunteerName, careRecipientName));
+            }
+
+            messageView2.Messages = messageView;
+            return View("../Volunteer/Chat/OpenChat", messageView2);
+        }
+
+        public ActionResult NewMessage(MessageViewModel2 mvMessageViewModel2)
+        {
+            _chatLogic.SendMessage(mvMessageViewModel2.ChatLogId, mvMessageViewModel2.ReceiverId, mvMessageViewModel2.SenderId, mvMessageViewModel2.NewMessage);
+            return RedirectToAction(nameof(ChatOverview));
         }
     }
 }

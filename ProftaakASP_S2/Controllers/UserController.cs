@@ -13,10 +13,12 @@ namespace ProftaakASP_S2.Controllers
     public class UserController : Controller
     {
         private readonly UserLogic _userLogic;
+        private readonly LogLogic _logLogic;
 
-        public UserController(UserLogic userLogic)
+        public UserController(UserLogic userLogic, LogLogic logLogic)
         {
             _userLogic = userLogic;
+            _logLogic = logLogic;
         }
 
         [HttpGet]
@@ -136,6 +138,58 @@ namespace ProftaakASP_S2.Controllers
         {
             User currentUser = _userLogic.GetCurrentUserInfo(Request.Cookies["email"]);
             return View("AccountOverview", new UserViewModel(currentUser));
+        }
+
+        [HttpGet]
+        public ActionResult EditAccount()
+        {
+            User user = _userLogic.GetUserById(Convert.ToInt32(Request.Cookies["id"]));
+
+            return View("EditAccount", new UserViewModel(user));
+        }
+
+
+        [HttpPost]
+        public ActionResult EditAccount(UserViewModel userView)
+        {
+            if (userView.UserAccountType == global::Models.User.AccountType.CareRecipient)
+            {
+                _userLogic.EditUser(new CareRecipient(userView.UserId ,userView.FirstName, userView.LastName,
+                    userView.Address, userView.City, userView.PostalCode,
+                    userView.EmailAddress, Convert.ToDateTime(userView.BirthDate),
+                    (User.Gender)Enum.Parse(typeof(User.Gender), userView.UserGender), true,
+                    global::Models.User.AccountType.CareRecipient, ""), "");
+            }
+            else if (userView.UserAccountType == global::Models.User.AccountType.Admin)
+            {
+                _userLogic.EditUser(new Admin(userView.UserId, userView.FirstName, userView.LastName,
+                    userView.Address, userView.City, userView.PostalCode,
+                    userView.EmailAddress, Convert.ToDateTime(userView.BirthDate),
+                    (User.Gender)Enum.Parse(typeof(User.Gender), userView.UserGender), true,
+                    global::Models.User.AccountType.Admin, ""), "");
+            }
+            else
+            {
+                _userLogic.EditUser(new Volunteer(userView.UserId, userView.FirstName, userView.LastName, userView.Address,
+                        userView.City, userView.PostalCode, userView.EmailAddress,
+                        Convert.ToDateTime(userView.BirthDate), (User.Gender)Enum.Parse(typeof(User.Gender), userView.UserGender), true,
+                        global::Models.User.AccountType.Volunteer, "") ,"");
+            }
+
+
+            return RedirectToAction("AccountOverview");
+        }
+        public ActionResult BlockUser(int userId)
+        {
+            User updatedUser = _userLogic.GetUserById(userId);
+
+            updatedUser.Status = !updatedUser.Status;
+
+            _userLogic.EditUser(updatedUser, "");
+
+            _logLogic.CreateUserLog(Convert.ToInt32(Request.Cookies["id"]), updatedUser);
+
+            return RedirectToAction("Logout");
         }
     }
 }

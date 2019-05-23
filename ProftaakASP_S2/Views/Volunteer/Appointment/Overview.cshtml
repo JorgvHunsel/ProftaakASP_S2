@@ -1,0 +1,48 @@
+﻿@model IEnumerable<ProftaakASP_S2.Models.AppointmentViewModel>
+
+@{
+    ViewData["Title"] = "Overview";
+}
+
+<h2>Jouw afpsraken</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Naam hulpbehoevende
+            </th>
+            <th>
+                Tijdstip
+            </th>
+            <th>
+                Onderwerp
+            </th>
+            <th>
+                Locatie
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.CareRecipientName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimeStamp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuestionTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "DeleteAppointment", new {  appointmentId = item.AppointmentId })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
