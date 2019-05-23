@@ -40,6 +40,7 @@ namespace UnitTests
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(List<Reaction>));
+            mockContext.Verify(x => x.GetAllCommentsWithQuestionID(1), Times.Exactly(1));
         }
     }
 }
