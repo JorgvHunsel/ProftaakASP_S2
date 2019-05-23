@@ -134,7 +134,7 @@ namespace ProftaakASP_S2.Controllers
         [HttpGet]
         public ActionResult AccountOverview()
         {
-            User currentUser = _userLogic.getCurrentUserInfo(Request.Cookies["email"]);
+            User currentUser = _userLogic.GetCurrentUserInfo(Request.Cookies["email"]);
             return View("AccountOverview", new UserViewModel(currentUser));
         }
     }
