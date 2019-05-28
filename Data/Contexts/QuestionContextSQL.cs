@@ -117,6 +117,41 @@ namespace Data.Contexts
             }
         }
 
+        public List<Question> GetAllClosedQuestionsVolunteer(int volunteerId)
+        {
+            try
+            {
+                List<Question> questionList = new List<Question>();
+
+                SqlCommand cmd = new SqlCommand("SelectAllClosedQuestionsVolunteer", _conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@VolunteerId", SqlDbType.Int).Value = volunteerId;
+                _conn.Open();
+
+                DataTable dt = new DataTable();
+                dt.Load(cmd.ExecuteReader());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    int questionId = Convert.ToInt32(dr["QuestionID"]);
+                    string title = dr["Title"].ToString();
+                    string content = dr["Description"].ToString();
+                    DateTime date = Convert.ToDateTime(dr["Datetime"].ToString());
+                    bool urgency = Convert.ToBoolean(dr["Urgency"]);
+                    Category category = new Category(0, dr["Name"].ToString(), null);
+                    int careRecipientId = Convert.ToInt32(dr["CareRecipientID"].ToString());
+
+                    questionList.Add(new Question(questionId, title, content, Question.QuestionStatus.Closed, date, urgency, category, careRecipientId));
+                }
+
+                return questionList;
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
+
         public List<Question> GetAllQuestionsProfessional(int userid, string statusrequest)
         {
             try

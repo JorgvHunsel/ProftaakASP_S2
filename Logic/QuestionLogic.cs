@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Data.Contexts;
-using Data.Interfaces;
+﻿using Data.Interfaces;
 using Models;
+using System;
+using System.Collections.Generic;
 
 
 namespace Logic
@@ -23,7 +17,7 @@ namespace Logic
 
         public void WriteQuestionToDatabase(Question askedQuestion)
         {
-            if(askedQuestion.Title == "")
+            if (askedQuestion.Title == "")
                 throw new ArgumentException("Title can't be empty");
             if (askedQuestion.Title.Length > 100)
                 throw new ArgumentException("Title can't be too long");
@@ -51,8 +45,15 @@ namespace Logic
             return _question.GetAllOpenQuestions();
         }
 
-        public List<Question> GetAllOpenQuestionCareRecipientID(int careRecipientID) =>
-            _question.GetAllOpenQuestionsCareRecipientID(careRecipientID);
+        public List<Question> GetAllClosedQuestionsVolunteer(int volunteerId)
+        {
+            return _question.GetAllClosedQuestionsVolunteer(volunteerId);
+        }
+
+        public List<Question> GetAllOpenQuestionCareRecipientID(int careRecipientID)
+        {
+            return _question.GetAllOpenQuestionsCareRecipientID(careRecipientID);
+        }
 
         public Question GetSingleQuestion(int questionID)
         {
@@ -66,7 +67,6 @@ namespace Logic
 
         public void ChangeStatus(int id, string status)
         {
-           
             _question.ChangeQuestionStatus(id, status == "Open" ? "Closed" : "Open");
         }
 
@@ -79,6 +79,6 @@ namespace Logic
         {
             return _question.GetAllQuestions();
         }
-    
+
     }
 }
