@@ -79,9 +79,9 @@
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Professional.FirstName )
-                 
-                @Html.DisplayFor(modelItem => item.Professional.LastName )
+                @Html.DisplayFor(modelItem => item.Professional.FirstName)
+
+                @Html.DisplayFor(modelItem => item.Professional.LastName)
             </td>
             @if (item.Status)
             {
@@ -95,7 +95,6 @@
                     @Html.ActionLink("Deblokkeren", "BlockUser", new { id = item.UserId })
                 </td>
             }
-
             @if (item.UserAccountType == Models.User.AccountType.CareRecipient)
             {
                 <td>
