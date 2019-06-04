@@ -13,7 +13,7 @@ namespace Data.Interfaces
         List<User> GetAllUsers();
         int GetUserId(string firstName);
         User CheckValidityUser(string email, string password);
-        User GetCurrentUserInfo(string email);
+        User GetUserInfo(string email);
         void EditUser(User currentUser, string password);
         bool CheckIfUserAlreadyExists(string email);
         bool IsEmailValid(string email);

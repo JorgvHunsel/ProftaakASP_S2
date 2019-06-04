@@ -57,7 +57,7 @@ namespace Logic
 
         public User GetCurrentUserInfo(string email)
         {
-            return _user.GetCurrentUserInfo(email);
+            return _user.GetUserInfo(email);
         }
 
         public void EditUser(User currentUser, string password)

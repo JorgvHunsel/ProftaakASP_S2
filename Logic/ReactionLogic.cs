@@ -18,12 +18,11 @@ namespace Logic
             _reaction = reaction;
         }
 
-        // hier komt de verbinding tussen de repos en de view. zie category repository
         public void PostReaction(Reaction reaction)
         {
             _reaction.PostReaction(reaction);
         }
 
-        public List<Reaction> GetAllCommentsWithQuestionID(int id) => _reaction.GetAllCommentsWithQuestionID(id);
+        public List<Reaction> GetAllCommentsWithQuestionId(int id) => _reaction.GetAllReactions(id);
     }
 }

@@ -27,12 +27,12 @@ namespace Logic
             if (askedQuestion.Content.Length > 500)
                 throw new ArgumentException("Content can't be too long");
 
-            _question.WriteQuestionToDatabase(askedQuestion);
+            _question.AddQuestion(askedQuestion);
         }
 
         public void DeleteQuestionFromDatabase(Question askedQuestion)
         {
-            _question.DeleteQuestionFromDatabase(askedQuestion);
+            _question.DeleteQuestion(askedQuestion);
         }
 
         public List<Question> GetAllQuestionsProfessional(int userid, string statusrequest)
@@ -42,7 +42,7 @@ namespace Logic
 
         public List<Question> GetAllOpenQuestions()
         {
-            return _question.GetAllOpenQuestions();
+            return _question.GetAllOpenQuestionsVolunteer();
         }
 
         public List<Question> GetAllClosedQuestionsVolunteer(int volunteerId)
@@ -52,7 +52,7 @@ namespace Logic
 
         public List<Question> GetAllOpenQuestionCareRecipientID(int careRecipientID)
         {
-            return _question.GetAllOpenQuestionsCareRecipientID(careRecipientID);
+            return _question.GetAllOpenQuestionsCareRecipient(careRecipientID);
         }
 
         public Question GetSingleQuestion(int questionID)
@@ -72,7 +72,7 @@ namespace Logic
 
         public List<Question> GetAllClosedQuestionsCareRecipientId(int careRecipient)
         {
-            return _question.GetAllClosedQuestionsCareRecipientID(careRecipient);
+            return _question.GetAllClosedQuestionsCareRecipient(careRecipient);
         }
 
         public List<Question> GetAllQuestions()

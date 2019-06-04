@@ -10,6 +10,6 @@ namespace Data.Interfaces
     public interface IReactionContext
     {
         void PostReaction(Reaction reaction);
-        List<Reaction> GetAllCommentsWithQuestionID(int id);
+        List<Reaction> GetAllReactions(int questionId);
     }
 }

@@ -122,7 +122,7 @@ namespace ProftaakASP_S2.Controllers
             List<MessageViewModel> messageView = new List<MessageViewModel>();
             MessageViewModel2 messageView2 = new MessageViewModel2(careRecipientId, Convert.ToInt32(Request.Cookies["id"]), id, _chatLogic.GetSingleChatLog(id).Status);
 
-            foreach (ChatMessage cMessage in _chatLogic.LoadMessageListWithChatID(id))
+            foreach (ChatMessage cMessage in _chatLogic.LoadMessageListWithChatId(id))
             {
                 messageView.Add(new MessageViewModel(cMessage, Convert.ToInt32(Request.Cookies["id"]), volunteerName, careRecipientName));
             }

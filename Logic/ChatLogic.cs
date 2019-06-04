@@ -26,30 +26,16 @@ namespace Logic
 
         public void DeleteChatLogFromDatabase(ChatLog chatLog)
         {
-            _chat.DeleteChatLogFromDatabase(chatLog);
+            _chat.DeleteChatLog(chatLog);
         }
 
         public void DeleteMessagesFromDatabase(ChatLog chatLog)
         {
-            _chat.DeleteMessagesFromDatabase(chatLog);
+            _chat.DeleteMessages(chatLog);
         }
 
-        //TODO: Check if method is still necessary
-        public DataTable GetAllOpenChatsAsDataTable(int userid)
-        {
-            return GetAllOpenChatsAsDataTable(userid);
-        }
-
-        public List<ChatMessage> LoadMessageListWithChatID(int chatID) =>
-            _chat.LoadMessageAsListUsingChatLogID(chatID);
-
-        //TODO: Check if method is still necessary
-        //Wesley
-        public List<ChatLog> LoadOpenMessageList()
-        {
-            return _chat.LoadOpenChatsList();
-        }
-        //End Wesley
+        public List<ChatMessage> LoadMessageListWithChatId(int chatID) =>
+            _chat.LoadMessage(chatID);
 
         public void SendMessage(int chatid, int receiverid, int senderid, string message)
         {
@@ -57,13 +43,13 @@ namespace Logic
         }
 
         public List<ChatLog> GetAllOpenChatsWithVolunteerID(int userid) =>
-            _chat.GetAllOpenChatsWithVolunteerID(userid);
+            _chat.GetAllOpenChatsWithVolunteerId(userid);
 
-        public List<ChatLog> GetAllOpenChatsWithCareRecipientID(int userid) => _chat.GetAllOpenChatsWithCareRecipientID(userid);
+        public List<ChatLog> GetAllOpenChatsWithCareRecipientID(int userid) => _chat.GetAllOpenChatsWithCareRecipientId(userid);
 
         public List<ChatLog> GetAllOpenChatsByDate(int userid)
         {
-            return _chat.GetAllOpenChatsWithCareRecipientID(userid).OrderByDescending(c => c.TimeStamp).ToList();
+            return _chat.GetAllOpenChatsWithCareRecipientId(userid).OrderByDescending(c => c.TimeStamp).ToList();
         }
 
         public int CreateNewChatLog(int reactionID, int volunteerID, int careRecipientID) =>

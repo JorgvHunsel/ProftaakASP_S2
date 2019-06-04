@@ -1,28 +1,22 @@
-﻿using System;
+﻿using Data.Interfaces;
+using Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Data.Interfaces;
-using Models;
 
 namespace Data.Contexts
 {
-    public class CategoryContextSQL : ICategoryContext
+    public class CategoryContextSql : ICategoryContext
     {
-        private const string ConnectionString = @"Data Source=mssql.fhict.local;Initial Catalog=dbi423244;User ID=dbi423244;Password=wsx234;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-        private readonly SqlConnection _conn = new SqlConnection(ConnectionString);
+        private readonly SqlConnection _conn = Connection.GetConnection();
 
         public List<Category> GetAllCategories()
         {
             List<Category> categoryList = new List<Category>();
             try
             {
-
-                SqlCommand cmd = new SqlCommand("GetAllCategories", _conn);
-                cmd.CommandType = CommandType.StoredProcedure;
+                SqlCommand cmd = new SqlCommand("GetAllCategories", _conn) {CommandType = CommandType.StoredProcedure};
                 _conn.Open();
 
                 DataTable dt = new DataTable();
@@ -30,20 +24,15 @@ namespace Data.Contexts
 
                 foreach (DataRow row in dt.Rows)
                 {
-                    int categoryID = Convert.ToInt32(row["CategoryID"]);
+                    int categoryId = Convert.ToInt32(row["CategoryID"]);
                     string categoryName = row["Name"].ToString();
                     string categoryDescription = row["Description"].ToString();
 
-                    Category category = new Category(categoryID, categoryName, categoryDescription);
+                    Category category = new Category(categoryId, categoryName, categoryDescription);
                     categoryList.Add(category);
                 }
 
                 return categoryList;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                throw;
             }
             finally
             {

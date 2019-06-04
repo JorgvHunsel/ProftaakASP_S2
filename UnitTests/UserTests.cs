@@ -122,13 +122,13 @@ namespace UnitTests
         {
             User user = new Mock<User>(1, "Jesse", "Oosterwijk", "Kleidonk 1", "Beuningen", "6641LM", "jesse.oosterwijk@outlook.com", DateTime.Today, User.Gender.Man, true, User.AccountType.CareRecipient,"1111").Object;
             
-            mockContext.Setup(x => x.GetCurrentUserInfo(user.EmailAddress))
+            mockContext.Setup(x => x.GetUserInfo(user.EmailAddress))
                 .Returns(user);
 
             var _userLogic = new UserLogic(mockContext.Object);
             var result = _userLogic.GetCurrentUserInfo(user.EmailAddress);
 
-            mockContext.Verify(x => x.GetCurrentUserInfo(user.EmailAddress), Times.Exactly(1));
+            mockContext.Verify(x => x.GetUserInfo(user.EmailAddress), Times.Exactly(1));
             Assert.IsInstanceOfType(result, typeof(User));
         }
 

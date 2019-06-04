@@ -32,15 +32,15 @@ namespace UnitTests
             Mock<Category> _category = new Mock<Category>("Medisch");
             Mock<Question> _question = new Mock<Question>(1, "foo", "baa", Question.QuestionStatus.Open, DateTime.Today, true, _category.Object, 12);
             List<Reaction> _mockList = new List<Reaction>();
-            mockContext.Setup(x => x.GetAllCommentsWithQuestionID(_question.Object.QuestionId))
+            mockContext.Setup(x => x.GetAllReactions(_question.Object.QuestionId))
                 .Returns(_mockList);
 
             var _reactionLogic = new ReactionLogic(mockContext.Object);
-            var result = _reactionLogic.GetAllCommentsWithQuestionID(_question.Object.QuestionId);
+            var result = _reactionLogic.GetAllCommentsWithQuestionId(_question.Object.QuestionId);
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(List<Reaction>));
-            mockContext.Verify(x => x.GetAllCommentsWithQuestionID(1), Times.Exactly(1));
+            mockContext.Verify(x => x.GetAllReactions(1), Times.Exactly(1));
         }
     }
 }
