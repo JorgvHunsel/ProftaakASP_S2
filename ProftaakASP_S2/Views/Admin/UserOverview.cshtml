@@ -98,7 +98,7 @@
             @if (item.UserAccountType == Models.User.AccountType.CareRecipient)
             {
                 <td>
-                    @Html.ActionLink("Koppel aan professional", "LinkToProfessional", new { id = item.UserId })
+                    @Html.ActionLink("Koppel aan professional", "LinkToProfessional", new { userId = item.UserId })
                 </td>
             }
         </tr>

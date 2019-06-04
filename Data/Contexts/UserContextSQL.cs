@@ -13,6 +13,69 @@ namespace Data.Contexts
     {
         private readonly SqlConnection _conn = Connection.GetConnection();
 
+        public void LinkCareToProf(int careId, int profId)
+        {
+            try
+            {
+                 string query = "INSERT INTO [CareRecipientProfessional] ([CareRecipientID] ,[ProfessionalID]) VALUES  (@careId ,@profId)";
+
+
+                _conn.Open();
+                using (SqlCommand cmd = new SqlCommand(query, _conn))
+                {
+                    cmd.Parameters.AddWithValue("@careId", SqlDbType.Int).Value = careId;
+                    cmd.Parameters.AddWithValue("@profId", SqlDbType.Int).Value = profId;
+                    
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
+
+
+        public List<User> GetAllProfessionals()
+        {
+            try
+            {
+                List<User> professionalList = new List<User>();
+
+                SqlCommand cmd = new SqlCommand("SelectAllProfessionals", _conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                _conn.Open();
+
+                DataTable dt = new DataTable();
+                dt.Load(cmd.ExecuteReader());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    int userId = Convert.ToInt32(dr["UserID"]);
+                    string accountType = dr["AccountType"].ToString();
+                    string firstName = dr["FirstName"].ToString();
+                    string lastName = dr["LastName"].ToString();
+                    DateTime birthDate = Convert.ToDateTime(dr["Birthdate"].ToString());
+                    User.Gender gender = (User.Gender)Enum.Parse(typeof(User.Gender), dr["Sex"].ToString());
+                    string email = dr["Email"].ToString();
+                    string address = dr["Address"].ToString();
+                    string postalCode = dr["PostalCode"].ToString();
+                    string city = dr["City"].ToString();
+                    bool status = Convert.ToBoolean(dr["Status"].ToString());
+                    string password = dr["Password"].ToString();
+
+                    User user = new Professional(userId, firstName, lastName, address, city, postalCode, email, birthDate, gender, status, User.AccountType.Professional, password);
+                    professionalList.Add(user);
+                }
+
+                return professionalList;
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
+
         public void AddNewUser(User newUser)
         {
             try
