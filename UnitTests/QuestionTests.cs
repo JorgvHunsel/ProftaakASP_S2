@@ -153,16 +153,17 @@ namespace UnitTests
         public void ChangeQuestionStatus_IsValid()
         {
             Mock<IQuestionContext> mockContext = new Mock<IQuestionContext>();
-            Mock<Category> _category = new Mock<Category>("Medisch");
-            Mock<Question> _question = new Mock<Question>(1, "foo", "baa", "Open", DateTime.Today, true, _category.Object, 12);
 
-            QuestionLogic _questionLogic = new QuestionLogic(mockContext.Object);
+            Category _category = new Category("Medisch");
+            Question _question = new Question(1, "foo", "baa", Question.QuestionStatus.Closed, DateTime.Today, true, _category, 12);
 
-            _questionLogic.ChangeStatus(_question.Object.QuestionId, "Open");
+            QuestionLogic _logic = new QuestionLogic(mockContext.Object);
 
-            // mockContext.Verify(x => x.ChangeQuestionStatus(_question.Object.QuestionId), Times.Exactly(1));
-            Assert.AreEqual(_question.Object.Status, "Closed");
+            _logic.ChangeStatus(_question.QuestionId, Question.QuestionStatus.Closed.ToString());
+
+            Assert.AreNotEqual(_question.Status.ToString(), "Open");
         }
 
-    }
+    }         
+    
 }
