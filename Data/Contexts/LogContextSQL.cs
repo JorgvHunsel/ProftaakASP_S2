@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Runtime.CompilerServices;
-using System.Text;
 using Data.Interfaces;
 using Models;
 
