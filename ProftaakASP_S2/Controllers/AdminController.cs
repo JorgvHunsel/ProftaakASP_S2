@@ -117,5 +117,12 @@ namespace ProftaakASP_S2.Controllers
 
             return View("LogOverview", logList);
         }
+
+        public ActionResult LinkToProfessional(int userId)
+        {
+            
+
+           return View("LinkCareProfessional");
+        }
     }
 }

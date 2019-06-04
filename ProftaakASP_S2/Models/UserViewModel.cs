@@ -22,6 +22,7 @@ namespace ProftaakASP_S2.Models
         public string UserGender { get; set; }
         public global::Models.User.AccountType UserAccountType { get; set; }
         public bool Status { get; set; }
+        public User Professional { get; set; }
 
         public UserViewModel(User user)
         {
@@ -36,6 +37,7 @@ namespace ProftaakASP_S2.Models
             UserGender = user.UserGender.ToString();
             UserAccountType = user.UserAccountType;
             Status = user.Status;
+            Professional = user.Professional;
         }
 
         public UserViewModel()
