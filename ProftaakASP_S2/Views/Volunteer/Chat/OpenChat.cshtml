@@ -52,12 +52,15 @@ else
     }
 }
 
-<form method="post" asp-action="NewMessage" asp-controller="Volunteer">
-    <input asp-for="NewMessage" />
-    <input type="hidden" asp-for="ReceiverId"/>
-    <input type="hidden" asp-for="SenderId"/>
-    <input type="hidden" asp-for="ChatLogId"/>
-    <input type="submit" value="Stuur" />
 
-</form>
+@if (Model.Status)
+{
+    <form method="post" asp-action="NewMessage" asp-controller="Volunteer">
+        <input asp-for="NewMessage" class="form-control"/>
+        <input type="hidden" asp-for="ReceiverId"/>
+        <input type="hidden" asp-for="SenderId"/>
+        <input type="hidden" asp-for="ChatLogId"/>
+        <input type="submit" value="Stuur" class="btn btn-default"/>
 
+    </form>
+}

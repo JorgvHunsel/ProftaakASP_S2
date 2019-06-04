@@ -131,7 +131,7 @@ namespace ProftaakASP_S2.Controllers
         {
             if (_userLogic.SendEmailProfessional(emailaddress))
             {
-                return RedirectToAction("CreateProfessional");
+                return RedirectToAction(nameof(CreateProfessional));
             }
             
 

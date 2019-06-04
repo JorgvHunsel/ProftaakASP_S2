@@ -9,35 +9,45 @@
 
 <table class="table">
     <thead>
-    <tr>
-        <th>
-            Onderwerp
-        </th>
-        <th>
-            Naam vrijwilliger
-        </th>
-        <th>
-            Datum
-        </th>
-        <th></th>
-    </tr>
+        <tr>
+            <th>
+                Onderwerp
+            </th>
+            <th>
+                Naam vrijwilliger
+            </th>
+            <th>
+                Datum
+            </th>
+            <th></th>
+        </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.QuestionName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VolunteerName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TimeStamp)
-            </td>
-            <td>
-                @Html.ActionLink("Open", "OpenChat", new { id=item.ChatLogID, volunteerName=item.VolunteerName, careRecipientName=item.CareRecipientName, volunteerId = item.VolunteerId })             
-            </td>
-        </tr>
-}
+        @foreach (ChatViewModel chat in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => chat.QuestionName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => chat.VolunteerName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => chat.TimeStamp)
+                </td>
+                <td>
+                    @Html.ActionLink("Open", "OpenChat", new { id = chat.ChatLogID, volunteerName = chat.VolunteerName, careRecipientName = chat.CareRecipientName, volunteerId = chat.VolunteerId })|
+
+                    @if (chat.Status)
+                    {
+                        @Html.ActionLink("Stop chat", "ChangeStatusChat", new { chatlogId = chat.ChatLogID })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Start chat", "ChangeStatusChat", new { chatlogId = chat.ChatLogID })
+                    }
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

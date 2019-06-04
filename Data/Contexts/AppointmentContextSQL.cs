@@ -101,5 +101,22 @@ namespace Data.Contexts
                 _conn.Close();
             }
         }
+
+        public void DeleteAppointmentByChat(int chatId)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("DeleteAppointmentByChat", _conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@ChatId", SqlDbType.Int).Value = chatId;
+
+                _conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
     }
 }

@@ -30,5 +30,10 @@ namespace Logic
         {
             _appointment.DeleteAppointment(appointmentId);
         }
+
+        public void DeleteAppointmentByChat(int chatId)
+        {
+            _appointment.DeleteAppointmentByChat(chatId);
+        }
     }
 }
