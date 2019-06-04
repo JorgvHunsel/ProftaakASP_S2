@@ -57,26 +57,25 @@ namespace ProftaakASP_S2.Controllers
         {
             try
             {
-                int questionID = reactionViewModel.QuestionId;
+                int questionId = reactionViewModel.QuestionId;
                 string description = reactionViewModel.Description;
 
-                //TODO
                 int senderid = Convert.ToInt32(Request.Cookies["id"]);
 
-                _reactionLogic.PostReaction(new Reaction(questionID, senderid, description));
+                _reactionLogic.PostReaction(new Reaction(questionId, senderid, description));
 
                 return RedirectToAction(nameof(QuestionOverview));
             }
             catch
             {
-                return View();
+                return View("Error");
             }
         }
 
         public ActionResult ChatOverview()
         {
             List<ChatViewModel> chatView = new List<ChatViewModel>();
-            foreach (ChatLog chatLog in _chatLogic.GetAllOpenChatsWithVolunteerID(Convert.ToInt32(Request.Cookies["id"])))
+            foreach (ChatLog chatLog in _chatLogic.GetAllOpenChatsWithVolunteerId(Convert.ToInt32(Request.Cookies["id"])))
             {
                 chatView.Add(new ChatViewModel(chatLog));
             }

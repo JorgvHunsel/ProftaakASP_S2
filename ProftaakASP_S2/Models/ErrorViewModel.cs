@@ -1,5 +1,3 @@
-using System;
-
 namespace ProftaakASP_S2.Models
 {
     public class ErrorViewModel

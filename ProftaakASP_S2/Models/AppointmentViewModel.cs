@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Models;
 
 namespace ProftaakASP_S2.Models
@@ -16,16 +13,6 @@ namespace ProftaakASP_S2.Models
         public string QuestionTitle { get; set; }
         public string CareRecipientName { get; set; }
         public string Location { get; set; }
-
-        public AppointmentViewModel(Appointment appointment)
-        {
-            QuestionId = appointment.QuestionId;
-            CareRecipientId = appointment.CareRecipientId;
-            VolunteerId = appointment.VolunteerId;
-            TimeStamp = appointment.TimeStampAppointment;
-            Location = appointment.Location;
-            AppointmentId = appointment.AppointmentId;
-        }
 
         public AppointmentViewModel(Appointment appointment, Question question, User user)
         {

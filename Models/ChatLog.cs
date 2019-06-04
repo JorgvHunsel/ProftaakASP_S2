@@ -1,54 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Models
 {
     public class ChatLog
     {
-        public int ChatLogID { get; private set; }
-        public string QuestionTitle { get; private set; }
-        public int CareRecipientID { get; }
-        public int VolunteerID { get; }
-        public string CareRecipientFirstName { get; private set; }
-        public string CareRecipientLastName { get; private set; }
-        public string VolunteerFirstName { get; private set; }
-        public string VolunteerLastName { get; private set; }
-        public DateTime TimeStamp { get; private set; }
+        public int ChatLogId { get; }
+        public string QuestionTitle { get; }
+        public int CareRecipientId { get; }
+        public int VolunteerId { get; }
+        public string CareRecipientFirstName { get; }
+        public string CareRecipientLastName { get; }
+        public string VolunteerFirstName { get; }
+        public string VolunteerLastName { get; }
+        public DateTime TimeStamp { get; }
         public List<ChatMessage> Messages = new List<ChatMessage>();
-        public int QuestionID { get; private set; }
+        public int QuestionId { get; }
         public bool Status { get; set; }
 
 
-        public ChatLog(int chatLogId, string questionTitle, int careRecipientId, int volunteerId, string careRecipientFirstName, string careRecipientLastName, string volunteerFirstName, string volunteerLastName, DateTime timeStamp, int questionID, bool status)
+        public ChatLog(int chatLogId, string questionTitle, int careRecipientId, int volunteerId, string careRecipientFirstName, string careRecipientLastName, string volunteerFirstName, string volunteerLastName, DateTime timeStamp, int questionId, bool status)
         {
-            ChatLogID = chatLogId;
+            ChatLogId = chatLogId;
             QuestionTitle = questionTitle;
-            CareRecipientID = careRecipientId;
-            VolunteerID = volunteerId;
+            CareRecipientId = careRecipientId;
+            VolunteerId = volunteerId;
             CareRecipientFirstName = careRecipientFirstName;
             CareRecipientLastName = careRecipientLastName;
             VolunteerFirstName = volunteerFirstName;
             VolunteerLastName = volunteerLastName;
             TimeStamp = timeStamp;
-            QuestionID = questionID;
+            QuestionId = questionId;
             Status = status;
         }
 
         public ChatLog(int chatLogId, int careRecipientId, int volunteerId, DateTime timeStamp, bool status)
         {
-            ChatLogID = chatLogId;
-            CareRecipientID = careRecipientId;
-            VolunteerID = volunteerId;
+            ChatLogId = chatLogId;
+            CareRecipientId = careRecipientId;
+            VolunteerId = volunteerId;
             TimeStamp = timeStamp;
             Status = status;
         }
 
         public ChatLog(int chatLogId)
         {
-            ChatLogID = chatLogId;
+            ChatLogId = chatLogId;
         }
     }
 }

@@ -17,13 +17,13 @@ namespace UnitTests
         public void WriteQuestionToDatabase_IsValid_True()
         {
             Mock<IQuestionContext> mockContext = new Mock<IQuestionContext>();
-            Mock<Category> _category = new Mock<Category>("Medisch");
-            Mock<Question> _question = new Mock<Question>(1,"foo","baa", Question.QuestionStatus.Open, DateTime.Today, true, _category.Object, 12);
-            mockContext.Setup(x => x.AddQuestion(_question.Object));
+            Mock<Category> category = new Mock<Category>("Medisch");
+            Mock<Question> question = new Mock<Question>(1,"foo","baa", Question.QuestionStatus.Open, DateTime.Today, true, category.Object, 12);
+            mockContext.Setup(x => x.AddQuestion(question.Object));
 
-            var _questionLogic = new QuestionLogic(mockContext.Object);
-            _questionLogic.WriteQuestionToDatabase(_question.Object);
-            mockContext.Verify(x => x.AddQuestion(_question.Object), Times.Exactly(1));
+            QuestionLogic questionLogic = new QuestionLogic(mockContext.Object);
+            questionLogic.WriteQuestionToDatabase(question.Object);
+            mockContext.Verify(x => x.AddQuestion(question.Object), Times.Exactly(1));
         }
 
         [TestMethod]
@@ -31,22 +31,22 @@ namespace UnitTests
         {
             Mock<IQuestionContext> mockContext = new Mock<IQuestionContext>();
 
-            Mock<Category> _category = new Mock<Category>("Medisch");
+            Mock<Category> category = new Mock<Category>("Medisch");
 
             //To much characters
-            Mock<Question> _question = new Mock<Question>(1, MockMaxCharacters, "baa", Question.QuestionStatus.Open, DateTime.Today, true, _category.Object, 12);
-            Mock<Question> _question2 = new Mock<Question>(1, "sup", MockMaxCharacters, Question.QuestionStatus.Open, DateTime.Today, true, _category.Object, 12);
+            Mock<Question> question = new Mock<Question>(1, MockMaxCharacters, "baa", Question.QuestionStatus.Open, DateTime.Today, true, category.Object, 12);
+            Mock<Question> question2 = new Mock<Question>(1, "sup", MockMaxCharacters, Question.QuestionStatus.Open, DateTime.Today, true, category.Object, 12);
 
             //Empty properties
-            Mock<Question> _question3 = new Mock<Question>(1, "", "baa", Question.QuestionStatus.Open, DateTime.Today, true, _category.Object, 12);
-            Mock<Question> _question4 = new Mock<Question>(1, "sup", "", Question.QuestionStatus.Open, DateTime.Today, true, _category.Object, 12);
-            QuestionLogic _questionLogic = new QuestionLogic(mockContext.Object);
+            Mock<Question> question3 = new Mock<Question>(1, "", "baa", Question.QuestionStatus.Open, DateTime.Today, true, category.Object, 12);
+            Mock<Question> question4 = new Mock<Question>(1, "sup", "", Question.QuestionStatus.Open, DateTime.Today, true, category.Object, 12);
+            QuestionLogic questionLogic = new QuestionLogic(mockContext.Object);
 
-            Assert.ThrowsException<ArgumentException>(() => _questionLogic.WriteQuestionToDatabase(_question.Object));
-            Assert.ThrowsException<ArgumentException>(() => _questionLogic.WriteQuestionToDatabase(_question2.Object));
+            Assert.ThrowsException<ArgumentException>(() => questionLogic.WriteQuestionToDatabase(question.Object));
+            Assert.ThrowsException<ArgumentException>(() => questionLogic.WriteQuestionToDatabase(question2.Object));
 
-            Assert.ThrowsException<ArgumentException>(() => _questionLogic.WriteQuestionToDatabase(_question3.Object));
-            Assert.ThrowsException<ArgumentException>(() => _questionLogic.WriteQuestionToDatabase(_question4.Object));
+            Assert.ThrowsException<ArgumentException>(() => questionLogic.WriteQuestionToDatabase(question3.Object));
+            Assert.ThrowsException<ArgumentException>(() => questionLogic.WriteQuestionToDatabase(question4.Object));
         }
 
         [TestMethod]
@@ -57,8 +57,8 @@ namespace UnitTests
             mockContext.Setup(x => x.GetAllOpenQuestionsVolunteer())
                 .Returns(stub);
 
-            var _questionLogic = new QuestionLogic(mockContext.Object);
-            var result = _questionLogic.GetAllOpenQuestions();
+            QuestionLogic questionLogic = new QuestionLogic(mockContext.Object);
+            List<Question> result = questionLogic.GetAllOpenQuestions();
 
             Assert.IsInstanceOfType(result, typeof(List<Question>));
 
@@ -73,8 +73,8 @@ namespace UnitTests
             mockContext.Setup(x => x.GetAllOpenQuestionsCareRecipient(user.UserId))
                 .Returns(stub);
 
-            var _questionLogic = new QuestionLogic(mockContext.Object);
-            var result = _questionLogic.GetAllOpenQuestionCareRecipientID(user.UserId);
+            QuestionLogic questionLogic = new QuestionLogic(mockContext.Object);
+            List<Question> result = questionLogic.GetAllOpenQuestionCareRecipientId(user.UserId);
 
             Assert.IsInstanceOfType(result, typeof(List<Question>));
         }
@@ -88,8 +88,8 @@ namespace UnitTests
             mockContext.Setup(x => x.GetAllClosedQuestionsCareRecipient(user.UserId))
                 .Returns(stub);
 
-            var _questionLogic = new QuestionLogic(mockContext.Object);
-            var result = _questionLogic.GetAllClosedQuestionsCareRecipientId(user.UserId);
+            QuestionLogic questionLogic = new QuestionLogic(mockContext.Object);
+            List<Question> result = questionLogic.GetAllClosedQuestionsCareRecipientId(user.UserId);
 
             Assert.IsInstanceOfType(result, typeof(List<Question>));
         }
@@ -98,13 +98,13 @@ namespace UnitTests
         public void GetSingleQuestion_IsValid()
         {
             Mock<IQuestionContext> mockContext = new Mock<IQuestionContext>();
-            Mock<Category> _category = new Mock<Category>("Medisch");
-            Mock<Question> _question = new Mock<Question>(1, "foo", "baa", Question.QuestionStatus.Open, DateTime.Today, true, _category.Object, 12);
-            mockContext.Setup(x => x.GetSingleQuestion(_question.Object.QuestionId))
-                .Returns(_question.Object);
+            Mock<Category> category = new Mock<Category>("Medisch");
+            Mock<Question> question = new Mock<Question>(1, "foo", "baa", Question.QuestionStatus.Open, DateTime.Today, true, category.Object, 12);
+            mockContext.Setup(x => x.GetSingleQuestion(question.Object.QuestionId))
+                .Returns(question.Object);
 
-            var _questionLogic = new QuestionLogic(mockContext.Object);
-            var result = _questionLogic.GetSingleQuestion(_question.Object.QuestionId);
+            QuestionLogic questionLogic = new QuestionLogic(mockContext.Object);
+            Question result = questionLogic.GetSingleQuestion(question.Object.QuestionId);
             
             Assert.IsInstanceOfType(result, typeof(Question));
         }
@@ -113,14 +113,14 @@ namespace UnitTests
         public void EditQuestion_IsValid()
         {
             Mock<IQuestionContext> mockContext = new Mock<IQuestionContext>();
-            Mock<Category> _category = new Mock<Category>("Medisch");
-            Mock<Question> _question = new Mock<Question>(1, "foo", "baa", Question.QuestionStatus.Open, DateTime.Today, true, _category.Object, 12);
-            mockContext.Setup(x => x.EditQuestion(_question.Object));
+            Mock<Category> category = new Mock<Category>("Medisch");
+            Mock<Question> question = new Mock<Question>(1, "foo", "baa", Question.QuestionStatus.Open, DateTime.Today, true, category.Object, 12);
+            mockContext.Setup(x => x.EditQuestion(question.Object));
 
-            var _questionLogic = new QuestionLogic(mockContext.Object);
-            _questionLogic.EditQuestion(_question.Object);
+            QuestionLogic questionLogic = new QuestionLogic(mockContext.Object);
+            questionLogic.EditQuestion(question.Object);
 
-            mockContext.Verify(x => x.EditQuestion(_question.Object), Times.Exactly(1));
+            mockContext.Verify(x => x.EditQuestion(question.Object), Times.Exactly(1));
 
         }
 
@@ -128,14 +128,14 @@ namespace UnitTests
         public void DeleteQuestion_IsValid()
         {
             Mock<IQuestionContext> mockContext = new Mock<IQuestionContext>();
-            Mock<Category> _category = new Mock<Category>("Medisch");
-            Mock<Question> _question = new Mock<Question>(1, "foo", "baa", Question.QuestionStatus.Open, DateTime.Today, true, _category.Object, 12);
-            mockContext.Setup(x => x.DeleteQuestion(_question.Object));
+            Mock<Category> category = new Mock<Category>("Medisch");
+            Mock<Question> question = new Mock<Question>(1, "foo", "baa", Question.QuestionStatus.Open, DateTime.Today, true, category.Object, 12);
+            mockContext.Setup(x => x.DeleteQuestion(question.Object));
 
-            var _questionLogic = new QuestionLogic(mockContext.Object);
-            _questionLogic.DeleteQuestionFromDatabase(_question.Object);
+            QuestionLogic questionLogic = new QuestionLogic(mockContext.Object);
+            questionLogic.DeleteQuestionFromDatabase(question.Object);
 
-            mockContext.Verify(x => x.DeleteQuestion(_question.Object), Times.Exactly(1));
+            mockContext.Verify(x => x.DeleteQuestion(question.Object), Times.Exactly(1));
         }
 
         [TestMethod]
@@ -143,8 +143,8 @@ namespace UnitTests
         {
             Mock<IQuestionContext> mockContext = new Mock<IQuestionContext>();
 
-            var _questionLogic = new QuestionLogic(mockContext.Object);
-            _questionLogic.GetAllQuestions();
+            QuestionLogic questionLogic = new QuestionLogic(mockContext.Object);
+            questionLogic.GetAllQuestions();
 
             mockContext.Verify(x => x.GetAllQuestions(), Times.Exactly(1));
         }
@@ -154,14 +154,14 @@ namespace UnitTests
         {
             Mock<IQuestionContext> mockContext = new Mock<IQuestionContext>();
 
-            Category _category = new Category("Medisch");
-            Question _question = new Question(1, "foo", "baa", Question.QuestionStatus.Closed, DateTime.Today, true, _category, 12);
+            Category category = new Category("Medisch");
+            Question question = new Question(1, "foo", "baa", Question.QuestionStatus.Closed, DateTime.Today, true, category, 12);
 
-            QuestionLogic _logic = new QuestionLogic(mockContext.Object);
+            QuestionLogic logic = new QuestionLogic(mockContext.Object);
 
-            _logic.ChangeStatus(_question.QuestionId, Question.QuestionStatus.Closed.ToString());
+            logic.ChangeStatus(question.QuestionId, Question.QuestionStatus.Closed.ToString());
 
-            Assert.AreNotEqual(_question.Status.ToString(), "Open");
+            Assert.AreNotEqual(question.Status.ToString(), "Open");
         }
 
     }         

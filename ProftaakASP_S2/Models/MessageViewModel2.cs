@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
+﻿using System.Collections.Generic;
 
 namespace ProftaakASP_S2.Models
 {
@@ -17,15 +13,15 @@ namespace ProftaakASP_S2.Models
 
         public MessageViewModel2(int receiverId, int senderId, int chatLogId, bool status)
         {
-            this.ReceiverId = receiverId;
-            this.SenderId = senderId;
+            ReceiverId = receiverId;
+            SenderId = senderId;
             ChatLogId = chatLogId;
             Status = status;
         }
 
         public MessageViewModel2()
         {
-            
+
         }
     }
 }

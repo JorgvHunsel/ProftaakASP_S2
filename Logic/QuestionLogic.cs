@@ -50,14 +50,14 @@ namespace Logic
             return _question.GetAllClosedQuestionsVolunteer(volunteerId);
         }
 
-        public List<Question> GetAllOpenQuestionCareRecipientID(int careRecipientID)
+        public List<Question> GetAllOpenQuestionCareRecipientId(int careRecipientId)
         {
-            return _question.GetAllOpenQuestionsCareRecipient(careRecipientID);
+            return _question.GetAllOpenQuestionsCareRecipient(careRecipientId);
         }
 
-        public Question GetSingleQuestion(int questionID)
+        public Question GetSingleQuestion(int questionId)
         {
-            return _question.GetSingleQuestion(questionID);
+            return _question.GetSingleQuestion(questionId);
         }
 
         public void EditQuestion(Question question)

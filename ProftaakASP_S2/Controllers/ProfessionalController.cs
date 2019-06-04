@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Logic;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -12,18 +10,12 @@ namespace ProftaakASP_S2.Controllers
     public class ProfessionalController : Controller
     {
         private readonly QuestionLogic _questionLogic;
-        private readonly CategoryLogic _categoryLogic;
-        private readonly ReactionLogic _reactionLogic;
         private readonly UserLogic _userLogic;
-        private readonly ChatLogic _chatLogic;
 
-        public ProfessionalController(QuestionLogic questionLogic, CategoryLogic categoryLogic, ReactionLogic reactionLogic, UserLogic userLogic, ChatLogic chatLogic)
+        public ProfessionalController(QuestionLogic questionLogic, UserLogic userLogic)
         {
             _questionLogic = questionLogic;
-            _categoryLogic = categoryLogic;
-            _reactionLogic = reactionLogic;
             _userLogic = userLogic;
-            _chatLogic = chatLogic;
         }
 
         public ActionResult QuestionOverview()

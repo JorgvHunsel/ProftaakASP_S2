@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Data.Contexts;
 using Data.Interfaces;
 using Models;
 
@@ -90,13 +84,13 @@ namespace Logic
             
             try
             {
-                var fromAddress = new MailAddress("maileye4participation@gmail.com", "NoReply Eye4Participation");
-                var toAddress = new MailAddress(emailaddress);
+                MailAddress fromAddress = new MailAddress("maileye4participation@gmail.com", "NoReply Eye4Participation");
+                MailAddress toAddress = new MailAddress(emailaddress);
                 const string fromPassword = "Test1234!";
                 const string subject = "New professional acocunt";
                 const string body = "Body";
 
-                var smtp = new SmtpClient
+                SmtpClient smtp = new SmtpClient
                 {
                     Host = "smtp.gmail.com",
                     Port = 587,
@@ -105,7 +99,7 @@ namespace Logic
                     UseDefaultCredentials = false,
                     Credentials = new NetworkCredential(fromAddress.Address, fromPassword)
                 };
-                using (var message = new MailMessage(fromAddress, toAddress)
+                using (MailMessage message = new MailMessage(fromAddress, toAddress)
                 {
                     Subject = subject,
                     Body = body
@@ -116,7 +110,7 @@ namespace Logic
 
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return false;
             }

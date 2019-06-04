@@ -109,13 +109,13 @@ namespace Data.Contexts
 
                 foreach (DataRow dr in dt.Rows)
                 {
-                    int chatLogID = Convert.ToInt32(dr["ChatLogID"]);
+                    int chatLogId = Convert.ToInt32(dr["ChatLogID"]);
                     string questionTitle = (dr["Title"].ToString());
-                    int careRecipientID = Convert.ToInt32(dr["CareRecipientID"]);
-                    int volunteerID = Convert.ToInt32(dr["VolunteerID"]);
+                    int careRecipientId = Convert.ToInt32(dr["CareRecipientID"]);
+                    int volunteerId = Convert.ToInt32(dr["VolunteerID"]);
                     string careRecipientFirstName = dr["CareRecipientFirstName"].ToString();
                     string careRecipientLastName = dr["CareRecipientLastName"].ToString();
-                    int questionID = Convert.ToInt32(dr["QuestionID"]);
+                    int questionId = Convert.ToInt32(dr["QuestionID"]);
                     bool status = Convert.ToBoolean(dr["ChatLogStatus"]);
 
                     string volunteerFirstName = dr["VolunteerFirstName"].ToString();
@@ -124,7 +124,7 @@ namespace Data.Contexts
                     DateTime timeStamp = Convert.ToDateTime(dr["TimeStamp"].ToString());
 
 
-                    ChatLog chatLog = new ChatLog(chatLogID, questionTitle, careRecipientID, volunteerID, careRecipientFirstName, careRecipientLastName, volunteerFirstName, volunteerLastName, timeStamp, questionID, status);
+                    ChatLog chatLog = new ChatLog(chatLogId, questionTitle, careRecipientId, volunteerId, careRecipientFirstName, careRecipientLastName, volunteerFirstName, volunteerLastName, timeStamp, questionId, status);
                     chatLogList.Add(chatLog);
                 }
 
@@ -147,7 +147,7 @@ namespace Data.Contexts
             {
                 SqlCommand cmd = new SqlCommand("DeleteChatLog", _conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@chatLogID", SqlDbType.Int).Value = chatLog.ChatLogID;
+                cmd.Parameters.Add("@chatLogID", SqlDbType.Int).Value = chatLog.ChatLogId;
 
 
                 _conn.Open();
@@ -169,7 +169,7 @@ namespace Data.Contexts
             {
                 SqlCommand cmd = new SqlCommand("DeleteMessages", _conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@chatLogID", SqlDbType.Int).Value = chatLog.ChatLogID;
+                cmd.Parameters.Add("@chatLogID", SqlDbType.Int).Value = chatLog.ChatLogId;
 
 
                 _conn.Open();
@@ -184,14 +184,14 @@ namespace Data.Contexts
                 _conn.Close();
             }
         }
-        public List<ChatMessage> LoadMessage(int chatID)
+        public List<ChatMessage> LoadMessage(int chatId)
         {
             List<ChatMessage> chatMessageList = new List<ChatMessage>();
             try
             {
                 SqlCommand cmd = new SqlCommand("LoadMessagesByChatLogID", _conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@chatid", SqlDbType.Int).Value = chatID;
+                cmd.Parameters.Add("@chatid", SqlDbType.Int).Value = chatId;
 
                 _conn.Open();
 
@@ -200,15 +200,15 @@ namespace Data.Contexts
 
                 foreach (DataRow dr in dt.Rows)
                 {
-                    int chatlogID = Convert.ToInt32(dr["ChatID"].ToString());
+                    int chatlogId = Convert.ToInt32(dr["ChatID"].ToString());
                     string content = (dr["Content"].ToString());
 
-                    int senderID = Convert.ToInt32(dr["SenderID"].ToString());
-                    int receiverID = Convert.ToInt32(dr["ReceiverID"].ToString());
+                    int senderId = Convert.ToInt32(dr["SenderID"].ToString());
+                    int receiverId = Convert.ToInt32(dr["ReceiverID"].ToString());
 
                     DateTime timeStamp = Convert.ToDateTime(dr["TimeStamp"].ToString());
 
-                    ChatMessage chatMessage = new ChatMessage(chatlogID, receiverID, senderID, content, timeStamp);
+                    ChatMessage chatMessage = new ChatMessage(chatlogId, receiverId, senderId, content, timeStamp);
                     chatMessageList.Add(chatMessage);
                 }
 
@@ -251,15 +251,15 @@ namespace Data.Contexts
         }
 
         //TODO Returns 0 as exceptionhandling
-        public int CreateNewChatLog(int reactionID, int volunteerID, int careRecipientID)
+        public int CreateNewChatLog(int reactionId, int volunteerId, int careRecipientId)
         {
             try
             {
                 SqlCommand cmd = new SqlCommand("CreateNewChatLog", _conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@reactionID", SqlDbType.Int).Value = reactionID;
-                cmd.Parameters.Add("@volunteerID", SqlDbType.Int).Value = volunteerID;
-                cmd.Parameters.Add("@careRecipientID", SqlDbType.Int).Value = careRecipientID;
+                cmd.Parameters.Add("@reactionID", SqlDbType.Int).Value = reactionId;
+                cmd.Parameters.Add("@volunteerID", SqlDbType.Int).Value = volunteerId;
+                cmd.Parameters.Add("@careRecipientID", SqlDbType.Int).Value = careRecipientId;
                 cmd.Parameters.Add("@status", SqlDbType.Bit).Value = true;
 
                 SqlParameter sqlP = new SqlParameter("@identity", SqlDbType.Int);
@@ -268,8 +268,8 @@ namespace Data.Contexts
 
                 _conn.Open();
                 cmd.ExecuteNonQuery();
-                int ID = (int)sqlP.Value;
-                return ID;
+                int id = (int)sqlP.Value;
+                return id;
             }
             catch (Exception e)
             {
@@ -313,7 +313,7 @@ namespace Data.Contexts
                 _conn.Open();
                 SqlCommand cmd = new SqlCommand("ChatLogChangeStatus", _conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@ChatLogId", SqlDbType.Int).Value = chatLog.ChatLogID;
+                cmd.Parameters.Add("@ChatLogId", SqlDbType.Int).Value = chatLog.ChatLogId;
                 cmd.Parameters.Add("@Status", SqlDbType.Bit).Value = chatLog.Status;
 
                 cmd.ExecuteNonQuery();

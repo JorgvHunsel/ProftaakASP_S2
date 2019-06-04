@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Data.Contexts;
 using Data.Interfaces;
 using Models;
 
@@ -34,26 +29,26 @@ namespace Logic
             _chat.DeleteMessages(chatLog);
         }
 
-        public List<ChatMessage> LoadMessageListWithChatId(int chatID) =>
-            _chat.LoadMessage(chatID);
+        public List<ChatMessage> LoadMessageListWithChatId(int chatId) =>
+            _chat.LoadMessage(chatId);
 
         public void SendMessage(int chatid, int receiverid, int senderid, string message)
         {
             _chat.SendMessage(chatid, receiverid, senderid, message);
         }
 
-        public List<ChatLog> GetAllOpenChatsWithVolunteerID(int userid) =>
+        public List<ChatLog> GetAllOpenChatsWithVolunteerId(int userid) =>
             _chat.GetAllOpenChatsWithVolunteerId(userid);
 
-        public List<ChatLog> GetAllOpenChatsWithCareRecipientID(int userid) => _chat.GetAllOpenChatsWithCareRecipientId(userid);
+        public List<ChatLog> GetAllOpenChatsWithCareRecipientId(int userid) => _chat.GetAllOpenChatsWithCareRecipientId(userid);
 
         public List<ChatLog> GetAllOpenChatsByDate(int userid)
         {
             return _chat.GetAllOpenChatsWithCareRecipientId(userid).OrderByDescending(c => c.TimeStamp).ToList();
         }
 
-        public int CreateNewChatLog(int reactionID, int volunteerID, int careRecipientID) =>
-            _chat.CreateNewChatLog(reactionID, volunteerID, careRecipientID);
+        public int CreateNewChatLog(int reactionId, int volunteerId, int careRecipientId) =>
+            _chat.CreateNewChatLog(reactionId, volunteerId, careRecipientId);
 
         public ChatLog GetSingleChatLog(int chatLogId)
         {

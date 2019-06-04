@@ -1,6 +1,4 @@
-﻿@using System.Linq
-@using Microsoft.AspNetCore.Http
-@model IEnumerable<ProftaakASP_S2.Models.QuestionViewModel>
+﻿@model IEnumerable<ProftaakASP_S2.Models.QuestionViewModel>
 
 @{
     ViewData["Title"] = "Overview";
@@ -34,7 +32,7 @@
     </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (QuestionViewModel item in Model)
         {
             <tr>
                 <td>

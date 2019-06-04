@@ -1,5 +1,4 @@
-﻿@using Models
-@model IEnumerable<ProftaakASP_S2.Models.ChatViewModel>
+﻿@model IEnumerable<ProftaakASP_S2.Models.ChatViewModel>
 
 @{
     ViewData["Title"] = "Overview";
@@ -36,15 +35,15 @@
                     @Html.DisplayFor(modelItem => chat.TimeStamp)
                 </td>
                 <td>
-                    @Html.ActionLink("Open", "OpenChat", new { id = chat.ChatLogID, volunteerName = chat.VolunteerName, careRecipientName = chat.CareRecipientName, volunteerId = chat.VolunteerId })|
+                    @Html.ActionLink("Open", "OpenChat", new { id = chat.ChatLogId, volunteerName = chat.VolunteerName, careRecipientName = chat.CareRecipientName, volunteerId = chat.VolunteerId })|
 
                     @if (chat.Status)
                     {
-                        @Html.ActionLink("Stop chat", "ChangeStatusChat", new { chatlogId = chat.ChatLogID })
+                        @Html.ActionLink("Stop chat", "ChangeStatusChat", new { chatlogId = chat.ChatLogId })
                     }
                     else
                     {
-                        @Html.ActionLink("Start chat", "ChangeStatusChat", new { chatlogId = chat.ChatLogID })
+                        @Html.ActionLink("Start chat", "ChangeStatusChat", new { chatlogId = chat.ChatLogId })
                     }
                 </td>
             </tr>

@@ -11,29 +11,29 @@ namespace UnitTests
     [TestClass]
     public class UserTests
     {
-        User user = new Mock<User>(1, "Jesse", "Oosterwijk", "Kleidonk 1", "Beuningen", "6641LM", "jesse.oosterwijk@outlook.com", DateTime.Today, User.Gender.Man, true, User.AccountType.CareRecipient,"1111").Object;
-        Mock<IUserContext> mockContext = new Mock<IUserContext>();
+        User _user = new Mock<User>(1, "Jesse", "Oosterwijk", "Kleidonk 1", "Beuningen", "6641LM", "jesse.oosterwijk@outlook.com", DateTime.Today, User.Gender.Man, true, User.AccountType.CareRecipient,"1111").Object;
+        Mock<IUserContext> _mockContext = new Mock<IUserContext>();
 
         [TestMethod]
         public void AddNewUser_IsValid()
         {
-            mockContext.Setup(x => x.AddNewUser(user));
+            _mockContext.Setup(x => x.AddNewUser(_user));
 
-            var _userLogic = new UserLogic(mockContext.Object);
-            _userLogic.AddNewUser(user);
+            UserLogic userLogic = new UserLogic(_mockContext.Object);
+            userLogic.AddNewUser(_user);
 
-            mockContext.Verify(x => x.AddNewUser(user), Times.Exactly(1));
+            _mockContext.Verify(x => x.AddNewUser(_user), Times.Exactly(1));
         }
 
         [TestMethod]
         public void EditUser_IsValid()
         {
-            mockContext.Setup(x => x.EditUser(user, "secret"));
+            _mockContext.Setup(x => x.EditUser(_user, "secret"));
 
-            var _userLogic = new UserLogic(mockContext.Object);
-            _userLogic.EditUser(user, "secret");
+            UserLogic userLogic = new UserLogic(_mockContext.Object);
+            userLogic.EditUser(_user, "secret");
 
-            mockContext.Verify(x => x.EditUser(user, "secret"), Times.Exactly(1));
+            _mockContext.Verify(x => x.EditUser(_user, "secret"), Times.Exactly(1));
         }
 
         [TestMethod]
@@ -41,52 +41,52 @@ namespace UnitTests
         {
             List<User> testList = new List<User>();
 
-            mockContext.Setup(x => x.GetAllUsers())
+            _mockContext.Setup(x => x.GetAllUsers())
                 .Returns(testList);
 
-            var _userLogic = new UserLogic(mockContext.Object);
-            var result = _userLogic.GetAllUsers();
+            UserLogic userLogic = new UserLogic(_mockContext.Object);
+            List<User> result = userLogic.GetAllUsers();
 
-            mockContext.Verify(x => x.GetAllUsers(), Times.Exactly(1));
+            _mockContext.Verify(x => x.GetAllUsers(), Times.Exactly(1));
             Assert.IsInstanceOfType(result, typeof(List<User>));
         }
 
         [TestMethod]
         public void GetUserId_IsValid()
         {
-            mockContext.Setup(x => x.GetUserId(user.EmailAddress))
+            _mockContext.Setup(x => x.GetUserId(_user.EmailAddress))
                 .Returns(It.IsAny<int>);
 
-            var _userLogic = new UserLogic(mockContext.Object);
-            var result = _userLogic.GetUserId(user.EmailAddress);
+            UserLogic userLogic = new UserLogic(_mockContext.Object);
+            int result = userLogic.GetUserId(_user.EmailAddress);
 
-            mockContext.Verify(x => x.GetUserId(user.EmailAddress), Times.Exactly(1));
+            _mockContext.Verify(x => x.GetUserId(_user.EmailAddress), Times.Exactly(1));
             Assert.IsInstanceOfType(result, typeof(int));
         }
 
         [TestMethod]
         public void CheckIfAccountIsActive_IsValid()
         {
-            mockContext.Setup(x => x.CheckIfAccountIsActive(user.EmailAddress))
+            _mockContext.Setup(x => x.CheckIfAccountIsActive(_user.EmailAddress))
                 .Returns(It.IsAny<bool>);
 
-            var _userLogic = new UserLogic(mockContext.Object);
-            var result = _userLogic.CheckIfAccountIsActive(user.EmailAddress);
+            UserLogic userLogic = new UserLogic(_mockContext.Object);
+            bool result = userLogic.CheckIfAccountIsActive(_user.EmailAddress);
 
-            mockContext.Verify(x => x.CheckIfAccountIsActive(user.EmailAddress), Times.Exactly(1));
+            _mockContext.Verify(x => x.CheckIfAccountIsActive(_user.EmailAddress), Times.Exactly(1));
             Assert.IsInstanceOfType(result, typeof(bool));
         }
 
         [TestMethod]
         public void CheckValidityUser_IsValid_True()
         {
-            mockContext.Setup(x => x.CheckValidityUser(user.EmailAddress, "secret"))
-                .Returns(user);
+            _mockContext.Setup(x => x.CheckValidityUser(_user.EmailAddress, "secret"))
+                .Returns(_user);
 
-            var _userLogic = new UserLogic(mockContext.Object);
-            var result = _userLogic.CheckValidityUser(user.EmailAddress, "secret");
+            UserLogic userLogic = new UserLogic(_mockContext.Object);
+            User result = userLogic.CheckValidityUser(_user.EmailAddress, "secret");
 
-            mockContext.Verify(x => x.CheckValidityUser(user.EmailAddress, "secret"), Times.Exactly(1));
+            _mockContext.Verify(x => x.CheckValidityUser(_user.EmailAddress, "secret"), Times.Exactly(1));
             Assert.IsInstanceOfType(result, typeof(User));
         }
         [TestMethod]
@@ -94,26 +94,26 @@ namespace UnitTests
         {
             User user = new Mock<User>(1, "Jesse", "Oosterwijk", "Kleidonk 1", "Beuningen", "6641LM", "jesse.oosterwijk@outlook.com", DateTime.Today, User.Gender.Man, true, User.AccountType.CareRecipient, "1111").Object;
             
-            UserLogic _userLogic = new UserLogic(mockContext.Object);
+            UserLogic userLogic = new UserLogic(_mockContext.Object);
 
-            Assert.ThrowsException<ArgumentException>(() => _userLogic.CheckValidityUser("", user.Password));
-            Assert.ThrowsException<ArgumentException>(() => _userLogic.CheckValidityUser(user.EmailAddress, ""));
+            Assert.ThrowsException<ArgumentException>(() => userLogic.CheckValidityUser("", user.Password));
+            Assert.ThrowsException<ArgumentException>(() => userLogic.CheckValidityUser(user.EmailAddress, ""));
 
-            Assert.ThrowsException<ArgumentException>(() => _userLogic.CheckValidityUser("athornthwaite0mreynault01PGnJuDB9uNN@thetimes.co.uk", "1111"));
-            Assert.ThrowsException<ArgumentException>(() => _userLogic.CheckValidityUser("Wesley.Martens@hotmail.com", "173xdEamUX9D9nCeQrJ6e9HkBLQE3DwZtU14RW6PegHKonJ4gwS"));
+            Assert.ThrowsException<ArgumentException>(() => userLogic.CheckValidityUser("athornthwaite0mreynault01PGnJuDB9uNN@thetimes.co.uk", "1111"));
+            Assert.ThrowsException<ArgumentException>(() => userLogic.CheckValidityUser("Wesley.Martens@hotmail.com", "173xdEamUX9D9nCeQrJ6e9HkBLQE3DwZtU14RW6PegHKonJ4gwS"));
         }
 
 
         [TestMethod]
         public void CheckIfUserAlreadyExists_IsValid()
         {
-            mockContext.Setup(x => x.CheckIfUserAlreadyExists(user.EmailAddress))
+            _mockContext.Setup(x => x.CheckIfUserAlreadyExists(_user.EmailAddress))
                 .Returns(It.IsAny<bool>);
 
-            var _userLogic = new UserLogic(mockContext.Object);
-            var result = _userLogic.CheckIfUserAlreadyExists(user.EmailAddress);
+            UserLogic userLogic = new UserLogic(_mockContext.Object);
+            bool result = userLogic.CheckIfUserAlreadyExists(_user.EmailAddress);
 
-            mockContext.Verify(x => x.CheckIfUserAlreadyExists(user.EmailAddress), Times.Exactly(1));
+            _mockContext.Verify(x => x.CheckIfUserAlreadyExists(_user.EmailAddress), Times.Exactly(1));
             Assert.IsInstanceOfType(result, typeof(bool));
         }
 
@@ -122,39 +122,39 @@ namespace UnitTests
         {
             User user = new Mock<User>(1, "Jesse", "Oosterwijk", "Kleidonk 1", "Beuningen", "6641LM", "jesse.oosterwijk@outlook.com", DateTime.Today, User.Gender.Man, true, User.AccountType.CareRecipient,"1111").Object;
             
-            mockContext.Setup(x => x.GetUserInfo(user.EmailAddress))
+            _mockContext.Setup(x => x.GetUserInfo(user.EmailAddress))
                 .Returns(user);
 
-            var _userLogic = new UserLogic(mockContext.Object);
-            var result = _userLogic.GetCurrentUserInfo(user.EmailAddress);
+            UserLogic userLogic = new UserLogic(_mockContext.Object);
+            User result = userLogic.GetCurrentUserInfo(user.EmailAddress);
 
-            mockContext.Verify(x => x.GetUserInfo(user.EmailAddress), Times.Exactly(1));
+            _mockContext.Verify(x => x.GetUserInfo(user.EmailAddress), Times.Exactly(1));
             Assert.IsInstanceOfType(result, typeof(User));
         }
 
         [TestMethod]
         public void GetUserById_IsValid()
         {
-            mockContext.Setup(x => x.GetUserById(user.UserId))
-                .Returns(user);
+            _mockContext.Setup(x => x.GetUserById(_user.UserId))
+                .Returns(_user);
 
-            var _userLogic = new UserLogic(mockContext.Object);
-            var result = _userLogic.GetUserById(user.UserId);
+            UserLogic userLogic = new UserLogic(_mockContext.Object);
+            User result = userLogic.GetUserById(_user.UserId);
 
-            mockContext.Verify(x => x.GetUserById(user.UserId), Times.Exactly(1));
+            _mockContext.Verify(x => x.GetUserById(_user.UserId), Times.Exactly(1));
             Assert.IsInstanceOfType(result, typeof(User));
         }
 
         [TestMethod]
         public void IsEmailValid_IsValid()
         {
-            mockContext.Setup(x => x.IsEmailValid(user.EmailAddress))
+            _mockContext.Setup(x => x.IsEmailValid(_user.EmailAddress))
                 .Returns(It.IsAny<bool>);
 
-            var _userLogic = new UserLogic(mockContext.Object);
-            var result = _userLogic.IsEmailValid(user.EmailAddress);
+            UserLogic userLogic = new UserLogic(_mockContext.Object);
+            bool result = userLogic.IsEmailValid(_user.EmailAddress);
 
-            mockContext.Verify(x => x.IsEmailValid(user.EmailAddress), Times.Exactly(1));
+            _mockContext.Verify(x => x.IsEmailValid(_user.EmailAddress), Times.Exactly(1));
             Assert.IsInstanceOfType(result, typeof(bool));
         }
 

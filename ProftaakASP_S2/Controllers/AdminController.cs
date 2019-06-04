@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Mail;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Logic;
 using ProftaakASP_S2.Models;
@@ -15,17 +11,13 @@ namespace ProftaakASP_S2.Controllers
     {
 
         private readonly QuestionLogic _questionLogic;
-        private readonly CategoryLogic _categoryLogic;
-        private readonly ReactionLogic _reactionLogic;
         private readonly UserLogic _userLogic;
         private readonly ChatLogic _chatLogic;
         private readonly LogLogic _logLogic;
 
-        public AdminController(QuestionLogic questionLogic, CategoryLogic categoryLogic, ReactionLogic reactionLogic, UserLogic userLogic, ChatLogic chatLogic, LogLogic logLogic)
+        public AdminController(QuestionLogic questionLogic, UserLogic userLogic, ChatLogic chatLogic, LogLogic logLogic)
         {
             _questionLogic = questionLogic;
-            _categoryLogic = categoryLogic;
-            _reactionLogic = reactionLogic;
             _userLogic = userLogic;
             _chatLogic = chatLogic;
             _logLogic = logLogic;
@@ -46,8 +38,8 @@ namespace ProftaakASP_S2.Controllers
         {
             try
             {
-                _chatLogic.DeleteMessagesFromDatabase(new ChatLog(chat.ChatLogID));
-                _chatLogic.DeleteChatLogFromDatabase(new ChatLog(chat.ChatLogID));
+                _chatLogic.DeleteMessagesFromDatabase(new ChatLog(chat.ChatLogId));
+                _chatLogic.DeleteChatLogFromDatabase(new ChatLog(chat.ChatLogId));
 
                 return RedirectToAction("ChatLogOverview");
             }

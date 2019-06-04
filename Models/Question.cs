@@ -1,26 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Models
 {
     public class Question
     {
-        public enum QuestionStatus { Open, Closed}
-        public int QuestionId { get; private set; }
-        public string Title { get; private set; }
-        public string Content { get; private set; }
+        public enum QuestionStatus { Open, Closed }
+        public int QuestionId { get; }
+        public string Title { get; }
+        public string Content { get; }
         public QuestionStatus Status { get; set; }
         public DateTime Date { get; set; }
         public bool Urgency { get; set; }
-        public Category Category { get; private set; }
-        public int CareRecipientId { get; private set; }
+        public Category Category { get; }
+        public int CareRecipientId { get; }
         public int CategoryId { get; set; }
 
-        public Question(int questionId, string title, string content, QuestionStatus status, DateTime date, bool urgency, Category category, int careRecipientID)
+        public Question(int questionId, string title, string content, QuestionStatus status, DateTime date, bool urgency, Category category, int careRecipientId)
         {
             QuestionId = questionId;
             Title = title;
@@ -29,27 +24,27 @@ namespace Models
             Date = date;
             Urgency = urgency;
             Category = category;
-            CareRecipientId = careRecipientID;
+            CareRecipientId = careRecipientId;
         }
 
-       public Question(string title, string content, QuestionStatus status, bool urgency, int categoryId, int careRecipientID)
+        public Question(string title, string content, QuestionStatus status, bool urgency, int categoryId, int careRecipientId)
         {
             Title = title;
             Content = content;
             Status = status;
             Urgency = urgency;
             CategoryId = categoryId;
-            CareRecipientId = careRecipientID;
+            CareRecipientId = careRecipientId;
         }
 
-        public Question(int questionID)
+        public Question(int questionId)
         {
-            QuestionId = questionID;
+            QuestionId = questionId;
         }
 
         public override string ToString()
         {
-            return $" '{Status}', '{Title}', '{Content}', '{Date.ToString("yyyy-M-d hh:mm tt")}', '{Urgency}', '{Category.CategoryId}' ";
+            return $" '{Status}', '{Title}', '{Content}', '{Date:yyyy-M-d hh:mm tt}', '{Urgency}', '{Category.CategoryId}' ";
         }
     }
 }

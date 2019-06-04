@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Autofac.Extras.Moq;
-using Data.Contexts;
 using Data.Interfaces;
 using Logic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,16 +13,16 @@ namespace UnitTests
         [TestMethod]
         public void GetCategories_IsValid()
         {
-            using (var mock = AutoMock.GetLoose())
+            using (AutoMock mock = AutoMock.GetLoose())
             {
                 mock.Mock<ICategoryContext>()
                     .Setup(x => x.GetAllCategories())
                     .Returns(GetSampleCategory());
 
-                var cls = mock.Create<CategoryLogic>();
-                var expected = GetSampleCategory();
+                CategoryLogic cls = mock.Create<CategoryLogic>();
+                List<Category> expected = GetSampleCategory();
 
-                var actual = cls.GetAllCategories();
+                List<Category> actual = cls.GetAllCategories();
 
                 Assert.IsTrue(actual != null);
                 Assert.AreEqual(expected.Count, actual.Count);
