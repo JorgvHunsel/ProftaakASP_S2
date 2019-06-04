@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
-using Logic;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Logic;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using ProftaakASP_S2.Models;
+using System;
+using System.Collections.Generic;
 
 namespace ProftaakASP_S2.Controllers
 {
@@ -19,14 +14,17 @@ namespace ProftaakASP_S2.Controllers
         private readonly ReactionLogic _reactionLogic;
         private readonly UserLogic _userLogic;
         private readonly ChatLogic _chatLogic;
+        private readonly AppointmentLogic _appointmentLogic;
 
-        public CareRecipientController(QuestionLogic questionLogic, CategoryLogic categoryLogic, ReactionLogic reactionLogic, UserLogic userLogic, ChatLogic chatLogic)
+
+        public CareRecipientController(QuestionLogic questionLogic, CategoryLogic categoryLogic, ReactionLogic reactionLogic, UserLogic userLogic, ChatLogic chatLogic, AppointmentLogic appointmentLogic)
         {
             _questionLogic = questionLogic;
             _categoryLogic = categoryLogic;
             _reactionLogic = reactionLogic;
             _userLogic = userLogic;
             _chatLogic = chatLogic;
+            _appointmentLogic = appointmentLogic;
         }
 
         public ActionResult Overview()
@@ -34,23 +32,12 @@ namespace ProftaakASP_S2.Controllers
             ViewBag.Message = TempData["ErrorMessage"] as string;
 
             List<QuestionViewModel> questionView = new List<QuestionViewModel>();
-            foreach (Question question in _questionLogic.GetAllOpenQuestionCareRecipientID(Convert.ToInt32(Request.Cookies["id"])))
+            foreach (Question question in _questionLogic.GetAllOpenQuestionCareRecipientId(Convert.ToInt32(Request.Cookies["id"])))
             {
                 questionView.Add(new QuestionViewModel(question));
             }
 
             return View("../CareRecipient/Question/Overview", questionView);
-        }
-
-        private List<QuestionViewModel> GetListQuestionViewModel(int id)
-        {
-            List<QuestionViewModel> questionView = new List<QuestionViewModel>();
-            foreach (Question question in _questionLogic.GetAllOpenQuestionCareRecipientID(Convert.ToInt32(Request.Cookies["id"])))
-            {
-                questionView.Add(new QuestionViewModel(question));
-            }
-
-            return questionView;
         }
 
         public ActionResult OverviewClosed()
@@ -92,10 +79,10 @@ namespace ProftaakASP_S2.Controllers
         {
             List<ReactionViewModel> reactionViews = new List<ReactionViewModel>();
 
-            if (_reactionLogic.GetAllCommentsWithQuestionID(id).Count > 0)
+            if (_reactionLogic.GetAllCommentsWithQuestionId(id).Count > 0)
             {
 
-                foreach (Reaction reaction in _reactionLogic.GetAllCommentsWithQuestionID(id))
+                foreach (Reaction reaction in _reactionLogic.GetAllCommentsWithQuestionId(id))
                 {
                     reactionViews.Add(new ReactionViewModel(reaction, _questionLogic.GetSingleQuestion(reaction.QuestionId),
                         _userLogic.GetUserById(Convert.ToInt32(Request.Cookies["id"]))));
@@ -125,20 +112,6 @@ namespace ProftaakASP_S2.Controllers
             }
         }
 
-        public ActionResult EditAccount()
-        {
-            List<string> userView = new List<string>();
-            User currentUser = _userLogic.GetCurrentUserInfo(Request.Cookies["email"]);
-            userView.Add(currentUser.FirstName);
-            userView.Add(currentUser.LastName);
-            userView.Add(currentUser.EmailAddress);
-            userView.Add(currentUser.Address);
-            userView.Add(currentUser.PostalCode);
-            userView.Add(currentUser.City);
-
-            return View("../CareRecipient/Question/Overview", userView);
-        }
-
         public ActionResult Create()
         {
             ViewData["Categories"] = _categoryLogic.GetAllCategories();
@@ -152,49 +125,40 @@ namespace ProftaakASP_S2.Controllers
         {
             try
             {
-
                 int userid = Convert.ToInt32(Request.Cookies["id"]);
                 _questionLogic.WriteQuestionToDatabase(new Question(question.Title, question.Content, Question.QuestionStatus.Open, question.Urgency, question.CategoryId, userid));
 
                 return RedirectToAction(nameof(Overview));
             }
-            catch(Exception exception)
+            catch (Exception)
             {
                 return View("../Shared/Error");
             }
         }
-        
-        
+
         public ActionResult ChangeStatus(int id, string status, string path)
         {
             string[] redirectUrl = path.Split("/");
 
             _questionLogic.ChangeStatus(id, status);
-            if(redirectUrl[2] == "Overview")
+            if (redirectUrl[2] == "Overview")
             {
-                return RedirectToAction(nameof(Overview));  
+                return RedirectToAction(nameof(Overview));
             }
-            else
-            {
-                return RedirectToAction(nameof(OverviewClosed));
-            }
+
+            return RedirectToAction(nameof(OverviewClosed));
         }
 
-        
         public ActionResult CreateChat(int reactionId, int volunteerId)
         {
             int id = _chatLogic.CreateNewChatLog(reactionId, volunteerId, Convert.ToInt32(Request.Cookies["id"]));
-            if(id == 0)
+            if (id != 0)
             {
-                // error
+                return RedirectToAction("OpenChat", new { id });
             }
-            else
-            {
-                return RedirectToAction("OpenChat", new {id});
-            }
+
             return RedirectToAction(nameof(Overview));
         }
-
 
         public ActionResult ChatOverview()
         {
@@ -207,13 +171,13 @@ namespace ProftaakASP_S2.Controllers
             return View("../CareRecipient/Chat/Overview", chatView);
         }
 
-        
         public ActionResult OpenChat(int id, string volunteerName, string careRecipientName, int volunteerId)
         {
             List<MessageViewModel> messageView = new List<MessageViewModel>();
-            MessageViewModel2 messageView2 = new MessageViewModel2(volunteerId ,Convert.ToInt32(Request.Cookies["id"]), id);
-            
-            foreach (ChatMessage cMessage in _chatLogic.LoadMessageListWithChatID(id))
+
+            MessageViewModel2 messageView2 = new MessageViewModel2(volunteerId, Convert.ToInt32(Request.Cookies["id"]), id, _chatLogic.GetSingleChatLog(id).Status);
+
+            foreach (ChatMessage cMessage in _chatLogic.LoadMessageListWithChatId(id))
             {
                 messageView.Add(new MessageViewModel(cMessage, Convert.ToInt32(Request.Cookies["id"]), volunteerName, careRecipientName));
             }
@@ -227,6 +191,20 @@ namespace ProftaakASP_S2.Controllers
         {
             _chatLogic.SendMessage(mvMessageViewModel2.ChatLogId, mvMessageViewModel2.ReceiverId, mvMessageViewModel2.SenderId, mvMessageViewModel2.NewMessage);
             return RedirectToAction(nameof(ChatOverview));
+        }
+
+
+        public ActionResult ChangeStatusChat(int chatlogId)
+        {
+            ChatLog chatLog = _chatLogic.GetSingleChatLog(chatlogId);
+
+            chatLog.Status = !chatLog.Status;
+
+            _chatLogic.ChangeChatStatus(chatLog);
+
+            _appointmentLogic.DeleteAppointmentByChat(chatlogId);
+
+            return RedirectToAction("ChatOverview");
         }
 
     }

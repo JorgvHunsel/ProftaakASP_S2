@@ -1,23 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Models
+﻿namespace Models
 {
     public class Category
     {
 
-        public int CategoryId { get; private set; }
+        public int CategoryId { get; }
         public string Name { get; set; }
-        public string Description { get; private set; }
+        public string Description { get; }
 
         public Category()
         {
-            
+
         }
 
         public Category(string categoryName)
@@ -30,26 +22,11 @@ namespace Models
             CategoryId = categoryId;
         }
 
-        public Category(int categoryID, string categoryName, string categoryDescription)
+        public Category(int categoryId, string categoryName, string categoryDescription)
         {
-            this.CategoryId = categoryID;
-            this.Name = categoryName;
-            this.Description = categoryDescription;
-        }
-
-        public void AddCategory(string name)
-        {
-            //Add new Category
-        }
-
-        public void EditCategory(Category c)
-        {
-            //Edit c.Description
-        }
-        
-        public void DeleteCategory(Category c)
-        {
-            //Delete the category tha's been given as parameter
+            CategoryId = categoryId;
+            Name = categoryName;
+            Description = categoryDescription;
         }
 
         public override string ToString()

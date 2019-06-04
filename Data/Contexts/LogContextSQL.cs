@@ -9,10 +9,9 @@ using Models;
 
 namespace Data.Contexts
 {
-    public class LogContextSQL : ILogContext
+    public class LogContextSql : ILogContext
     {
-        private const string ConnectionString = @"Data Source=mssql.fhict.local;Initial Catalog=dbi423244;User ID=dbi423244;Password=wsx234;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-        private readonly SqlConnection _conn = new SqlConnection(ConnectionString);
+        private readonly SqlConnection _conn = Connection.GetConnection();
 
         public void CreateUserLog(Log log)
         {
@@ -29,11 +28,6 @@ namespace Data.Contexts
 
                     cmd.ExecuteNonQuery();
                 }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                throw;
             }
             finally
             {
@@ -61,16 +55,10 @@ namespace Data.Contexts
                     string description = row["Description"].ToString();
                     DateTime dateTime = Convert.ToDateTime(row["Datetime"]);
 
-                    Log log = new Log(logId, userId, title, description, dateTime);
-                    logList.Add(log);
+                    logList.Add(new Log(logId, userId, title, description, dateTime));
                 }
 
                 return logList;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                throw;
             }
             finally
             {

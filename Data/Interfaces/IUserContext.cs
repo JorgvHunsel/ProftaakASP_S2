@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Models;
 
 namespace Data.Interfaces
@@ -13,7 +9,7 @@ namespace Data.Interfaces
         List<User> GetAllUsers();
         int GetUserId(string firstName);
         User CheckValidityUser(string email, string password);
-        User GetCurrentUserInfo(string email);
+        User GetUserInfo(string email);
         void EditUser(User currentUser, string password);
         bool CheckIfUserAlreadyExists(string email);
         bool IsEmailValid(string email);

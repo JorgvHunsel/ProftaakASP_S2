@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Data.Contexts;
+﻿using Data.Contexts;
 using Data.Interfaces;
 using Logic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,13 +32,13 @@ namespace ProftaakASP_S2
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
 
-            services.AddSingleton<IAppointmentContext, AppointmentContextSQL>();
-            services.AddSingleton<ICategoryContext, CategoryContextSQL>();
-            services.AddSingleton<IChatContext, ChatContextSQL>();
-            services.AddSingleton<IQuestionContext, QuestionContextSQL>();
-            services.AddSingleton<IReactionContext, ReactionContextSQL>();
-            services.AddSingleton<IUserContext, UserContextSQL>();
-            services.AddSingleton<ILogContext, LogContextSQL>();
+            services.AddSingleton<IAppointmentContext, AppointmentContextSql>();
+            services.AddSingleton<ICategoryContext, CategoryContextSql>();
+            services.AddSingleton<IChatContext, ChatContextSql>();
+            services.AddSingleton<IQuestionContext, QuestionContextSql>();
+            services.AddSingleton<IReactionContext, ReactionContextSql>();
+            services.AddSingleton<IUserContext, UserContextSql>();
+            services.AddSingleton<ILogContext, LogContextSql>();
 
 
             services.AddSingleton<UserLogic>();

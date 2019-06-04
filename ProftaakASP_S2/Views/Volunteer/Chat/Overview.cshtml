@@ -1,5 +1,4 @@
-﻿@using Models
-@model IEnumerable<ProftaakASP_S2.Models.ChatViewModel>
+﻿@model IEnumerable<ProftaakASP_S2.Models.ChatViewModel>
 
 @{
     ViewData["Title"] = "Overview";
@@ -23,7 +22,7 @@
     </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model) {
+    @foreach (ChatViewModel item in Model) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.QuestionName)
@@ -35,7 +34,7 @@
                 @Html.DisplayFor(modelItem => item.TimeStamp)
             </td>
             <td>
-                @Html.ActionLink("Open", "OpenChat", "CareRecipient", new { id = item.ChatLogID, volunteerName = item.VolunteerName, careRecipientName = item.CareRecipientName })
+                @Html.ActionLink("Open", "OpenChat", "Volunteer", new { id = item.ChatLogId, volunteerName = item.VolunteerName, careRecipientName = item.CareRecipientName, careRecipientId = item.CareRecipientId })
             </td>
             <td>
                 @Html.ActionLink("Afspraak maken", "CreateAppointment", new { questionId = item.QuestionId, volunteerId = item.VolunteerId, careRecipientId = item.CareRecipientId })

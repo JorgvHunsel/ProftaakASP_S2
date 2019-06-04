@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Models;
 
 namespace Data.Interfaces
@@ -10,6 +6,6 @@ namespace Data.Interfaces
     public interface IReactionContext
     {
         void PostReaction(Reaction reaction);
-        List<Reaction> GetAllCommentsWithQuestionID(int id);
+        List<Reaction> GetAllReactions(int questionId);
     }
 }

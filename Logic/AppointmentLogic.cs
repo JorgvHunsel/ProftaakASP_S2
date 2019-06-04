@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Data.Contexts;
+﻿using System.Collections.Generic;
 using Data.Interfaces;
 using Models;
 
@@ -13,12 +8,27 @@ namespace Logic
     {
         private readonly IAppointmentContext _appointment;
 
-        public AppointmentLogic(IAppointmentContext Appointment)
+        public AppointmentLogic(IAppointmentContext appointment)
         {
-            _appointment = Appointment;
+            _appointment = appointment;
         }
 
         public void CreateAppointment(Appointment appointment) =>
             _appointment.CreateAppointment(appointment);
+
+        public List<Appointment> GetAllAppointmentsFromUser(int userId)
+        {
+            return _appointment.GetAllAppointmentsFromUser(userId);
+        }
+
+        public void DeleteAppointment(int appointmentId)
+        {
+            _appointment.DeleteAppointment(appointmentId);
+        }
+
+        public void DeleteAppointmentByChat(int chatId)
+        {
+            _appointment.DeleteAppointmentByChat(chatId);
+        }
     }
 }

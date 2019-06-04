@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using Data.Contexts;
 using Data.Interfaces;
 using Models;
 
@@ -18,12 +16,9 @@ namespace Logic
 
         public void CreateUserLog(int userId, User user)
         {
-
-            string title = "";
-            title = user.Status ? "Unblocked user" : "Blocked user";
+            string title = user.Status ? "Unblocked user" : "Blocked user";
 
             Log log = new Log(userId, title, $"User: {user.UserId}, {user.FirstName}", DateTime.Now);
-
 
             _logContext.CreateUserLog(log);
         }
@@ -32,8 +27,5 @@ namespace Logic
         {
             return _logContext.GetAllLogs();
         }
-
-
-
     }
 }

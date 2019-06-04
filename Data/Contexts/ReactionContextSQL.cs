@@ -1,20 +1,15 @@
-﻿using System;
+﻿using Data.Interfaces;
+using Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Data.Interfaces;
-using Models;
 
 namespace Data.Contexts
 {
-    public class ReactionContextSQL : IReactionContext
+    public class ReactionContextSql : IReactionContext
     {
-        private const string ConnectionString = @"Data Source=mssql.fhict.local;Initial Catalog=dbi423244;User ID=dbi423244;Password=wsx234;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-        private static readonly SqlConnection _conn = new SqlConnection(ConnectionString);
-        //er mogen hier geen static methodes voorkomen, deze moeten pas static worden in de logic layer.
+        private readonly SqlConnection _conn = Connection.GetConnection();
         public void PostReaction(Reaction reaction)
         {
             try
@@ -28,18 +23,13 @@ namespace Data.Contexts
                 _conn.Open();
                 cmd.ExecuteNonQuery();
             }
-            catch (Exception e)
-            {
-
-                throw;
-            }
             finally
             {
                 _conn.Close();
             }
         }
 
-        public List<Reaction> GetAllCommentsWithQuestionID(int questionId)
+        public List<Reaction> GetAllReactions(int questionId)
         {
             List<Reaction> reactionList = new List<Reaction>();
             try
@@ -57,21 +47,14 @@ namespace Data.Contexts
                 {
                     string volunteerName = dr["VolunteerName"].ToString();
                     string description = dr["Description"].ToString();
-                    int volunteerID = Convert.ToInt32(dr["SenderID"].ToString());
-                    int reactionID = Convert.ToInt32(dr["ReactionID"].ToString());
-
+                    int volunteerId = Convert.ToInt32(dr["SenderID"]);
+                    int reactionId = Convert.ToInt32(dr["ReactionID"]);
                     DateTime timeStamp = Convert.ToDateTime(dr["Timestamp"].ToString());
 
-
-                    reactionList.Add(new Reaction(reactionID, questionId, volunteerID, description, volunteerName, timeStamp));
+                    reactionList.Add(new Reaction(reactionId, questionId, volunteerId, description, volunteerName, timeStamp));
                 }
 
                 return reactionList;
-            }
-            catch (Exception e)
-            {
-
-                throw;
             }
             finally
             {

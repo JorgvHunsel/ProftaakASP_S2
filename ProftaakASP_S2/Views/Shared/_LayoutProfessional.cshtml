@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ProftaakASP_S2</title>
+    <title>Eye4Participation</title>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
@@ -26,21 +26,50 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">No user logged in</a>
+                
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="User" asp-action="Login">Login</a></li>
-                    <li><a asp-area="" asp-controller="Volunteer" asp-action="QuestionOverview">Volunteer QuestionOverview</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+                    <li><a asp-area="" asp-controller="Professional" asp-action="QuestionOverview">Hulpvragen</a></li>
+                    
+
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    <li>
-                        <a type="button" asp-area="" asp-controller="User" asp-action="Login">
-                            <span class="glyphicon glyphicon-user"></span>
-                            Login
-                        </a>
-                    </li>
+                    @if (ViewBag.Username != null)
+                    {
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target">
+                                <span class="glyphicon glyphicon-user"></span>
+                                Welkom @ViewBag.UserName
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="dropdown_target">
+                                <li><a asp-area="" asp-controller="User" asp-action="AccountOverview" class="dropdown-item">Mijn account</a></li>
+                                <li><a asp-area="" asp-controller="User" asp-action="EditAccount" class="dropdown-item">Account bewerken</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a type="button" asp-area="" asp-controller="User" asp-action="Logout">
+                                <span class="glyphicon glyphicon-log-out"></span>
+                                Uitloggen
+                            </a>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a type="button" asp-area="" asp-controller="User" asp-action="Login">
+                                <span class="glyphicon glyphicon-user"></span>
+                                Login
+                            </a>
+                        </li>
+                        <li>
+                            <a type="button" asp-area="" asp-controller="User" asp-action="CreateAccount">
+                                <span class="glyphicon glyphicon-plus"></span>
+                                Account aanmaken
+                            </a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>

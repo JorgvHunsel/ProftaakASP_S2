@@ -30,17 +30,24 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Volunteer" asp-action="QuestionOverview">Hulpvragen</a></li>
+                    <li><a asp-area="" asp-controller="Volunteer" asp-action="QuestionClosedOverview">Afgeronde hulpvragen</a></li>
                     <li><a asp-area="" asp-controller="Volunteer" asp-action="ChatOverview">Chats</a></li>
+                    <li><a asp-area="" asp-controller="Volunteer" asp-action="AppointmentOverview">Afspraken</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @if (ViewBag.Username != null)
                     {
-                        <li>
-                            <a type="button" asp-area="" asp-controller="CareRecipient" asp-action="EditAccount">
-                                <span class="glyphicon glyphicon-user"></span>
-                                Welkom @ViewBag.Username
-                            </a>
-                        </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target">
+                            <span class="glyphicon glyphicon-user"></span>
+                            Welkom @ViewBag.UserName
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdown_target">
+                            <li><a asp-area="" asp-controller="User" asp-action="AccountOverview" class="dropdown-item">Mijn account</a></li>
+                            <li><a asp-area="" asp-controller="User" asp-action="EditAccount" class="dropdown-item">Account bewerken</a></li>
+                        </ul>
+                    </li>
                         <li>
                             <a type="button" asp-area="" asp-controller="User" asp-action="Logout">
                                 <span class="glyphicon glyphicon-log-out"></span>

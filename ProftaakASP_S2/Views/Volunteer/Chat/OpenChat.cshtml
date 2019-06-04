@@ -1,0 +1,65 @@
+﻿@model MessageViewModel2
+
+@{
+    ViewData["Title"] = "OpenChat";
+}
+
+<h2>OpenChat</h2>
+
+@if (Model.Messages.Count == 0)
+{
+    @:Geen berichten
+}
+else
+{
+    foreach (MessageViewModel item in Model.Messages)
+    {
+        if (item.SenderId == item.UserId)
+        {
+            <div class="chatmessageSending">
+                <div class="chatmessagetext">
+                    <div class="">
+                        @Html.DisplayFor(modelItem => item.CareRecipientName)
+                    </div>
+                    <div>
+                        @Html.DisplayFor(modelItem => item.MessageContent)
+                    </div>
+                    <div>
+                        @Html.DisplayFor(modelItem => item.Timestamp)
+                    </div>
+                </div>
+            </div>
+
+        }
+        else
+        {
+            <div class="chatmessageReceiving">
+                <div class="chatmessagetext">
+                    <div>
+                        @Html.DisplayFor(modelItem => item.VolunteerName)
+                    </div>
+                    <div>
+                        @Html.DisplayFor(modelItem => item.MessageContent)
+                    </div>
+                    <div>
+                        @Html.DisplayFor(modelItem => item.Timestamp)
+                    </div>
+                </div>
+            </div>
+        }
+        <br />
+    }
+}
+
+
+@if (Model.Status)
+{
+    <form method="post" asp-action="NewMessage" asp-controller="Volunteer">
+        <input asp-for="NewMessage" class="form-control"/>
+        <input type="hidden" asp-for="ReceiverId"/>
+        <input type="hidden" asp-for="SenderId"/>
+        <input type="hidden" asp-for="ChatLogId"/>
+        <input type="submit" value="Stuur" class="btn btn-default"/>
+
+    </form>
+}

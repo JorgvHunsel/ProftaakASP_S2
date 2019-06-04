@@ -1,16 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Models
 {
     public class Log
     {
-        public int LogId { get; private set; }
-        public int UserId { get; private set; }
-        public string Title { get; private set; }
-        public string Description { get; private set; }
-        public DateTime DateTime { get; private set; }
+        public int LogId { get; }
+        public int UserId { get; }
+        public string Title { get; }
+        public string Description { get; }
+        public DateTime DateTime { get; }
 
         public Log(int logId, int userId, string title, string description, DateTime dateTime)
         {

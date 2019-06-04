@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Models;
 
 namespace Data.Interfaces
 {
     public interface IQuestionContext
     {
-        void WriteQuestionToDatabase(Question askedQuestion);
-        List<Question> GetAllOpenQuestions();
-        Question GetSingleQuestion(int questionID);
+        void AddQuestion(Question askedQuestion);
+        List<Question> GetAllOpenQuestionsVolunteer();
+        List<Question> GetAllClosedQuestionsVolunteer(int volunteerId);
+        Question GetSingleQuestion(int questionId);
         void EditQuestion(Question question);
-        List<Question> GetAllOpenQuestionsCareRecipientID(int careRecipientID);
+        List<Question> GetAllOpenQuestionsCareRecipient(int careRecipientId);
         void ChangeQuestionStatus(int id, string closed);
-        List<Question> GetAllClosedQuestionsCareRecipientID(int careRecipientId);
+        List<Question> GetAllClosedQuestionsCareRecipient(int careRecipientId);
         List<Question> GetAllQuestions();
-        void DeleteQuestionFromDatabase(Question askedQuestion);
+        void DeleteQuestion(Question askedQuestion);
+        List<Question> GetAllQuestionsProfessional(int userid, string status);
     }
 }

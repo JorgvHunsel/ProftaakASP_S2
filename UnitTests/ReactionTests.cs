@@ -19,27 +19,28 @@ namespace UnitTests
             
             mockContext.Setup(x => x.PostReaction(mockReaction.Object));
 
-            var _reactionLogic = new ReactionLogic(mockContext.Object);
-            _reactionLogic.PostReaction(mockReaction.Object);
+            ReactionLogic reactionLogic = new ReactionLogic(mockContext.Object);
+            reactionLogic.PostReaction(mockReaction.Object);
 
             mockContext.Verify(x => x.PostReaction(mockReaction.Object), Times.Exactly(1));
         }
 
         [TestMethod]
-        public void GetAllCommentsWithQuestionID()
+        public void GetAllCommentsWithQuestionId()
         {
             Mock<IReactionContext> mockContext = new Mock<IReactionContext>();
-            Mock<Category> _category = new Mock<Category>("Medisch");
-            Mock<Question> _question = new Mock<Question>(1, "foo", "baa", Question.QuestionStatus.Open, DateTime.Today, true, _category.Object, 12);
-            List<Reaction> _mockList = new List<Reaction>();
-            mockContext.Setup(x => x.GetAllCommentsWithQuestionID(_question.Object.QuestionId))
-                .Returns(_mockList);
+            Mock<Category> category = new Mock<Category>("Medisch");
+            Mock<Question> question = new Mock<Question>(1, "foo", "baa", Question.QuestionStatus.Open, DateTime.Today, true, category.Object, 12);
+            List<Reaction> mockList = new List<Reaction>();
+            mockContext.Setup(x => x.GetAllReactions(question.Object.QuestionId))
+                .Returns(mockList);
 
-            var _reactionLogic = new ReactionLogic(mockContext.Object);
-            var result = _reactionLogic.GetAllCommentsWithQuestionID(_question.Object.QuestionId);
+            ReactionLogic reactionLogic = new ReactionLogic(mockContext.Object);
+            List<Reaction> result = reactionLogic.GetAllCommentsWithQuestionId(question.Object.QuestionId);
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(List<Reaction>));
+            mockContext.Verify(x => x.GetAllReactions(1), Times.Exactly(1));
         }
     }
 }

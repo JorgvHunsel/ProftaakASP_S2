@@ -1,25 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Models
 {
     public class ChatMessage
     {
-        public int ChatID { get; private set; }
-        public int ReceiverID { get; private set; }
-        public int SenderID { get; private set; }
-        public string MessageContent { get; private set; }
-        public DateTime TimeStamp { get; private set; }
-        
+        public int ChatId { get; }
+        public int ReceiverId { get; }
+        public int SenderId { get; }
+        public string MessageContent { get; }
+        public DateTime TimeStamp { get; }
+
 
         public ChatMessage(int chatId, int receiverId, int senderId, string messageContent, DateTime timeStamp)
         {
-            ChatID = chatId;
-            ReceiverID = receiverId;
-            SenderID = senderId;
+            ChatId = chatId;
+            ReceiverId = receiverId;
+            SenderId = senderId;
             MessageContent = messageContent;
             TimeStamp = timeStamp;
         }
