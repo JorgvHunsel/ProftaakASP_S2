@@ -39,6 +39,9 @@
             <th>
                 Actief
             </th>
+            <th>
+                Gekoppelde professional
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -75,10 +78,15 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Professional.FirstName)
+
+                @Html.DisplayFor(modelItem => item.Professional.LastName)
+            </td>
             @if (item.Status)
             {
                 <td>
-                    @Html.ActionLink("Blokkeren", "BlockUser", new {  id = item.UserId  })
+                    @Html.ActionLink("Blokkeren", "BlockUser", new { id = item.UserId })
                 </td>
             }
             else
@@ -86,7 +94,13 @@
                 <td>
                     @Html.ActionLink("Deblokkeren", "BlockUser", new { id = item.UserId })
                 </td>
-            }           
+            }
+            @if (item.UserAccountType == Models.User.AccountType.CareRecipient)
+            {
+                <td>
+                    @Html.ActionLink("Koppel aan professional", "LinkToProfessional", new { userId = item.UserId })
+                </td>
+            }
         </tr>
 }
     </tbody>
