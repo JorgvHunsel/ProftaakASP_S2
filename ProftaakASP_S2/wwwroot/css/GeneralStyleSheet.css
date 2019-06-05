@@ -1,4 +1,17 @@
 ﻿body {
-    background-image: url(../images/Background_Home.jpg);
-    background-repeat: no-repeat;
+    background-color: #106F62;
+}
+
+.navigation-bar {
+    background-color: white;
+    border-color: black;
+    color: #e32527;
+}
+
+.navigation-bar-column {
+    color: #e32527;
+}
+
+.white-style {
+    color: white;
 }
