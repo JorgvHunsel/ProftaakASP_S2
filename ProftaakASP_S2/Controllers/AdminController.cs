@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Mail;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Logic;
@@ -46,8 +44,8 @@ namespace ProftaakASP_S2.Controllers
         {
             try
             {
-                _chatLogic.DeleteMessagesFromDatabase(new ChatLog(chat.ChatLogID));
-                _chatLogic.DeleteChatLogFromDatabase(new ChatLog(chat.ChatLogID));
+                _chatLogic.DeleteMessagesFromDatabase(new ChatLog(chat.ChatLogId));
+                _chatLogic.DeleteChatLogFromDatabase(new ChatLog(chat.ChatLogId));
 
                 return RedirectToAction("ChatLogOverview");
             }
@@ -120,7 +118,6 @@ namespace ProftaakASP_S2.Controllers
             return View("LogOverview", logList);
         }
 
-        [HttpGet]
         public ActionResult CreateProfessional()
         {
             return View("CreateProfessional");
@@ -129,13 +126,29 @@ namespace ProftaakASP_S2.Controllers
         [HttpPost]
         public ActionResult CreateProfessional(string emailaddress)
         {
-            //mail
+            _userLogic.SendEmailProfessional(emailaddress);
 
-            //
-
-
-            return View("Error");
+            return RedirectToAction("UserOverview");
         }
 
+
+
+        public ActionResult LinkToProfessional(int userId)
+        {
+            User careRecipient = _userLogic.GetUserById(userId);
+            List<User> professionals = _userLogic.GetAllProfessionals();
+
+            LinkToProfessionalViewModel linkToProfessionalViewModel = new LinkToProfessionalViewModel(careRecipient, professionals);
+
+
+           return View("LinkCareProfessional", linkToProfessionalViewModel);
+        }
+
+        public ActionResult LinkCareToProf(int careId, int profId)
+        {
+            _userLogic.LinkCareToProf(careId, profId);
+
+            return RedirectToAction("UserOverview");
+        }
     }
 }

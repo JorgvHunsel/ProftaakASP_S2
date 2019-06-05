@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using Autofac.Extras.Moq;
-using Data.Contexts;
 using Data.Interfaces;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Models;
@@ -19,11 +16,11 @@ namespace UnitTests
         {
             
             Mock<IAppointmentContext> mockContext = new Mock<IAppointmentContext>();
-            Appointment appointment = new Mock<Appointment>(1, 3, 2, DateTime.Today).Object;
-            mockContext.Setup(x => x.CreateAppointment(It.IsAny<Appointment>()));
+            Appointment appointment = new Mock<Appointment>(1, 3, 2, DateTime.Today,DateTime.Today,"Test").Object;
+            mockContext.Setup(x => x.CreateAppointment(appointment));
 
-            var _appointmentLogic = new AppointmentLogic(mockContext.Object);
-            _appointmentLogic.CreateAppointment(appointment);
+            AppointmentLogic appointmentLogic = new AppointmentLogic(mockContext.Object);
+            appointmentLogic.CreateAppointment(appointment);
             mockContext.Verify(x => x.CreateAppointment(appointment), Times.Exactly(1));
 
         }

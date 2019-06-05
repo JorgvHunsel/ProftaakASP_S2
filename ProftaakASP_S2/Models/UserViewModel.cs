@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Models;
+﻿using Models;
 
 namespace ProftaakASP_S2.Models
 {
@@ -20,8 +15,9 @@ namespace ProftaakASP_S2.Models
         public string EmailAddress { get; set; }
         public string BirthDate { get; set; }
         public string UserGender { get; set; }
-        public global::Models.User.AccountType UserAccountType { get; set; }
+        public User.AccountType UserAccountType { get; set; }
         public bool Status { get; set; }
+        public User Professional { get; set; }
 
         public UserViewModel(User user)
         {
@@ -36,6 +32,7 @@ namespace ProftaakASP_S2.Models
             UserGender = user.UserGender.ToString();
             UserAccountType = user.UserAccountType;
             Status = user.Status;
+            Professional = user.Professional;
         }
 
         public UserViewModel()

@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Data.Contexts;
-using Data.Interfaces;
+﻿using Data.Interfaces;
 using Models;
+using System;
+using System.Collections.Generic;
 
 
 namespace Logic
@@ -23,7 +17,7 @@ namespace Logic
 
         public void WriteQuestionToDatabase(Question askedQuestion)
         {
-            if(askedQuestion.Title == "")
+            if (askedQuestion.Title == "")
                 throw new ArgumentException("Title can't be empty");
             if (askedQuestion.Title.Length > 100)
                 throw new ArgumentException("Title can't be too long");
@@ -33,25 +27,37 @@ namespace Logic
             if (askedQuestion.Content.Length > 500)
                 throw new ArgumentException("Content can't be too long");
 
-            _question.WriteQuestionToDatabase(askedQuestion);
+            _question.AddQuestion(askedQuestion);
         }
 
         public void DeleteQuestionFromDatabase(Question askedQuestion)
         {
-            _question.DeleteQuestionFromDatabase(askedQuestion);
+            _question.DeleteQuestion(askedQuestion);
+        }
+
+        public List<Question> GetAllQuestionsProfessional(int userid, string statusrequest)
+        {
+            return _question.GetAllQuestionsProfessional(userid, statusrequest);
         }
 
         public List<Question> GetAllOpenQuestions()
         {
-            return _question.GetAllOpenQuestions();
+            return _question.GetAllOpenQuestionsVolunteer();
         }
 
-        public List<Question> GetAllOpenQuestionCareRecipientID(int careRecipientID) =>
-            _question.GetAllOpenQuestionsCareRecipientID(careRecipientID);
-
-        public Question GetSingleQuestion(int questionID)
+        public List<Question> GetAllClosedQuestionsVolunteer(int volunteerId)
         {
-            return _question.GetSingleQuestion(questionID);
+            return _question.GetAllClosedQuestionsVolunteer(volunteerId);
+        }
+
+        public List<Question> GetAllOpenQuestionCareRecipientId(int careRecipientId)
+        {
+            return _question.GetAllOpenQuestionsCareRecipient(careRecipientId);
+        }
+
+        public Question GetSingleQuestion(int questionId)
+        {
+            return _question.GetSingleQuestion(questionId);
         }
 
         public void EditQuestion(Question question)
@@ -66,13 +72,13 @@ namespace Logic
 
         public List<Question> GetAllClosedQuestionsCareRecipientId(int careRecipient)
         {
-            return _question.GetAllClosedQuestionsCareRecipientID(careRecipient);
+            return _question.GetAllClosedQuestionsCareRecipient(careRecipient);
         }
 
         public List<Question> GetAllQuestions()
         {
             return _question.GetAllQuestions();
         }
-    
+
     }
 }

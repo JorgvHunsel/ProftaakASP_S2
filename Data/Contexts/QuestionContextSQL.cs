@@ -1,24 +1,17 @@
-﻿using System;
+﻿using Data.Interfaces;
+using Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Data.Interfaces;
-using Microsoft.Win32.SafeHandles;
-using Models;
 
 namespace Data.Contexts
 {
-    public class QuestionContextSQL : IQuestionContext
+    public class QuestionContextSql : IQuestionContext
     {
-        private const string ConnectionString =
-            @"Data Source=mssql.fhict.local;Initial Catalog=dbi423244;User ID=dbi423244;Password=wsx234;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+        private readonly SqlConnection _conn = Connection.GetConnection();
 
-        private static readonly SqlConnection _conn = new SqlConnection(ConnectionString);
-
-        public void WriteQuestionToDatabase(Question askedQuestion)
+        public void AddQuestion(Question askedQuestion)
         {
             try
             {
@@ -31,13 +24,8 @@ namespace Data.Contexts
                 cmd.Parameters.Add("@categoryID", SqlDbType.Int).Value = askedQuestion.CategoryId;
                 cmd.Parameters.Add("@careRecipientID", SqlDbType.Int).Value = askedQuestion.CareRecipientId;
 
-
                 _conn.Open();
                 cmd.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                throw;
             }
             finally
             {
@@ -45,7 +33,7 @@ namespace Data.Contexts
             }
         }
 
-        public void DeleteQuestionFromDatabase(Question askedQuestion)
+        public void DeleteQuestion(Question askedQuestion)
         {
             try
             {
@@ -57,17 +45,13 @@ namespace Data.Contexts
                 _conn.Open();
                 cmd.ExecuteNonQuery();
             }
-            catch (Exception e)
-            {
-                throw;
-            }
             finally
             {
                 _conn.Close();
             }
         }
 
-        public List<Question> GetAllOpenQuestions()
+        public List<Question> GetAllOpenQuestionsVolunteer()
         {
             try
             {
@@ -82,34 +66,92 @@ namespace Data.Contexts
 
                 foreach (DataRow dr in dt.Rows)
                 {
-                    int questionId = Convert.ToInt32(dr["QuestionID"].ToString());
+                    int questionId = Convert.ToInt32(dr["QuestionID"]);
                     string title = dr["Title"].ToString();
                     string content = dr["Description"].ToString();
-                    DateTime date = Convert.ToDateTime(dr["Datetime"].ToString());
+                    DateTime date = Convert.ToDateTime(dr["Datetime"]);
                     bool urgency = Convert.ToBoolean(dr["Urgency"]);
                     Category category = new Category(0, dr["Name"].ToString(), null);
-                    int careRecipientId = Convert.ToInt32(dr["CareRecipientID"].ToString());
+                    int careRecipientId = Convert.ToInt32(dr["CareRecipientID"]);
                     string status = dr["Status"].ToString();
 
-                    Question question;
-                    if (status == "Open")
-                    {
-                        question = new Question(questionId, title, content, Question.QuestionStatus.Open, date, urgency, category, careRecipientId);
-                    }
-                    else
-                    {
-                        question = new Question(questionId, title, content, Question.QuestionStatus.Closed, date, urgency, category, careRecipientId);
-                    }
+                    Question question = status == "Open" ? new Question(questionId, title, content, Question.QuestionStatus.Open, date, urgency, category, careRecipientId) : new Question(questionId, title, content, Question.QuestionStatus.Closed, date, urgency, category, careRecipientId);
                     questionList.Add(question);
-                    
                 }
 
                 return questionList;
             }
-            catch (Exception e)
+            finally
             {
-                Console.WriteLine(e.Message);
-                throw;
+                _conn.Close();
+            }
+        }
+
+        public List<Question> GetAllClosedQuestionsVolunteer(int volunteerId)
+        {
+            try
+            {
+                List<Question> questionList = new List<Question>();
+
+                SqlCommand cmd = new SqlCommand("SelectAllClosedQuestionsVolunteer", _conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@VolunteerId", SqlDbType.Int).Value = volunteerId;
+                _conn.Open();
+
+                DataTable dt = new DataTable();
+                dt.Load(cmd.ExecuteReader());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    int questionId = Convert.ToInt32(dr["QuestionID"]);
+                    string title = dr["Title"].ToString();
+                    string content = dr["Description"].ToString();
+                    DateTime date = Convert.ToDateTime(dr["Datetime"]);
+                    bool urgency = Convert.ToBoolean(dr["Urgency"]);
+                    Category category = new Category(0, dr["Name"].ToString(), null);
+                    int careRecipientId = Convert.ToInt32(dr["CareRecipientID"]);
+
+                    questionList.Add(new Question(questionId, title, content, Question.QuestionStatus.Closed, date, urgency, category, careRecipientId));
+                }
+
+                return questionList;
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
+
+        public List<Question> GetAllQuestionsProfessional(int userid, string statusrequest)
+        {
+            try
+            {
+                List<Question> questionList = new List<Question>();
+
+                SqlCommand cmd = new SqlCommand("SelectAllQuestionsProfessional", _conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@userid", SqlDbType.Int).Value = userid;
+
+                _conn.Open();
+                DataTable dt = new DataTable();
+                dt.Load(cmd.ExecuteReader());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    int questionId = Convert.ToInt32(dr["QuestionID"]);
+                    string title = dr["Title"].ToString();
+                    string content = dr["Description"].ToString();
+                    DateTime date = Convert.ToDateTime(dr["Datetime"]);
+                    bool urgency = Convert.ToBoolean(dr["Urgency"]);
+                    Category category = new Category(0, dr["Name"].ToString(), null);
+                    int careRecipientId = Convert.ToInt32(dr["CareRecipientID"]);
+
+                    Question question = new Question(questionId, title, content, Question.QuestionStatus.Open, date, urgency, category, careRecipientId);
+
+                    questionList.Add(question);
+                }
+
+                return questionList;
             }
             finally
             {
@@ -132,32 +174,19 @@ namespace Data.Contexts
 
                 foreach (DataRow dr in dt.Rows)
                 {
-                    int questionId = Convert.ToInt32(dr["QuestionID"].ToString());
+                    int questionId = Convert.ToInt32(dr["QuestionID"]);
                     string title = dr["Title"].ToString();
                     string content = dr["Description"].ToString();
-                    DateTime date = Convert.ToDateTime(dr["Datetime"].ToString());
+                    DateTime date = Convert.ToDateTime(dr["Datetime"]);
                     bool urgency = Convert.ToBoolean(dr["Urgency"]);
                     Category category = new Category(0, dr["Name"].ToString(), null);
-                    int careRecipientId = Convert.ToInt32(dr["CareRecipientID"].ToString());
+                    int careRecipientId = Convert.ToInt32(dr["CareRecipientID"]);
                     string status = dr["Status"].ToString();
 
-                    Question question;
-                    if (status == "Open")
-                    {
-                        question = new Question(questionId, title, content, Question.QuestionStatus.Open, date, urgency, category, careRecipientId);
-                    }
-                    else
-                    {
-                        question = new Question(questionId, title, content, Question.QuestionStatus.Closed, date, urgency, category, careRecipientId);
-                    }
+                    Question question = status == "Open" ? new Question(questionId, title, content, Question.QuestionStatus.Open, date, urgency, category, careRecipientId) : new Question(questionId, title, content, Question.QuestionStatus.Closed, date, urgency, category, careRecipientId);
                     questionList.Add(question);
                 }
                 return questionList;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                throw;
             }
             finally
             {
@@ -165,7 +194,7 @@ namespace Data.Contexts
             }
         }
 
-        public List<Question> GetAllOpenQuestionsCareRecipientID(int careRecipientID)
+        public List<Question> GetAllOpenQuestionsCareRecipient(int careRecipientId)
         {
             List<Question> questionList = new List<Question>();
 
@@ -173,7 +202,7 @@ namespace Data.Contexts
             {
                 SqlCommand cmd = new SqlCommand("SelectAllOpenQuestionsCareRecipientID", _conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@careRecipientID", SqlDbType.Int).Value = careRecipientID;
+                cmd.Parameters.Add("@careRecipientID", SqlDbType.Int).Value = careRecipientId;
                 _conn.Open();
 
                 DataTable dt = new DataTable();
@@ -185,21 +214,13 @@ namespace Data.Contexts
                     string title = dr["Title"].ToString();
                     string content = dr["Description"].ToString();
                     DateTime date = Convert.ToDateTime(dr["Datetime"]);
-                    bool urgency = Convert.ToBoolean(dr["Urgency"].ToString());
-                    int careRecipientId = Convert.ToInt32(dr["CareRecipientID"]);
+                    bool urgency = Convert.ToBoolean(dr["Urgency"]);
                     Category category = new Category(dr["Name"].ToString());
-                    Question.QuestionStatus status;
-
-                    status = dr["Status"].ToString() == "Open" ? Question.QuestionStatus.Open : Question.QuestionStatus.Closed;
+                    Question.QuestionStatus status = dr["Status"].ToString() == "Open" ? Question.QuestionStatus.Open : Question.QuestionStatus.Closed;
 
                     questionList.Add(new Question(questionId, title, content, status, date, urgency, category, careRecipientId));
                 }
                 return questionList;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                throw;
             }
             finally
             {
@@ -207,7 +228,7 @@ namespace Data.Contexts
             }
         }
 
-        public List<Question> GetAllClosedQuestionsCareRecipientID(int careRecipientID)
+        public List<Question> GetAllClosedQuestionsCareRecipient(int careRecipientId)
         {
             List<Question> questionList = new List<Question>();
 
@@ -215,7 +236,7 @@ namespace Data.Contexts
             {
                 SqlCommand cmd = new SqlCommand("SelectAllClosedQuestionsCareRecipientID", _conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@careRecipientID", SqlDbType.Int).Value = careRecipientID;
+                cmd.Parameters.Add("@careRecipientID", SqlDbType.Int).Value = careRecipientId;
                 _conn.Open();
 
                 DataTable dt = new DataTable();
@@ -227,21 +248,13 @@ namespace Data.Contexts
                     string title = dr["Title"].ToString();
                     string content = dr["Description"].ToString();
                     DateTime date = Convert.ToDateTime(dr["Datetime"]);
-                    bool urgency = Convert.ToBoolean(dr["Urgency"].ToString());
-                    int careRecipientId = Convert.ToInt32(dr["CareRecipientID"]);
+                    bool urgency = Convert.ToBoolean(dr["Urgency"]);
                     Category category = new Category(dr["Name"].ToString());
-                    Question.QuestionStatus status;
-
-                    status = dr["Status"].ToString() == "Open" ? Question.QuestionStatus.Open : Question.QuestionStatus.Closed;
+                    Question.QuestionStatus status = dr["Status"].ToString() == "Open" ? Question.QuestionStatus.Open : Question.QuestionStatus.Closed;
 
                     questionList.Add(new Question(questionId, title, content, status, date, urgency, category, careRecipientId));
                 }
                 return questionList;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                throw;
             }
             finally
             {
@@ -249,40 +262,30 @@ namespace Data.Contexts
             }
         }
 
-        public Question GetSingleQuestion(int questionID)
+        public Question GetSingleQuestion(int questionId)
         {
             try
             {
                 SqlCommand cmd = new SqlCommand("GetQuestionById", _conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.Add("@questionid", SqlDbType.Int).Value = questionID;
+                cmd.Parameters.Add("@questionid", SqlDbType.Int).Value = questionId;
                 _conn.Open();
 
                 DataTable dt = new DataTable();
                 dt.Load(cmd.ExecuteReader());
 
 
-                int CategoryID = Convert.ToInt32(dt.Rows[0]["CategoryId"].ToString());
-                string CategoryName = (dt.Rows[0]["Name"].ToString());
-                string CategoryDescription = (dt.Rows[0]["CDescription"].ToString());
-                int CareRecipientID = Convert.ToInt32(dt.Rows[0]["CareRecipientID"].ToString());
-
-                int QuestionID = Convert.ToInt32(dt.Rows[0]["QuestionID"].ToString());
-                string title = (dt.Rows[0]["Title"].ToString());
-                string content = (dt.Rows[0]["QDescription"].ToString());
+                int categoryId = Convert.ToInt32(dt.Rows[0]["CategoryId"]);
+                string categoryName = dt.Rows[0]["Name"].ToString();
+                string categoryDescription = dt.Rows[0]["CDescription"].ToString();
+                int careRecipientId = Convert.ToInt32(dt.Rows[0]["CareRecipientID"]);
+                string title = dt.Rows[0]["Title"].ToString();
+                string content = dt.Rows[0]["QDescription"].ToString();
                 bool urgency = Convert.ToBoolean(dt.Rows[0]["Urgency"]);
-
                 DateTime timeStamp = Convert.ToDateTime(dt.Rows[0]["TimeStamp"].ToString());
 
-                Category category = new Category(CategoryID, CategoryName, CategoryDescription);
-                Question question = new Question(QuestionID, title, content, Question.QuestionStatus.Open, timeStamp, urgency, category, CareRecipientID);
-                return question;
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                throw;
+                Category category = new Category(categoryId, categoryName, categoryDescription);
+                return new Question(questionId, title, content, Question.QuestionStatus.Open, timeStamp, urgency, category, careRecipientId);
             }
             finally
             {
@@ -303,13 +306,7 @@ namespace Data.Contexts
                 cmd.Parameters.Add("@urgency", SqlDbType.Bit).Value = question.Urgency;
                 cmd.Parameters.Add("@questionid", SqlDbType.Int).Value = question.QuestionId;
 
-
                 cmd.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                throw;
-
             }
             finally
             {
@@ -326,12 +323,8 @@ namespace Data.Contexts
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.Add("@questionid", SqlDbType.Int).Value = id;
                 cmd.Parameters.Add("@questionstatus", SqlDbType.NVarChar).Value = status;
-                
+
                 cmd.ExecuteNonQuery();
-            }
-            catch (Exception e)
-            {
-                throw;
             }
             finally
             {

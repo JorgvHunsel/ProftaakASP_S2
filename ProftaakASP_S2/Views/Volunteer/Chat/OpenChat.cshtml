@@ -1,5 +1,4 @@
-﻿@using Models
-@model MessageViewModel2
+﻿@model MessageViewModel2
 
 @{
     ViewData["Title"] = "OpenChat";
@@ -13,7 +12,7 @@
 }
 else
 {
-    foreach (var item in Model.Messages)
+    foreach (MessageViewModel item in Model.Messages)
     {
         if (item.SenderId == item.UserId)
         {
@@ -52,12 +51,15 @@ else
     }
 }
 
-<form method="post" asp-action="NewMessage" asp-controller="Volunteer">
-    <input asp-for="NewMessage" />
-    <input type="hidden" asp-for="ReceiverId"/>
-    <input type="hidden" asp-for="SenderId"/>
-    <input type="hidden" asp-for="ChatLogId"/>
-    <input type="submit" value="Stuur" />
 
-</form>
+@if (Model.Status)
+{
+    <form method="post" asp-action="NewMessage" asp-controller="Volunteer">
+        <input asp-for="NewMessage" class="form-control"/>
+        <input type="hidden" asp-for="ReceiverId"/>
+        <input type="hidden" asp-for="SenderId"/>
+        <input type="hidden" asp-for="ChatLogId"/>
+        <input type="submit" value="Stuur" class="btn btn-default"/>
 
+    </form>
+}

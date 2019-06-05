@@ -1,16 +1,15 @@
-﻿using System;
+﻿using Data.Interfaces;
+using Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using Data.Interfaces;
-using Models;
 
 namespace Data.Contexts
 {
-    public class AppointmentContextSQL : IAppointmentContext
+    public class AppointmentContextSql : IAppointmentContext
     {
-        private const string ConnectionString = @"Data Source=mssql.fhict.local;Initial Catalog=dbi423244;User ID=dbi423244;Password=wsx234;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-        private static readonly SqlConnection _conn = new SqlConnection(ConnectionString);
+        private readonly SqlConnection _conn = Connection.GetConnection();
 
         public void CreateAppointment(Appointment appointment)
         {
@@ -29,11 +28,6 @@ namespace Data.Contexts
 
                     cmd.ExecuteNonQuery();
                 }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                throw;
             }
             finally
             {
@@ -70,11 +64,6 @@ namespace Data.Contexts
 
                 return appointments;
             }
-            catch (Exception e)
-            {
-
-                throw;
-            }
             finally
             {
                 _conn.Close();
@@ -92,9 +81,22 @@ namespace Data.Contexts
                 _conn.Open();
                 cmd.ExecuteNonQuery();
             }
-            catch (Exception e)
+            finally
             {
-                throw;
+                _conn.Close();
+            }
+        }
+
+        public void DeleteAppointmentByChat(int chatId)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("DeleteAppointmentByChat", _conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.Add("@ChatId", SqlDbType.Int).Value = chatId;
+
+                _conn.Open();
+                cmd.ExecuteNonQuery();
             }
             finally
             {

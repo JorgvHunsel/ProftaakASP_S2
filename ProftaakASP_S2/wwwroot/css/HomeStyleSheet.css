@@ -1,4 +1,16 @@
 ﻿body {
-    background-image: url(../images/Background_Home.jpg);
-    background-repeat: repeat-x;
+    background-image: url("/images/Background_Home2.jpg")
+}
+
+h2.home-title {
+    font-size: 50px;
+    color: aliceblue;
+    text-align: center;
+    font-family: sans-serif;
+}
+
+p.home-paragraph {
+    font-size: 20px;
+    color: aliceblue;
+    text-align: center;
 }

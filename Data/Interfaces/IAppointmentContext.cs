@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Models;
 
 namespace Data.Interfaces
@@ -12,5 +8,6 @@ namespace Data.Interfaces
         void CreateAppointment(Appointment appointment);
         List<Appointment> GetAllAppointmentsFromUser(int userId);
         void DeleteAppointment(int appointmentId);
+        void DeleteAppointmentByChat(int chatId);
     }
 }

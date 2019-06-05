@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Data.Contexts;
 using Data.Interfaces;
 using Models;
 
@@ -26,47 +21,43 @@ namespace Logic
 
         public void DeleteChatLogFromDatabase(ChatLog chatLog)
         {
-            _chat.DeleteChatLogFromDatabase(chatLog);
+            _chat.DeleteChatLog(chatLog);
         }
 
         public void DeleteMessagesFromDatabase(ChatLog chatLog)
         {
-            _chat.DeleteMessagesFromDatabase(chatLog);
+            _chat.DeleteMessages(chatLog);
         }
 
-        //TODO: Check if method is still necessary
-        public DataTable GetAllOpenChatsAsDataTable(int userid)
-        {
-            return GetAllOpenChatsAsDataTable(userid);
-        }
-
-        public List<ChatMessage> LoadMessageListWithChatID(int chatID) =>
-            _chat.LoadMessageAsListUsingChatLogID(chatID);
-
-        //TODO: Check if method is still necessary
-        //Wesley
-        public List<ChatLog> LoadOpenMessageList()
-        {
-            return _chat.LoadOpenChatsList();
-        }
-        //End Wesley
+        public List<ChatMessage> LoadMessageListWithChatId(int chatId) =>
+            _chat.LoadMessage(chatId);
 
         public void SendMessage(int chatid, int receiverid, int senderid, string message)
         {
             _chat.SendMessage(chatid, receiverid, senderid, message);
         }
 
-        public List<ChatLog> GetAllOpenChatsWithVolunteerID(int userid) =>
-            _chat.GetAllOpenChatsWithVolunteerID(userid);
+        public List<ChatLog> GetAllOpenChatsWithVolunteerId(int userid) =>
+            _chat.GetAllOpenChatsWithVolunteerId(userid);
 
-        public List<ChatLog> GetAllOpenChatsWithCareRecipientID(int userid) => _chat.GetAllOpenChatsWithCareRecipientID(userid);
+        public List<ChatLog> GetAllOpenChatsWithCareRecipientId(int userid) => _chat.GetAllOpenChatsWithCareRecipientId(userid);
 
         public List<ChatLog> GetAllOpenChatsByDate(int userid)
         {
-            return _chat.GetAllOpenChatsWithCareRecipientID(userid).OrderByDescending(c => c.TimeStamp).ToList();
+            return _chat.GetAllOpenChatsWithCareRecipientId(userid).OrderByDescending(c => c.TimeStamp).ToList();
         }
 
-        public int CreateNewChatLog(int reactionID, int volunteerID, int careRecipientID) =>
-            _chat.CreateNewChatLog(reactionID, volunteerID, careRecipientID); 
+        public int CreateNewChatLog(int reactionId, int volunteerId, int careRecipientId) =>
+            _chat.CreateNewChatLog(reactionId, volunteerId, careRecipientId);
+
+        public ChatLog GetSingleChatLog(int chatLogId)
+        {
+            return _chat.GetSingleChatLog(chatLogId);
+        }
+
+        public void ChangeChatStatus(ChatLog chatLog)
+        {
+            _chat.ChangeChatStatus(chatLog);
+        }
     }
 }

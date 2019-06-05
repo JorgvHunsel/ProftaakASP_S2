@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace Models
 {
@@ -9,7 +7,7 @@ namespace Models
     {
         public static class SecurePasswordHasher
         {
-            private const int SaltSize = 16;         
+            private const int SaltSize = 16;
             private const int HashSize = 20;
 
             public static string Hash(string password, int iterations)
@@ -17,14 +15,14 @@ namespace Models
                 byte[] salt;
                 new RNGCryptoServiceProvider().GetBytes(salt = new byte[SaltSize]);
 
-                var pbkdf2 = new Rfc2898DeriveBytes(password, salt, iterations);
-                var hash = pbkdf2.GetBytes(HashSize);
+                Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(password, salt, iterations);
+                byte[] hash = pbkdf2.GetBytes(HashSize);
 
-                var hashBytes = new byte[SaltSize + HashSize];
+                byte[] hashBytes = new byte[SaltSize + HashSize];
                 Array.Copy(salt, 0, hashBytes, 0, SaltSize);
                 Array.Copy(hash, 0, hashBytes, SaltSize, HashSize);
 
-                var base64Hash = Convert.ToBase64String(hashBytes);
+                string base64Hash = Convert.ToBase64String(hashBytes);
 
                 return string.Format("$MYHASH$V1${0}${1}", iterations, base64Hash);
             }
@@ -46,19 +44,19 @@ namespace Models
                     throw new NotSupportedException("The hashtype is not supported");
                 }
 
-                var splittedHashString = hashedPassword.Replace("$MYHASH$V1$", "").Split('$');
-                var iterations = int.Parse(splittedHashString[0]);
-                var base64Hash = splittedHashString[1];
+                string[] splittedHashString = hashedPassword.Replace("$MYHASH$V1$", "").Split('$');
+                int iterations = int.Parse(splittedHashString[0]);
+                string base64Hash = splittedHashString[1];
 
-                var hashBytes = Convert.FromBase64String(base64Hash);
+                byte[] hashBytes = Convert.FromBase64String(base64Hash);
 
-                var salt = new byte[SaltSize];
+                byte[] salt = new byte[SaltSize];
                 Array.Copy(hashBytes, 0, salt, 0, SaltSize);
 
-                var pbkdf2 = new Rfc2898DeriveBytes(password, salt, iterations);
+                Rfc2898DeriveBytes pbkdf2 = new Rfc2898DeriveBytes(password, salt, iterations);
                 byte[] hash = pbkdf2.GetBytes(HashSize);
 
-                for (var i = 0; i < HashSize; i++)
+                for (int i = 0; i < HashSize; i++)
                 {
                     if (hashBytes[i + SaltSize] != hash[i])
                     {

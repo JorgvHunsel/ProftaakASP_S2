@@ -1,27 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Models;
 
 namespace Data.Interfaces
 {
     public interface IChatContext
     {
-        List<ChatLog> GetAllOpenChatsWithVolunteerID(int userid);
-        List<ChatLog> GetAllOpenChatsWithCareRecipientID(int userid);
-        List<ChatMessage> LoadMessageAsListUsingChatLogID(int chatID);
-
-        //Wesley
-        List<ChatLog> LoadOpenChatsList();
-
-        //End Wesley
+        List<ChatLog> GetAllOpenChatsWithVolunteerId(int userid);
+        List<ChatLog> GetAllOpenChatsWithCareRecipientId(int userid);
+        List<ChatMessage> LoadMessage(int chatId);
         void SendMessage(int chatid, int receiverid, int senderid, string message);
-        int CreateNewChatLog(int reactionID, int volunteerID, int careRecipientID);
-        void DeleteChatLogFromDatabase(ChatLog chatLog);
-        void DeleteMessagesFromDatabase(ChatLog chatLog);
+        int CreateNewChatLog(int reactionId, int volunteerId, int careRecipientId);
+        void DeleteChatLog(ChatLog chatLog);
+        void DeleteMessages(ChatLog chatLog);
         List<ChatLog> GetAllChatLogs();
+        ChatLog GetSingleChatLog(int chatLogId);
+        void ChangeChatStatus(ChatLog chatLog);
     }
 }
