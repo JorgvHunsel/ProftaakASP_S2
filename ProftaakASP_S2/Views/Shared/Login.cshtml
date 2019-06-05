@@ -6,11 +6,11 @@
 
 
 
-<h2 class="white-style">Login</h2>
+<h2 class="header">Login</h2>
 
-<div class="row">
+<div class="row login-div care-label">
     <div class="col-md-4">
-        <form asp-controller="User" asp-action="Login" method="post">
+        <form style="width: 465px;" asp-controller="User" asp-action="Login" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="EmailAddress" class="control-label">Email adres</label>
@@ -23,7 +23,7 @@
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Inloggen" class="btn btn-default" />
+                <input class="btn btn-primary btn-lg btn-block" type="submit" value="Inloggen" class="btn btn-default" />
             </div>
         </form>
     </div>
