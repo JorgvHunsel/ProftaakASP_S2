@@ -46,10 +46,10 @@ namespace ProftaakASP_S2.Controllers
         {
             List<ReactionViewModel> reactionViews = new List<ReactionViewModel>();
 
-            if (_reactionLogic.GetAllCommentsWithQuestionID(id).Count > 0)
+            if (_reactionLogic.GetAllCommentsWithQuestionId(id).Count > 0)
             {
 
-                foreach (Reaction reaction in _reactionLogic.GetAllCommentsWithQuestionID(id))
+                foreach (Reaction reaction in _reactionLogic.GetAllCommentsWithQuestionId(id))
                 {
                     reactionViews.Add(new ReactionViewModel(reaction, _questionLogic.GetSingleQuestion(reaction.QuestionId),
                         _userLogic.GetUserById(Convert.ToInt32(Request.Cookies["id"]))));
