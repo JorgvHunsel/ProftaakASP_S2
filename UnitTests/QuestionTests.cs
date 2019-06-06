@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using Data.Interfaces;
 using Models;
 using System;
-using System.Linq;
 using Logic;
 
 namespace UnitTests
