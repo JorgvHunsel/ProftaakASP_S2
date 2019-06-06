@@ -13,6 +13,23 @@ namespace Data.Contexts
     {
         private readonly SqlConnection _conn = Connection.GetConnection();
 
+        public void GetAllReviewsWithVolunteerId(int volunteerId)
+        {
+            try
+            {
+                string query = "SELECT * FROM [VolunteerReview] WHERE [VolunteerID] = @VolunteerId";
+                SqlCommand cmd = new SqlCommand(query, _conn);
+                cmd.Parameters.Add("@VolunteerId", SqlDbType.Int).Value = volunteerId;
+                _conn.Open();
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
         public void LinkCareToProf(int careId, int profId)
         {
             try

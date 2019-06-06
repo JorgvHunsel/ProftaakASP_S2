@@ -35,7 +35,10 @@
                 @Html.DisplayFor(modelItem => item.VolunteerName)
             </td>
             <td>
-                @Html.ActionLink("Start chat", "CreateChat", new {reactionId = item.ReactionId, volunteerid = item.SenderId})
+                @Html.ActionLink("Start chat", "CreateChat", new { reactionId = item.ReactionId, volunteerid = item.SenderId })
+            </td>
+            <td>
+                @Html.ActionLink("Beoordeel vrijwilliger", "RatingOverview", new { volunteerId = item.SenderId, questionId = item.QuestionId })
             </td>
         </tr>
     }

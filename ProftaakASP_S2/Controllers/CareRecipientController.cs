@@ -207,5 +207,14 @@ namespace ProftaakASP_S2.Controllers
             return RedirectToAction("ChatOverview");
         }
 
+        [HttpGet]
+        public ActionResult RatingOverview(int volunteerId, int questionId)
+        {
+            ReviewViewModel reviewViewModel = new ReviewViewModel(volunteerId, questionId);
+
+            return View("../Review/Index");
+        }
+
+        
     }
 }

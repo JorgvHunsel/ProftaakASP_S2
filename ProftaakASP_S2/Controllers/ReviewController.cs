@@ -19,48 +19,28 @@ namespace ProftaakASP_S2.Controllers
         private readonly ReactionLogic _reactionLogic;
         private readonly UserLogic _userLogic;
         private readonly ChatLogic _chatLogic;
+        private readonly ReviewLogic _reviewLogic;
 
-        public ReviewController(QuestionLogic questionLogic, CategoryLogic categoryLogic, ReactionLogic reactionLogic, UserLogic userLogic, ChatLogic chatLogic)
+        public ReviewController(QuestionLogic questionLogic, CategoryLogic categoryLogic, ReactionLogic reactionLogic, UserLogic userLogic, ChatLogic chatLogic, ReviewLogic reviewLogic)
         {
             _questionLogic = questionLogic;
             _categoryLogic = categoryLogic;
             _reactionLogic = reactionLogic;
             _userLogic = userLogic;
             _chatLogic = chatLogic;
-        }
-
-        public IActionResult Index()
-        {
-            ReviewViewModel model = new ReviewViewModel();
-            return View(model);
+            _reviewLogic = reviewLogic;
         }
 
         [HttpPost]
-        public IActionResult Index(ReviewViewModel model)
+        public ActionResult SubmitReview(ReviewViewModel reviewViewModel)
         {
-            return View();
+            int careRecipientId = Convert.ToInt32(Request.Cookies["id"]);
+
+            _reviewLogic.InsertReview(new ReviewInfo(reviewViewModel.VolunteerId, careRecipientId, reviewViewModel.Review, reviewViewModel.starAmount));
+
+            return View("../Shared/Login");
         }
 
-        [HttpPost]
-        public ActionResult Cancel(int id)
-        {
-            List<ReactionViewModel> reactionViews = new List<ReactionViewModel>();
 
-            if (_reactionLogic.GetAllCommentsWithQuestionID(id).Count > 0)
-            {
-
-                foreach (Reaction reaction in _reactionLogic.GetAllCommentsWithQuestionID(id))
-                {
-                    reactionViews.Add(new ReactionViewModel(reaction, _questionLogic.GetSingleQuestion(reaction.QuestionId),
-                        _userLogic.GetUserById(Convert.ToInt32(Request.Cookies["id"]))));
-                }
-
-                ViewBag.Message = null;
-
-                return View("Reaction/Overview", reactionViews);
-            }
-            TempData["ErrorMessage"] = "Vraag heeft geen reacties";
-            return View("Reaction/Overview", reactionViews);
-        }
     }
 }
