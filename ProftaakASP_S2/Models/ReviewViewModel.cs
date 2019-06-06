@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Models;
 
 namespace ProftaakASP_S2.Models
 {
@@ -26,6 +27,13 @@ namespace ProftaakASP_S2.Models
             QuestionID = questionId;
         }
 
+        public ReviewViewModel(ReviewInfo review)
+        {
+            CareRecipientId = review.CareRecipientId;
+            Review = review.Review;
+            VolunteerId = review.VolunteerId;
+            starAmount = review.StarAmount;
+        }
         public ReviewViewModel()
         {
 

@@ -28,5 +28,11 @@ namespace Models
             Review = review;
             StarAmount = starAmount;
         }
+
+        public ReviewInfo(string review, int starAmount)
+        {
+            Review = review;
+            StarAmount = starAmount;
+        }
     }
 }

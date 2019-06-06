@@ -14,14 +14,16 @@ namespace ProftaakASP_S2.Controllers
         private readonly ReactionLogic _reactionLogic;
         private readonly ChatLogic _chatLogic;
         private readonly AppointmentLogic _appointmentLogic;
+        private readonly ReviewLogic _reviewLogic;
 
-        public VolunteerController(QuestionLogic questionLogic, UserLogic userLogic, ReactionLogic reactionLogic, ChatLogic chatLogic, AppointmentLogic appointmentLogic)
+        public VolunteerController(QuestionLogic questionLogic, UserLogic userLogic, ReactionLogic reactionLogic, ChatLogic chatLogic, AppointmentLogic appointmentLogic, ReviewLogic reviewLogic)
         {
             _questionLogic = questionLogic;
             _userLogic = userLogic;
             _reactionLogic = reactionLogic;
             _chatLogic = chatLogic;
             _appointmentLogic = appointmentLogic;
+            _reviewLogic = reviewLogic;
         }
 
         public ActionResult QuestionOverview()
@@ -82,9 +84,17 @@ namespace ProftaakASP_S2.Controllers
             return View("../Volunteer/Chat/Overview", chatView);
         }
 
-        public ActionResult ReviewOverview(int volunteerId)
+        public ActionResult ReviewOverview()
         {
-            _userLogic.
+            List<ReviewViewModel> reviewList = new List<ReviewViewModel>();
+
+            int volunteerId = Convert.ToInt32(Request.Cookies["id"]);
+            foreach (ReviewInfo review in _reviewLogic.GetAllReviewsWithVolunteerId(volunteerId))
+            {
+                reviewList.Add(new ReviewViewModel(review));
+            }
+
+            return View("../Review/ReviewOverview", reviewList);
         }
 
         [HttpGet]

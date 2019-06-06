@@ -19,5 +19,9 @@ namespace Logic
         {
             _reviewContext.InsertReview(review);
         }
+        public List<ReviewInfo> GetAllReviewsWithVolunteerId(int volunteerId)
+        {
+            return _reviewContext.GetAllReviewsWithVolunteerId(volunteerId);
+        }
     }
 }
