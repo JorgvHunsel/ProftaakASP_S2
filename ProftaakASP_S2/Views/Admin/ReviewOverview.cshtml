@@ -1,0 +1,62 @@
+﻿@model IEnumerable<ProftaakASP_S2.Models.ReviewViewModel>
+
+@{
+    ViewData["Title"] = "ReviewOverview";
+}
+
+<h2>Reviews</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ReviewId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.VolunteerId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CareRecipientId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Review)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.starAmount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.QuestionID)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ReviewId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VolunteerId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CareRecipientId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Review)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.starAmount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.QuestionID)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

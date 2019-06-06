@@ -18,8 +18,9 @@ namespace ProftaakASP_S2.Controllers
         private readonly UserLogic _userLogic;
         private readonly ChatLogic _chatLogic;
         private readonly LogLogic _logLogic;
+        private readonly ReviewLogic _reviewLogic;
 
-        public AdminController(QuestionLogic questionLogic, CategoryLogic categoryLogic, ReactionLogic reactionLogic, UserLogic userLogic, ChatLogic chatLogic, LogLogic logLogic)
+        public AdminController(QuestionLogic questionLogic, CategoryLogic categoryLogic, ReactionLogic reactionLogic, UserLogic userLogic, ChatLogic chatLogic, LogLogic logLogic, ReviewLogic reviewLogic)
         {
             _questionLogic = questionLogic;
             _categoryLogic = categoryLogic;
@@ -27,6 +28,7 @@ namespace ProftaakASP_S2.Controllers
             _userLogic = userLogic;
             _chatLogic = chatLogic;
             _logLogic = logLogic;
+            _reviewLogic = reviewLogic;
         }
 
         public ActionResult ChatLogOverview()
@@ -149,6 +151,20 @@ namespace ProftaakASP_S2.Controllers
             _userLogic.LinkCareToProf(careId, profId);
 
             return RedirectToAction("UserOverview");
+        }
+
+        public ActionResult ReviewOverview()
+        {
+            List<ReviewInfo> reviews = _reviewLogic.GetAllReviews();
+            List<ReviewViewModel> reviewViewModels = new List<ReviewViewModel>();
+
+            foreach (ReviewInfo review in reviews)
+            {
+                ReviewViewModel reviewViewModel = new ReviewViewModel(review);
+                reviewViewModels.Add(reviewViewModel);
+            }
+
+            return View(reviewViewModels);
         }
     }
 }
