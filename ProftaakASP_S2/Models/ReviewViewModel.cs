@@ -22,6 +22,15 @@ namespace ProftaakASP_S2.Models
         public int starAmount { get; set; }
         public int QuestionID { get; set; }
 
+        public ReviewViewModel(ReviewInfo review)
+        {
+            ReviewId = review.ReviewId;
+            VolunteerId = review.VolunteerId;
+            CareRecipientId = review.CareRecipientId;
+            Review = review.Review;
+            starAmount = review.StarAmount;
+        }
+
         public ReviewViewModel(int volunteerId, int questionId)
         {
             VolunteerId = volunteerId;
