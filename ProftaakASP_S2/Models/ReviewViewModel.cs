@@ -10,7 +10,7 @@ namespace ProftaakASP_S2.Models
     public class ReviewViewModel
     {
         public string CareRecipientName { get; set; }
-        public string
+        public string VolunteerName { get; set; }
         public int ReviewId { get; set; }
         [Required]
         public int VolunteerId { get; set; }
@@ -29,20 +29,14 @@ namespace ProftaakASP_S2.Models
             CareRecipientId = review.CareRecipientId;
             Review = review.Review;
             starAmount = review.StarAmount;
+            VolunteerName = review.VolFirstName + " " + review.VolLastName;
+            CareRecipientName = review.CareFirstName + " " + review.CareLastName;
         }
 
         public ReviewViewModel(int volunteerId, int questionId)
         {
             VolunteerId = volunteerId;
             QuestionID = questionId;
-        }
-
-        public ReviewViewModel(ReviewInfo review)
-        {
-            CareRecipientId = review.CareRecipientId;
-            Review = review.Review;
-            VolunteerId = review.VolunteerId;
-            starAmount = review.StarAmount;
         }
         public ReviewViewModel()
         {

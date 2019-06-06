@@ -96,27 +96,35 @@ namespace Data.Contexts
 
         public List<ReviewInfo> GetAllReviewsWithVolunteerId(int volunteerId)
         {
-            List<ReviewInfo> reviews = new List<ReviewInfo>();
+            List<ReviewInfo> reviewList = new List<ReviewInfo>();
             try
             {
-                string query = "SELECT * FROM [VolunteerReview] WHERE [VolunteerID] = @VolunteerId";
-                SqlCommand cmd = new SqlCommand(query, _conn);
-                cmd.Parameters.Add("@VolunteerId", SqlDbType.Int).Value = volunteerId;
+                SqlCommand cmd = new SqlCommand("GetAllReviewsByVolunteerId", _conn);
+                cmd.CommandType = CommandType.StoredProcedure;
                 _conn.Open();
+                cmd.Parameters.Add("@VolunteerId", SqlDbType.Int).Value = volunteerId;
 
                 DataTable dt = new DataTable();
                 dt.Load(cmd.ExecuteReader());
 
                 foreach (DataRow row in dt.Rows)
                 {
+                    int reviewId = Convert.ToInt32(row["Review_ID"]);
+                    string volunteerFirstName = row["VFName"].ToString();
+                    string volunteerLastName = row["VLName"].ToString();
+                    string careFirstName = row["CFName"].ToString();
+                    string careLastName = row["CLName"].ToString();
                     int careRecipientId = Convert.ToInt32(row["CareRecipientID"]);
-                    string review = Convert.ToString(row["Content"]);
+                    string reviewContent = row["Content"].ToString();
                     int starAmount = Convert.ToInt32(row["Rating"]);
+                    DateTime dateTime = Convert.ToDateTime(row["RatingTime"]);
 
-                    reviews.Add(new ReviewInfo(volunteerId, careRecipientId, review, starAmount));
+                    ReviewInfo review = new ReviewInfo(reviewId, volunteerId, careRecipientId, reviewContent,
+                        starAmount, volunteerFirstName, volunteerLastName, careFirstName, careLastName);
+                    reviewList.Add(review);
                 }
 
-                return reviews;
+                return reviewList;
             }
             finally
             {

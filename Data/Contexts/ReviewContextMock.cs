@@ -17,5 +17,10 @@ namespace Data.Contexts
         {
             return new List<ReviewInfo>();
         }
+
+        public List<ReviewInfo> GetAllReviews()
+        {
+            return new List<ReviewInfo>();
+        }
     }
 }
