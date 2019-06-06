@@ -4,6 +4,11 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Text;
+using Data.Interfaces;
+using Models;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
@@ -22,7 +27,8 @@ namespace Data.Contexts
             try
             {
                 _conn.Open();
-                string query = "INSERT INTO [VolunteerReview] (CareRecipientID, VolunteerID, Content, Rating, RatingTime) VALUES (@recipientId, @volunteerId, @content, @rating, @ratingTime)";
+                string query =
+                    "INSERT INTO [VolunteerReview] (CareRecipientID, VolunteerID, Content, Rating, RatingTime) VALUES (@recipientId, @volunteerId, @content, @rating, @ratingTime)";
                 using (SqlCommand insertReview = new SqlCommand(query, _conn))
                 {
                     insertReview.Parameters.AddWithValue("@recipientId", review.CareRecipientId);
@@ -43,35 +49,110 @@ namespace Data.Contexts
             }
         }
 
-        public List<ReviewInfo> GetAllReviewsWithVolunteerId(int volunteerId)
+        public List<ReviewInfo> GetAllReviews()
         {
-            List<ReviewInfo> reviews = new List<ReviewInfo>();
             try
             {
-                string query = "SELECT * FROM [VolunteerReview] WHERE [VolunteerID] = @VolunteerId";
-                SqlCommand cmd = new SqlCommand(query, _conn);
-                cmd.Parameters.Add("@VolunteerId", SqlDbType.Int).Value = volunteerId;
+                List<ReviewInfo> reviewList = new List<ReviewInfo>();
+
+                SqlCommand cmd = new SqlCommand("GetAllReviews", _conn);
+                cmd.CommandType = CommandType.StoredProcedure;
                 _conn.Open();
+
+                DataTable dt = new DataTable();
+                dt.Load(cmd.ExecuteReader());
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    int reviewId = Convert.ToInt32(dr["Review_ID"]);
+                    int volunteerId = Convert.ToInt32(dr["VolunteerID"]);
+                    string volunteerFirstName = dr["VFName"].ToString();
+                    string volunteerLastName = dr["VLName"].ToString();
+                    string careFirstName = dr["CFName"].ToString();
+                    string careLastName = dr["CLName"].ToString();
+                    int careRecipientId = Convert.ToInt32(dr["CareRecipientID"]);
+                    string reviewContent = dr["Content"].ToString();
+                    int starAmount = Convert.ToInt32(dr["Rating"]);
+                    DateTime dateTime = Convert.ToDateTime(dr["RatingTime"]);
+
+                    ReviewInfo review = new ReviewInfo(reviewId, volunteerId, careRecipientId, reviewContent,
+                        starAmount, volunteerFirstName, volunteerLastName, careFirstName, careLastName);
+                    reviewList.Add(review);
+                }
+
+                return reviewList;
+            }
+            catch(SqlException e)
+            {
+                Console.WriteLine(e);
+                throw e;
+            }
+            finally
+            {
+                _conn.Close();
+                
+            }
+        }
+
+        public List<ReviewInfo> GetAllReviewsWithVolunteerId(int volunteerId)
+        {
+            List<ReviewInfo> reviewList = new List<ReviewInfo>();
+            try
+            {
+                SqlCommand cmd = new SqlCommand("GetAllReviewsByVolunteerId", _conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                _conn.Open();
+                cmd.Parameters.Add("@VolunteerId", SqlDbType.Int).Value = volunteerId;
 
                 DataTable dt = new DataTable();
                 dt.Load(cmd.ExecuteReader());
 
                 foreach (DataRow row in dt.Rows)
                 {
+                    int reviewId = Convert.ToInt32(row["Review_ID"]);
+                    string volunteerFirstName = row["VFName"].ToString();
+                    string volunteerLastName = row["VLName"].ToString();
+                    string careFirstName = row["CFName"].ToString();
+                    string careLastName = row["CLName"].ToString();
                     int careRecipientId = Convert.ToInt32(row["CareRecipientID"]);
-                    string review = Convert.ToString(row["Content"]);
+                    string reviewContent = row["Content"].ToString();
                     int starAmount = Convert.ToInt32(row["Rating"]);
+                    DateTime dateTime = Convert.ToDateTime(row["RatingTime"]);
 
-                    reviews.Add(new ReviewInfo(volunteerId, careRecipientId, review, starAmount));
+                    ReviewInfo review = new ReviewInfo(reviewId, volunteerId, careRecipientId, reviewContent,
+                        starAmount, volunteerFirstName, volunteerLastName, careFirstName, careLastName);
+                    reviewList.Add(review);
                 }
 
-                return reviews;
+                return reviewList;
             }
             finally
             {
                 _conn.Close();
             }
 
+        }
+
+        public void DeleteReview(int reviewId)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("DeleteReview", _conn);
+                cmd.Parameters.Add("@reviewId", SqlDbType.Int).Value = reviewId;
+                cmd.CommandType = CommandType.StoredProcedure;
+                _conn.Open();
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e);
+                throw e;
+            }
+            finally
+            {
+                _conn.Close();
+            }
         }
     }
 }

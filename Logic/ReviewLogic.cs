@@ -23,5 +23,15 @@ namespace Logic
         {
             return _reviewContext.GetAllReviewsWithVolunteerId(volunteerId);
         }
+
+        public List<ReviewInfo> GetAllReviews()
+        {
+            return _reviewContext.GetAllReviews();
+        }
+
+        public void DeleteReview(int reviewId)
+        {
+            _reviewContext.DeleteReview(reviewId);
+        }
     }
 }
