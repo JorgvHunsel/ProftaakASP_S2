@@ -7,7 +7,7 @@ using Models;
 
 namespace Data.Contexts
 {
-    public class LogContextSql : ILogContext
+    public class LogContextSQL : ILogContext
     {
         private readonly SqlConnection _conn = Connection.GetConnection();
 

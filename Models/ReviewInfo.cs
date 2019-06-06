@@ -45,7 +45,5 @@ namespace Models
             Review = review;
             StarAmount = starAmount;
         }
-
-
     }
 }

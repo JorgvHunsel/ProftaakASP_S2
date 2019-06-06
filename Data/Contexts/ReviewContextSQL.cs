@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Data.Interfaces;
+using Models;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -7,6 +9,8 @@ using System.Linq.Expressions;
 using System.Text;
 using Data.Interfaces;
 using Models;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace Data.Contexts
 {
@@ -88,6 +92,37 @@ namespace Data.Contexts
                 _conn.Close();
                 
             }
+        }
+
+        public List<ReviewInfo> GetAllReviewsWithVolunteerId(int volunteerId)
+        {
+            List<ReviewInfo> reviews = new List<ReviewInfo>();
+            try
+            {
+                string query = "SELECT * FROM [VolunteerReview] WHERE [VolunteerID] = @VolunteerId";
+                SqlCommand cmd = new SqlCommand(query, _conn);
+                cmd.Parameters.Add("@VolunteerId", SqlDbType.Int).Value = volunteerId;
+                _conn.Open();
+
+                DataTable dt = new DataTable();
+                dt.Load(cmd.ExecuteReader());
+
+                foreach (DataRow row in dt.Rows)
+                {
+                    int careRecipientId = Convert.ToInt32(row["CareRecipientID"]);
+                    string review = Convert.ToString(row["Content"]);
+                    int starAmount = Convert.ToInt32(row["Rating"]);
+
+                    reviews.Add(new ReviewInfo(volunteerId, careRecipientId, review, starAmount));
+                }
+
+                return reviews;
+            }
+            finally
+            {
+                _conn.Close();
+            }
+
         }
     }
 }
