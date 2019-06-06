@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Models;
 
 namespace ProftaakASP_S2.Models
 {
     public class ReviewViewModel
     {
-        [Required]
+        
         public int ReviewId { get; set; }
         [Required]
         public int VolunteerId { get; set; }
@@ -19,5 +20,23 @@ namespace ProftaakASP_S2.Models
         [Required]
         public int starAmount { get; set; }
         public int QuestionID { get; set; }
+
+        public ReviewViewModel(int volunteerId, int questionId)
+        {
+            VolunteerId = volunteerId;
+            QuestionID = questionId;
+        }
+
+        public ReviewViewModel(ReviewInfo review)
+        {
+            CareRecipientId = review.CareRecipientId;
+            Review = review.Review;
+            VolunteerId = review.VolunteerId;
+            starAmount = review.StarAmount;
+        }
+        public ReviewViewModel()
+        {
+
+        }
     }
 }

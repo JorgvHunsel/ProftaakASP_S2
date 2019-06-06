@@ -8,5 +8,6 @@ namespace Data.Interfaces
     public interface IReviewContext
     {
         void InsertReview(ReviewInfo review);
+        List<ReviewInfo> GetAllReviewsWithVolunteerId(int volunteerId);
     }
 }

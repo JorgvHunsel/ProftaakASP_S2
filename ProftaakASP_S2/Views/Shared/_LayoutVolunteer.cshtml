@@ -7,6 +7,7 @@
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/GeneralStyleSheet.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment exclude="Development">
@@ -17,28 +18,30 @@
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Volunteer" asp-action="QuestionOverview">Hulpvragen</a></li>
-                    <li><a asp-area="" asp-controller="Volunteer" asp-action="QuestionClosedOverview">Afgeronde hulpvragen</a></li>
-                    <li><a asp-area="" asp-controller="Volunteer" asp-action="ChatOverview">Chats</a></li>
-                    <li><a asp-area="" asp-controller="Volunteer" asp-action="AppointmentOverview">Afspraken</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    @if (ViewBag.Username != null)
-                    {
+<nav class="navbar navigation-bar navbar-fixed-top">
+    <a class="navbar-brand"><img src="/images/Eindhoven_Logo_Rood.png" with="25" height="25" asp-controller="User"></a>
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a class="navigation-bar-column" asp-area="" asp-controller="Volunteer" asp-action="QuestionOverview">Hulpvragen</a></li>
+                <li><a class="navigation-bar-column" asp-area="" asp-controller="Volunteer" asp-action="QuestionClosedOverview">Afgeronde hulpvragen</a></li>
+                <li><a class="navigation-bar-column" asp-area="" asp-controller="Volunteer" asp-action="ChatOverview">Chats</a></li>
+                <li><a class="navigation-bar-column" asp-area="" asp-controller="Volunteer" asp-action="AppointmentOverview">Afspraken</a></li>
+                <li><a class="navigation-bar-column" asp-area="" asp-controller="Volunteer" asp-action="ReviewOverview">Beoordelingen</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                @if (ViewBag.Username != null)
+                {
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target">
+                        <a class="nav-link dropdown-toggle navigation-bar-column" data-toggle="dropdown" data-target="dropdown_target">
                             <span class="glyphicon glyphicon-user"></span>
                             Welkom @ViewBag.UserName
                             <span class="caret"></span>
@@ -48,32 +51,32 @@
                             <li><a asp-area="" asp-controller="User" asp-action="EditAccount" class="dropdown-item">Account bewerken</a></li>
                         </ul>
                     </li>
-                        <li>
-                            <a type="button" asp-area="" asp-controller="User" asp-action="Logout">
-                                <span class="glyphicon glyphicon-log-out"></span>
-                                Uitloggen
-                            </a>
-                        </li>
-                    }
-                    else
-                    {
-                        <li>
-                            <a type="button" asp-area="" asp-controller="User" asp-action="Login">
-                                <span class="glyphicon glyphicon-user"></span>
-                                Login
-                            </a>
-                        </li>
-                        <li>
-                            <a type="button" asp-area="" asp-controller="User" asp-action="CreateAccount">
-                                <span class="glyphicon glyphicon-plus"></span>
-                                Account aanmaken
-                            </a>
-                        </li>
-                    }
-                </ul>
-            </div>
+                    <li>
+                        <a class="navigation-bar-column" type="button" asp-area="" asp-controller="User" asp-action="Logout">
+                            <span class="glyphicon glyphicon-log-out"></span>
+                            Uitloggen
+                        </a>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <a type="button" asp-area="" asp-controller="User" asp-action="Login">
+                            <span class="glyphicon glyphicon-user"></span>
+                            Login
+                        </a>
+                    </li>
+                    <li>
+                        <a type="button" asp-area="" asp-controller="User" asp-action="CreateAccount">
+                            <span class="glyphicon glyphicon-plus"></span>
+                            Account aanmaken
+                        </a>
+                    </li>
+                }
+            </ul>
         </div>
-    </nav>
+    </div>
+</nav>
 
     <partial name="_CookieConsentPartial" />
 
@@ -81,7 +84,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2019 - ProftaakASP_S2</p>
+            <p>2019 - Proftaak Dreamteam</p>
         </footer>
     </div>
 
