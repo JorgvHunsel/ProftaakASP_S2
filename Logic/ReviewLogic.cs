@@ -19,5 +19,10 @@ namespace Logic
         {
             _reviewContext.InsertReview(review);
         }
+
+        public List<ReviewInfo> GetAllReviews()
+        {
+            return _reviewContext.GetAllReviews();
+        }
     }
 }

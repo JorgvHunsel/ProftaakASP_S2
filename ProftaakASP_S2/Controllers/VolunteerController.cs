@@ -84,7 +84,7 @@ namespace ProftaakASP_S2.Controllers
 
         public ActionResult ReviewOverview(int volunteerId)
         {
-            _userLogic.
+            return View();
         }
 
         [HttpGet]
