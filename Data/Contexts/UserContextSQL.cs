@@ -283,6 +283,7 @@ namespace Data.Contexts
                 }
 
             }
+
             finally
             {
                 _conn.Close();
