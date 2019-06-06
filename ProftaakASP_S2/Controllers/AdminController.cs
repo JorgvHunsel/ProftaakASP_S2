@@ -112,7 +112,10 @@ namespace ProftaakASP_S2.Controllers
 
             foreach (Log log in _logLogic.GetAllLogs())
             {
-                logList.Add(new LogViewModel(log));
+                string username = _userLogic.GetUserById(log.UserId).FirstName +
+                                  _userLogic.GetUserById(log.UserId).LastName;
+
+                logList.Add(new LogViewModel(log, username));
             }
 
             return View("LogOverview", logList);

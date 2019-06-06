@@ -101,3 +101,12 @@ h2{
 h5 {
     color: gray;
 }
+
+thead {
+    background-color: #106f62;
+    color: white;
+}
+
+table {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
