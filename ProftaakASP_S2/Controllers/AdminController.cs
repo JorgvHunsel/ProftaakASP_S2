@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Logic;
 using ProftaakASP_S2.Models;
@@ -11,13 +13,17 @@ namespace ProftaakASP_S2.Controllers
     {
 
         private readonly QuestionLogic _questionLogic;
+        private readonly CategoryLogic _categoryLogic;
+        private readonly ReactionLogic _reactionLogic;
         private readonly UserLogic _userLogic;
         private readonly ChatLogic _chatLogic;
         private readonly LogLogic _logLogic;
 
-        public AdminController(QuestionLogic questionLogic, UserLogic userLogic, ChatLogic chatLogic, LogLogic logLogic)
+        public AdminController(QuestionLogic questionLogic, CategoryLogic categoryLogic, ReactionLogic reactionLogic, UserLogic userLogic, ChatLogic chatLogic, LogLogic logLogic)
         {
             _questionLogic = questionLogic;
+            _categoryLogic = categoryLogic;
+            _reactionLogic = reactionLogic;
             _userLogic = userLogic;
             _chatLogic = chatLogic;
             _logLogic = logLogic;
@@ -112,7 +118,6 @@ namespace ProftaakASP_S2.Controllers
             return View("LogOverview", logList);
         }
 
-        [HttpGet]
         public ActionResult CreateProfessional()
         {
             return View("CreateProfessional");
@@ -121,14 +126,29 @@ namespace ProftaakASP_S2.Controllers
         [HttpPost]
         public ActionResult CreateProfessional(string emailaddress)
         {
-            if (_userLogic.SendEmailProfessional(emailaddress))
-            {
-                return RedirectToAction(nameof(CreateProfessional));
-            }
-            
+            _userLogic.SendEmailProfessional(emailaddress);
 
-            return View("Error");
+            return RedirectToAction("UserOverview");
         }
 
+
+
+        public ActionResult LinkToProfessional(int userId)
+        {
+            User careRecipient = _userLogic.GetUserById(userId);
+            List<User> professionals = _userLogic.GetAllProfessionals();
+
+            LinkToProfessionalViewModel linkToProfessionalViewModel = new LinkToProfessionalViewModel(careRecipient, professionals);
+
+
+           return View("LinkCareProfessional", linkToProfessionalViewModel);
+        }
+
+        public ActionResult LinkCareToProf(int careId, int profId)
+        {
+            _userLogic.LinkCareToProf(careId, profId);
+
+            return RedirectToAction("UserOverview");
+        }
     }
 }

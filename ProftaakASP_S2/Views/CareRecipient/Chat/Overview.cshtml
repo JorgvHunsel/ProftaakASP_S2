@@ -6,47 +6,29 @@
 
 <h2>Chat overzicht</h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Onderwerp
-            </th>
-            <th>
-                Naam vrijwilliger
-            </th>
-            <th>
-                Datum
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (ChatViewModel chat in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => chat.QuestionName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => chat.VolunteerName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => chat.TimeStamp)
-                </td>
-                <td>
-                    @Html.ActionLink("Open", "OpenChat", new { id = chat.ChatLogId, volunteerName = chat.VolunteerName, careRecipientName = chat.CareRecipientName, volunteerId = chat.VolunteerId })|
-
-                    @if (chat.Status)
-                    {
-                        @Html.ActionLink("Stop chat", "ChangeStatusChat", new { chatlogId = chat.ChatLogId })
-                    }
-                    else
-                    {
-                        @Html.ActionLink("Start chat", "ChangeStatusChat", new { chatlogId = chat.ChatLogId })
-                    }
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+@foreach (ChatViewModel chat in Model)
+{
+    <div>
+        <div class="question-box">
+            <div class="question-content">
+                <h2>@chat.VolunteerName</h2>
+                <h2 class="care-date">@chat.TimeStamp</h2>
+            </div>
+            <div class=question-content>
+                <h2 style="font-size: 30px">@chat.QuestionName</h2>
+            </div>
+            <div style="float: right" class="question-content">
+                <input class="question-button" type="button" value="Open chat" onclick="location.href = '@Url.Action("OpenChat", "CareRecipient", new { id = chat.ChatLogId, volunteerName = chat.VolunteerName, careRecipientName = chat.CareRecipientName, volunteerId = chat.VolunteerId })'" />
+                <br />
+                @if (chat.Status)
+                {
+                    <input class="question-button" type="button" value="Stop" onclick="location.href = '@Url.Action("ChangeStatusChat", "CareRecipient", new { chatlogId = chat.ChatLogId })'" />
+                }
+                else
+                {
+                    <input class="question-button" type="button" value="Start" onclick="location.href = '@Url.Action("ChangeStatusChat", "CareRecipient", new { chatlogId = chat.ChatLogId })'" />
+                }
+            </div>
+        </div>
+    </div>
+}

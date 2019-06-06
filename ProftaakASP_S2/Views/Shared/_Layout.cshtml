@@ -7,6 +7,7 @@
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/css/GeneralStyleSheet.css" />
         <link rel="stylesheet" href="~/css/site.css" />
     </environment>
     <environment exclude="Development">
@@ -15,9 +16,12 @@
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
+    @*Link to fontawesome, used for the stars in review*@
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-fixed-top navigation-bar">
+        <a class="navbar-brand"><img src="/images/Eindhoven_Logo_Rood.png" with="25" height="25" asp-controller="User"></a>
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -25,22 +29,27 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>             
+                </button>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                    <li>
+                        <a class="navigation-bar-column" type="button" asp-area="" asp-controller="Home" asp-action="Index">
+                            Home
+                        </a>
+                    </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @if (ViewBag.Username != null)
                     {
                         <li>
-                            <a type="button">
+                            <a class="navigation-bar-column" type="button">
                                 <span class="glyphicon glyphicon-user"></span>
                                 Welkom @ViewBag.Username
                             </a>
                         </li>
                         <li>
-                            <a type="button" asp-area="" asp-controller="User" asp-action="Logout">
+                            <a class="navigation-bar-column" type="button" asp-area="" asp-controller="User" asp-action="Logout">
                                 <span class="glyphicon glyphicon-log-out"></span>
                                 Uitloggen
                             </a>
@@ -49,13 +58,13 @@
                     else
                     {
                         <li>
-                            <a type="button" asp-area="" asp-controller="User" asp-action="Login">
+                            <a class="navigation-bar-column" type="button" asp-area="" asp-controller="User" asp-action="Login">
                                 <span class="glyphicon glyphicon-user"></span>
                                 Login
                             </a>
                         </li>
                         <li>
-                            <a type="button" asp-area="" asp-controller="User" asp-action="CreateAccount">
+                            <a class="navigation-bar-column" type="button" asp-area="" asp-controller="User" asp-action="CreateAccount">
                                 <span class="glyphicon glyphicon-plus"></span>
                                 Account aanmaken
                             </a>
@@ -72,7 +81,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2019 - ProftaakASP_S2</p>
+            <p>2019 - Proftaak Dreamteam</p>
         </footer>
     </div>
 

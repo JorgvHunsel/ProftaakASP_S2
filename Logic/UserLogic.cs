@@ -117,7 +117,14 @@ namespace Logic
         }
 
 
-        
+        public List<User> GetAllProfessionals()
+        {
+            return _user.GetAllProfessionals();
+        }
 
+        public void LinkCareToProf(int careId, int profId)
+        {
+            _user.LinkCareToProf(careId, profId);
+        }
     }
 }
