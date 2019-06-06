@@ -9,23 +9,18 @@
 <table class="table">
     <thead>
         <tr>
+           
             <th>
-                @Html.DisplayNameFor(model => model.ReviewId)
+                Reviewed (volunteer)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.VolunteerId)
+                Reviewed by (care recipient)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CareRecipientId)
+                Content
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Review)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.starAmount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.QuestionID)
+                Rating
             </th>
             <th></th>
         </tr>
@@ -34,13 +29,10 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ReviewId)
+                @Html.DisplayFor(modelItem => item.VolunteerName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.VolunteerId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CareRecipientId)
+                @Html.DisplayFor(modelItem => item.CareRecipientName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Review)
@@ -49,12 +41,11 @@
                 @Html.DisplayFor(modelItem => item.starAmount)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.QuestionID)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                <form asp-action="DeleteReview" asp-controller="Review">
+                    <input type="hidden" value="@item.ReviewId" name="reviewId"/>
+                    <input type="submit" value="Delete"/>
+                </form>
+                
             </td>
         </tr>
 }

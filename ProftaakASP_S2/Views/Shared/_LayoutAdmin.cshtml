@@ -33,6 +33,7 @@
                     <li><a asp-area="" asp-controller="Admin" asp-action="UserOverview">Gebruikers</a></li>
                     <li><a asp-area="" asp-controller="Admin" asp-action="ChatLogOverview">Chatlogs</a></li>
                     <li><a asp-area="" asp-controller="Admin" asp-action="LogOverview">Logs</a></li>
+                    <li><a asp-area="" asp-controller="Admin" asp-action="ReviewOverview">Review Overview</a></li>
                     <li><a asp-area="" asp-controller="Admin" asp-action="CreateProfessional">Maak professional</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
@@ -49,12 +50,7 @@
                                 <li><a asp-area="" asp-controller="User" asp-action="EditAccount" class="dropdown-item">Account bewerken</a></li>
                             </ul>
                         </li>
-                        <li>
-                            <a type="button" asp-area="" asp-controller="User" asp-action="EditAccount">
-                                <span class="glyphicon glyphicon-user"></span>
-                                Welkom @ViewBag.Username
-                            </a>
-                        </li>
+                        
                         <li>
                             <a type="button" asp-area="" asp-controller="User" asp-action="Logout">
                                 <span class="glyphicon glyphicon-log-out"></span>

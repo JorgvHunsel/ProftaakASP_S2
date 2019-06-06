@@ -41,6 +41,13 @@ namespace ProftaakASP_S2.Controllers
             return View("../Shared/Login");
         }
 
+        [HttpPost]
+        public ActionResult DeleteReview(int reviewId)
+        {
+            _reviewLogic.DeleteReview(reviewId);
+
+            return RedirectToAction("ReviewOverview", "Admin");
+        }
 
     }
 }

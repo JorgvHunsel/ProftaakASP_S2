@@ -8,19 +8,25 @@ namespace Data.Contexts
 {
     public class ReviewContextMock : IReviewContext
     {
+        public List<ReviewInfo> ReviewList = new List<ReviewInfo>();
         public void InsertReview(ReviewInfo review)
         {
-            
+            ReviewList.Add(review);
         }
 
         public List<ReviewInfo> GetAllReviewsWithVolunteerId(int volunteerId)
         {
-            return new List<ReviewInfo>();
+            return ReviewList;
         }
 
         public List<ReviewInfo> GetAllReviews()
         {
             return new List<ReviewInfo>();
+        }
+
+        public void DeleteReview(int reviewId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

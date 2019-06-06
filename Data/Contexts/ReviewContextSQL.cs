@@ -132,5 +132,27 @@ namespace Data.Contexts
             }
 
         }
+
+        public void DeleteReview(int reviewId)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("DeleteReview", _conn);
+                cmd.Parameters.Add("@reviewId", SqlDbType.Int).Value = reviewId;
+                cmd.CommandType = CommandType.StoredProcedure;
+                _conn.Open();
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e);
+                throw e;
+            }
+            finally
+            {
+                _conn.Close();
+            }
+        }
     }
 }

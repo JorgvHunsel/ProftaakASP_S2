@@ -10,5 +10,6 @@ namespace Data.Interfaces
         void InsertReview(ReviewInfo review);
         List<ReviewInfo> GetAllReviewsWithVolunteerId(int volunteerId);
         List<ReviewInfo> GetAllReviews();
+        void DeleteReview(int reviewId);
     }
 }
