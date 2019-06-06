@@ -9,7 +9,8 @@ namespace ProftaakASP_S2.Models
 {
     public class ReviewViewModel
     {
-        
+        public string CareRecipientName { get; set; }
+        public string
         public int ReviewId { get; set; }
         [Required]
         public int VolunteerId { get; set; }
