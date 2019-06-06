@@ -7,9 +7,9 @@
 <h2>Afspraak aanmaken met @ViewBag.Firstname</h2>
 
 <hr />
-<div class="row">
+<div class="row login-div">
     <div class="col-md-4">
-        <form asp-action="CreateAppointment">
+        <form class="care-label" style="width: 465px" asp-action="CreateAppointment">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group" style="display: none">
                 <label asp-for="QuestionId" class="control-label"></label>
@@ -37,13 +37,9 @@
                 <span asp-validation-for="Location" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
+                <input type="submit" value="Create" class="btn btn-primary btn-lg btn-block" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="ChatOverview">Terug naar chat overzicht</a>
 </div>
 

@@ -85,50 +85,33 @@ body {
     padding-top: 20px;
 }
 
-    .chatmessageReceiving {
-        position: relative;
-        background: #3d4456;
-        border-radius: .4em;
-        color: white;
-    }
+.chatmessageReceiving {
+    float: left;
+    position: relative;
+    background: #337ab7;
+    border-radius: .4em;
+    color: white;
+    margin: 10px;
+    width: 50%;
+}
 
-        .chatmessageReceiving:after {
-            content: '';
-            position: absolute;
-            right: 0;
-            top: 50%;
-            width: 0;
-            height: 0;
-            border: 28px solid transparent;
-            border-left-color: #3d4456;
-            border-right: 0;
-            margin-top: -28px;
-            margin-right: -28px;
-        }
+.chatmessageSending {
+    float: right;
+    position: relative;
+    background: #106f62;
+    border-radius: .4em;
+    color: white;
+    width: 50%;
+    margin: 10px;
+}
 
-    .chatmessageSending {
-        position: relative;
-        background: #495181;
-        border-radius: .4em;
-        color: white;
-    }
-
-        .chatmessageSending:after {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            width: 0;
-            height: 0;
-            border: 28px solid transparent;
-            border-right-color: #495181;
-            border-left: 0;
-            margin-top: -28px;
-            margin-left: -28px;
-        }
-
-    .chatmessagetext {
+.chatmessagetext {
         margin: 10px;
         padding-top: 5px;
         padding-bottom: 5px;
     }
+
+.chat-timestamp {
+    float: right;
+    color: lightgrey;
+}
