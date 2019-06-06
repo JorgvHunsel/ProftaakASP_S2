@@ -64,6 +64,11 @@ namespace ProftaakASP_S2.Controllers
                 ViewBag.Message = "De gegevens komen niet overeen";
                 return View();
             }
+            catch (ArgumentException)
+            {
+                ViewBag.Message = "Wachtwoord verkeerd ingevuld";
+                return View();
+            }
 
         }
 
