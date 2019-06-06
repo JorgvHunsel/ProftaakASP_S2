@@ -6,49 +6,23 @@
 
 <h2>Overzicht reacties op hulpvraag: @Model.First().QuestionTitle</h2>
 
-<table class="table">
-    <thead>
-    <tr>
-        <th>
-            Titel
-        </th>
-        <th>
-            Tijdstip van reactie
-        </th>
-        <th>
-            Naam vrijwilliger
-        </th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    @foreach (ReactionViewModel item in Model)
-    {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TimeStamp)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VolunteerName)
-            </td>
-            <td>
-                @Html.ActionLink("Start chat", "CreateChat", new { reactionId = item.ReactionId, volunteerid = item.SenderId })
-            </td>
-            <td>
-                @Html.ActionLink("Beoordeel vrijwilliger", "RatingOverview", new { volunteerId = item.SenderId, questionId = item.QuestionId })
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
-
-<div>
-    <a asp-action="Overview">Terug naar overzicht</a>
-</div>
-
+@foreach (ReactionViewModel reaction in Model)
+{
+    <div>
+        <div class="question-box">
+            <div class="question-content">
+                <h2>@reaction.VolunteerName</h2>
+                <h2 class="care-date">@reaction.TimeStamp</h2>
+            </div>
+            <div class=question-content>
+                <h2 style="font-size: 30px">@reaction.Description</h2>
+            </div>
+            <div style="float: right" class="question-content">
+                <input style="margin: 30px" class="question-button" type="button" value="Start chat" onclick="location.href = '@Url.Action("CreateChat", "CareRecipient", new { reactionId = reaction.ReactionId, volunteerid = reaction.SenderId })'" />
+            </div>
+        </div>
+    </div>
+}
 
 @if (ViewBag.Message != null)
 {

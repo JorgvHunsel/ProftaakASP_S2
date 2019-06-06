@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Data.Interfaces;
 using Models;
 using System;
+using System.Linq;
 using Logic;
 
 namespace UnitTests
@@ -94,6 +95,7 @@ namespace UnitTests
             Assert.IsInstanceOfType(result, typeof(List<Question>));
         }
 
+
         [TestMethod]
         public void GetSingleQuestion_IsValid()
         {
@@ -163,6 +165,20 @@ namespace UnitTests
 
             Assert.AreNotEqual(question.Status.ToString(), "Open");
         }
+
+        //[TestMethod]
+        //public void GetAllClosedQuestionsVolunteer_IsValid()
+        //{
+        //    Mock<IQuestionContext> mockContext = new Mock<IQuestionContext>();
+        //    List<Question> stub = new List<Question>();
+        //    User user = new Mock<User>(1, "Jesse", "Oosterwijk", "Kleidonk 1", "Beuningen", "6641LM", "jesse.oosterwijk@outlook.com", DateTime.Today, User.Gender.Man, true, User.AccountType.Volunteer,"1111").Object;
+        //    mockContext.Setup(x => x.GetAllClosedQuestionsVolunteer(user.UserId)).Returns(stub);
+
+        //    QuestionLogic questionLogic = new QuestionLogic(mockContext.Object);
+        //    List<Question> result = questionLogic.GetAllClosedQuestionsCareRecipientId(user.UserId);
+
+        //    Assert.AreEqual(result.Count, 0);
+        //}
 
     }         
     

@@ -75,7 +75,9 @@ namespace Data.Contexts
                     string careRecipientFirstName = dr["CareRecipientFirstName"].ToString();
                     string careRecipientLastName = dr["CareRecipientLastName"].ToString();
                     int questionId = Convert.ToInt32(dr["QuestionID"]);
-                    bool status = Convert.ToBoolean(dr["Status"]);
+                    string statusstring = dr["Status"].ToString();
+
+                    bool status = statusstring != "False";
 
                     string volunteerFirstName = dr["VolunteerFirstName"].ToString();
                     string volunteerLastName = dr["VolunteerLastName"].ToString();
@@ -116,7 +118,9 @@ namespace Data.Contexts
                     string careRecipientFirstName = dr["CareRecipientFirstName"].ToString();
                     string careRecipientLastName = dr["CareRecipientLastName"].ToString();
                     int questionId = Convert.ToInt32(dr["QuestionID"]);
-                    bool status = Convert.ToBoolean(dr["ChatLogStatus"]);
+                    string statusstring = dr["Status"].ToString();
+
+                    bool status = statusstring != "False";
 
                     string volunteerFirstName = dr["VolunteerFirstName"].ToString();
                     string volunteerLastName = dr["VolunteerLastName"].ToString();
@@ -260,7 +264,7 @@ namespace Data.Contexts
                 cmd.Parameters.Add("@reactionID", SqlDbType.Int).Value = reactionId;
                 cmd.Parameters.Add("@volunteerID", SqlDbType.Int).Value = volunteerId;
                 cmd.Parameters.Add("@careRecipientID", SqlDbType.Int).Value = careRecipientId;
-                cmd.Parameters.Add("@status", SqlDbType.Bit).Value = true;
+                cmd.Parameters.Add("@status", SqlDbType.Bit).Value = 1;
 
                 SqlParameter sqlP = new SqlParameter("@identity", SqlDbType.Int);
                 sqlP.Direction = ParameterDirection.Output;
@@ -296,7 +300,9 @@ namespace Data.Contexts
                 int volunteerId = Convert.ToInt32(dt.Rows[0]["VolunteerID"]);
                 int carerecipientId = Convert.ToInt32(dt.Rows[0]["CareRecipientID"]);
                 DateTime timeStamp = Convert.ToDateTime(dt.Rows[0]["TimeStamp"]);
-                bool status = Convert.ToBoolean(dt.Rows[0]["Status"]);
+                string statusstring = dt.Rows[0]["Status"].ToString();
+
+                bool status = statusstring != "False";
 
                 return new ChatLog(chatLogId, carerecipientId, volunteerId, timeStamp, status);
             }

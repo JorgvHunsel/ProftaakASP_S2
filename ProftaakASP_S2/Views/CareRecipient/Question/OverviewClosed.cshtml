@@ -4,65 +4,35 @@
     ViewData["Title"] = "Overview";
 }
 
-<h2>Overzicht gesloten hulpvragen</h2>
+<h2 class="header">Gesloten hulpvragen</h2>
 
-
-<table class="table">
-    <thead>
-    <tr>
-        <th>
-            Onderwerp
-        </th>
-        <th>
-            Inhoud
-        </th>
-        <th>
-            Status
-        </th>
-        <th>
-            Datum
-        </th>
-        <th>
-            Urgent
-        </th>
-        <th>
-            Categorie
-        </th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-        @foreach (QuestionViewModel item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Content)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Status)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Urgency)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Category)
-                </td>
-                <td>
-                    @Html.ActionLink("Bekijk reacties", "ReactionOverview", new {  id=item.QuestionId }) |
-                    @Html.ActionLink("Bewerk vraag", "Edit", new {  id=item.QuestionId }) |
-                    @Html.ActionLink("Verander status", "ChangeStatus", new { id=item.QuestionId, status=item.Status, path=Context.Request.Path  })
-                    
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+@foreach (QuestionViewModel question in Model)
+{
+    <div>
+        <div class="question-box">
+            <div class="question-content">
+                <h2>@question.Title</h2>
+                <h2 class="care-date">@question.Date</h2>
+            </div>
+            <div class=question-content>
+                <h3>@question.Category</h3>
+            </div>
+            <div class="question-content">
+                @if (question.Urgency)
+                {
+                    <label class="urgence">[Urgent]</label>
+                }
+            </div>
+            <div style="float: right" class="question-content">
+                <input class="question-button" type="button" value="Reacties" onclick="location.href = '@Url.Action("ReactionOverview", "CareRecipient", new { id = question.QuestionId })'" />
+                <br />
+                <input class="question-button" type="button" value="Maak open" onclick="location.href = '@Url.Action("ChangeStatus", "CareRecipient", new { id = question.QuestionId, status = question.Status, path = Context.Request.Path })'" />
+                <br />
+                <input class="question-button" type="button" value="Bewerken" onclick="location.href = '@Url.Action("Edit", "CareRecipient", new { id = question.QuestionId })'" />
+            </div>
+        </div>
+    </div>
+}
 
 @if (ViewBag.Message != null)
 {
