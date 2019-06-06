@@ -22,5 +22,10 @@ namespace Data.Contexts
         {
             return new List<ReviewInfo>();
         }
+
+        public void DeleteReview(int reviewId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

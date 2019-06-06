@@ -154,7 +154,7 @@ namespace Data.Contexts
         public List<User> GetAllUsers()
         {
             string query =
-                "SELECT UserID, AccountType, FirstName, LastName, Birthdate, Sex, Email, Address, PostalCode, City, Status, Password, CP.ProfessionalID" +
+                "SELECT DISTINCT UserID, AccountType, FirstName, LastName, Birthdate, Sex, Email, Address, PostalCode, City, Status, Password, CP.ProfessionalID" +
 
 
                 " FROM[User] U" +
