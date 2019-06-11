@@ -4,6 +4,7 @@ using Models;
 using ProftaakASP_S2.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ProftaakASP_S2.Controllers
 {
@@ -39,8 +40,10 @@ namespace ProftaakASP_S2.Controllers
 
         public ActionResult QuestionClosedOverview()
         {
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
+
             List<QuestionViewModel> questionView = new List<QuestionViewModel>();
-            foreach (Question question in _questionLogic.GetAllClosedQuestionsVolunteer(Convert.ToInt32(Request.Cookies["id"])))
+            foreach (Question question in _questionLogic.GetAllClosedQuestionsVolunteer(userId))
             {
                 questionView.Add(new QuestionViewModel(question, _userLogic.GetUserById(question.CareRecipientId)));
             }
@@ -59,12 +62,12 @@ namespace ProftaakASP_S2.Controllers
         {
             try
             {
+                int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
+
                 int questionId = reactionViewModel.QuestionId;
                 string description = reactionViewModel.Description;
 
-                int senderid = Convert.ToInt32(Request.Cookies["id"]);
-
-                _reactionLogic.PostReaction(new Reaction(questionId, senderid, description));
+                _reactionLogic.PostReaction(new Reaction(questionId, userId, description));
 
                 return RedirectToAction(nameof(QuestionOverview));
             }
@@ -76,8 +79,10 @@ namespace ProftaakASP_S2.Controllers
 
         public ActionResult ChatOverview()
         {
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
+
             List<ChatViewModel> chatView = new List<ChatViewModel>();
-            foreach (ChatLog chatLog in _chatLogic.GetAllOpenChatsWithVolunteerId(Convert.ToInt32(Request.Cookies["id"])))
+            foreach (ChatLog chatLog in _chatLogic.GetAllOpenChatsWithVolunteerId(userId))
             {
                 chatView.Add(new ChatViewModel(chatLog));
             }
@@ -86,10 +91,10 @@ namespace ProftaakASP_S2.Controllers
 
         public ActionResult ReviewOverview()
         {
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
             List<ReviewViewModel> reviewList = new List<ReviewViewModel>();
-
-            int volunteerId = Convert.ToInt32(Request.Cookies["id"]);
-            foreach (ReviewInfo review in _reviewLogic.GetAllReviewsWithVolunteerId(volunteerId))
+            
+            foreach (ReviewInfo review in _reviewLogic.GetAllReviewsWithVolunteerId(userId))
             {
                 reviewList.Add(new ReviewViewModel(review));
             }
@@ -114,8 +119,10 @@ namespace ProftaakASP_S2.Controllers
 
         public ActionResult AppointmentOverview()
         {
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
+
             List<AppointmentViewModel> appointmentViews = new List<AppointmentViewModel>();
-            foreach (Appointment appointment in _appointmentLogic.GetAllAppointmentsFromUser(Convert.ToInt32(Request.Cookies["id"])))
+            foreach (Appointment appointment in _appointmentLogic.GetAllAppointmentsFromUser(userId))
             {
                 appointmentViews.Add(new AppointmentViewModel(appointment, _questionLogic.GetSingleQuestion(appointment.QuestionId), _userLogic.GetUserById(appointment.CareRecipientId)));
             }
@@ -131,12 +138,14 @@ namespace ProftaakASP_S2.Controllers
 
         public ActionResult OpenChat(int id, string volunteerName, string careRecipientName, int careRecipientId)
         {
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
+
             List<MessageViewModel> messageView = new List<MessageViewModel>();
-            MessageViewModel2 messageView2 = new MessageViewModel2(careRecipientId, Convert.ToInt32(Request.Cookies["id"]), id, _chatLogic.GetSingleChatLog(id).Status);
+            MessageViewModel2 messageView2 = new MessageViewModel2(careRecipientId, userId, id, _chatLogic.GetSingleChatLog(id).Status);
 
             foreach (ChatMessage cMessage in _chatLogic.LoadMessageListWithChatId(id))
             {
-                messageView.Add(new MessageViewModel(cMessage, Convert.ToInt32(Request.Cookies["id"]), volunteerName, careRecipientName));
+                messageView.Add(new MessageViewModel(cMessage, userId, volunteerName, careRecipientName));
             }
 
             messageView2.Messages = messageView;

@@ -42,12 +42,12 @@
                     <li><a class="navigation-bar-column" asp-area="" asp-controller="CareRecipient" asp-action="ChatOverview">Chats</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    @if (ViewBag.Username != null)
+                    @if (User.Identity.Name != null)
                     {
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle navigation-bar-column" data-toggle="dropdown" data-target="dropdown_target">
                                 <span class="glyphicon glyphicon-user"></span>
-                                Welkom @ViewBag.UserName
+                                Welkom @User.Identity.Name
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="dropdown_target">

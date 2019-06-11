@@ -4,6 +4,8 @@ using Models;
 using ProftaakASP_S2.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProftaakASP_S2.Controllers
 {
@@ -29,10 +31,11 @@ namespace ProftaakASP_S2.Controllers
 
         public ActionResult Overview()
         {
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
             ViewBag.Message = TempData["ErrorMessage"] as string;
 
             List<QuestionViewModel> questionView = new List<QuestionViewModel>();
-            foreach (Question question in _questionLogic.GetAllOpenQuestionCareRecipientId(Convert.ToInt32(Request.Cookies["id"])))
+            foreach (Question question in _questionLogic.GetAllOpenQuestionCareRecipientId(userId))
             {
                 questionView.Add(new QuestionViewModel(question));
             }
@@ -42,8 +45,10 @@ namespace ProftaakASP_S2.Controllers
 
         public ActionResult OverviewClosed()
         {
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
+
             List<QuestionViewModel> questionView = new List<QuestionViewModel>();
-            foreach (Question question in _questionLogic.GetAllClosedQuestionsCareRecipientId(Convert.ToInt32(Request.Cookies["id"])))
+            foreach (Question question in _questionLogic.GetAllClosedQuestionsCareRecipientId(userId))
             {
                 questionView.Add(new QuestionViewModel(question));
             }
@@ -77,6 +82,8 @@ namespace ProftaakASP_S2.Controllers
         [HttpGet]
         public ActionResult ReactionOverview(int id)
         {
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
+
             List<ReactionViewModel> reactionViews = new List<ReactionViewModel>();
 
             if (_reactionLogic.GetAllCommentsWithQuestionId(id).Count > 0)
@@ -85,7 +92,7 @@ namespace ProftaakASP_S2.Controllers
                 foreach (Reaction reaction in _reactionLogic.GetAllCommentsWithQuestionId(id))
                 {
                     reactionViews.Add(new ReactionViewModel(reaction, _questionLogic.GetSingleQuestion(reaction.QuestionId),
-                        _userLogic.GetUserById(Convert.ToInt32(Request.Cookies["id"]))));
+                        _userLogic.GetUserById(userId)));
                 }
 
                 ViewBag.Message = null;
@@ -125,7 +132,7 @@ namespace ProftaakASP_S2.Controllers
         {
             try
             {
-                int userid = Convert.ToInt32(Request.Cookies["id"]);
+                int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
                 _questionLogic.WriteQuestionToDatabase(new Question(question.Title, question.Content, Question.QuestionStatus.Open, question.Urgency, question.CategoryId, userid));
 
                 return RedirectToAction(nameof(Overview));
@@ -151,7 +158,9 @@ namespace ProftaakASP_S2.Controllers
 
         public ActionResult CreateChat(int reactionId, int volunteerId)
         {
-            int id = _chatLogic.CreateNewChatLog(reactionId, volunteerId, Convert.ToInt32(Request.Cookies["id"]));
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
+
+            int id = _chatLogic.CreateNewChatLog(reactionId, volunteerId, userId);
             if (id != 0)
             {
                 return RedirectToAction("OpenChat", new { id });
@@ -162,24 +171,29 @@ namespace ProftaakASP_S2.Controllers
 
         public ActionResult ChatOverview()
         {
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
+
             List<ChatViewModel> chatView = new List<ChatViewModel>();
-            foreach (ChatLog chatLog in _chatLogic.GetAllOpenChatsByDate(Convert.ToInt32(Request.Cookies["id"])))
+            foreach (ChatLog chatLog in _chatLogic.GetAllOpenChatsByDate(userId))
             {
                 chatView.Add(new ChatViewModel(chatLog));
             }
 
             return View("../CareRecipient/Chat/Overview", chatView);
         }
+        
 
         public ActionResult OpenChat(int id, string volunteerName, string careRecipientName, int volunteerId)
         {
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
+
             List<MessageViewModel> messageView = new List<MessageViewModel>();
 
-            MessageViewModel2 messageView2 = new MessageViewModel2(volunteerId, Convert.ToInt32(Request.Cookies["id"]), id, _chatLogic.GetSingleChatLog(id).Status);
+            MessageViewModel2 messageView2 = new MessageViewModel2(volunteerId, userId, id, _chatLogic.GetSingleChatLog(id).Status);
 
             foreach (ChatMessage cMessage in _chatLogic.LoadMessageListWithChatId(id))
             {
-                messageView.Add(new MessageViewModel(cMessage, Convert.ToInt32(Request.Cookies["id"]), volunteerName, careRecipientName));
+                messageView.Add(new MessageViewModel(cMessage, userId, volunteerName, careRecipientName));
             }
 
             messageView2.Messages = messageView;

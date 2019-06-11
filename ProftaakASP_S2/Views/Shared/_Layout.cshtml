@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -40,12 +41,12 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    @if (ViewBag.Username != null)
+                    @if (User.Identity.Name != null)
                     {
                         <li>
                             <a class="navigation-bar-column" type="button">
                                 <span class="glyphicon glyphicon-user"></span>
-                                Welkom @ViewBag.Username
+                                Welkom @User.Identity.Name
                             </a>
                         </li>
                         <li>

@@ -1,6 +1,23 @@
-﻿@{
-    string currentRole = Context.Request.Cookies["role"];
-    ViewBag.Username = Context.Request.Cookies["name"];
+﻿@using Microsoft.AspNetCore.Http
+@{
+    string currentRole = "";
+
+    if (User.IsInRole("Admin"))
+    {
+        currentRole = "Admin";
+    }
+    else if (User.IsInRole("CareRecipient"))
+    {
+        currentRole = "CareRecipient";
+    }
+    else if(User.IsInRole("Volunteer"))
+    {
+        currentRole = "Volunteer";
+    }
+    else if (User.IsInRole("Professional"))
+    {
+        currentRole = "Professional";
+    }
 
     switch (currentRole)
     {
