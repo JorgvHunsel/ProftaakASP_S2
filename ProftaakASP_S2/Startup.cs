@@ -46,7 +46,6 @@ namespace ProftaakASP_S2
                     options.AddPolicy("Professional", p => p.RequireAuthenticatedUser().RequireRole("Professional"));
                 });
 
-
             services.AddSingleton<IAppointmentContext, AppointmentContextSql>();
             services.AddSingleton<ICategoryContext, CategoryContextSql>();
             services.AddSingleton<IChatContext, ChatContextSql>();
