@@ -31,7 +31,6 @@ namespace ProftaakASP_S2
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-
             services.AddSingleton<IAppointmentContext, AppointmentContextSql>();
             services.AddSingleton<ICategoryContext, CategoryContextSql>();
             services.AddSingleton<IChatContext, ChatContextSql>();

@@ -35,7 +35,6 @@ namespace Data.Contexts
             }
         }
 
-
         public List<User> GetAllProfessionals()
         {
             try
@@ -149,7 +148,6 @@ namespace Data.Contexts
                 _conn.Close();
             }
         }
-
 
         public List<User> GetAllUsers()
         {

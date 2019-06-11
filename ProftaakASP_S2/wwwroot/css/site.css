@@ -46,6 +46,10 @@ body {
     }
 }
 
+.fa-  {
+    transform: rotateY(180deg);
+}
+
 #starRating {
     display: block;
 }

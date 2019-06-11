@@ -18,8 +18,9 @@
                 <h2 style="font-size: 30px">@reaction.Description</h2>
             </div>
             <div style="float: right" class="question-content">
-                <input style="margin: 30px" class="question-button" type="button" value="Start chat" onclick="location.href = '@Url.Action("CreateChat", "CareRecipient", new { reactionId = reaction.ReactionId, volunteerid = reaction.SenderId })'" />
-                <input style="margin: 30px" class="question-button" type="button" value="Start chat" onclick="location.href = '@Url.Action("CreateChat", "CareRecipient", new { reactionId = reaction.ReactionId, volunteerid = reaction.SenderId })'" />
+                <input style="margin-bottom: 10px" class="question-button" type="button" value="Start chat" onclick="location.href = '@Url.Action("CreateChat", "CareRecipient", new { reactionId = reaction.ReactionId, volunteerid = reaction.SenderId })'" />
+                <br />
+                <input style ="margin-top: 10px"class="question-button" type="button" value="Beoordeel" onclick="location.href = '@Url.Action("RatingOverview", "CareRecipient", new { volunteerid = reaction.SenderId })'" />
             </div>
         </div>
     </div>
