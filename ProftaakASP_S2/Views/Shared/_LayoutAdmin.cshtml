@@ -8,6 +8,7 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/GeneralStyleSheet.css" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
@@ -17,7 +18,8 @@
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navigation-bar navbar-fixed-top">
+        <a class="navbar-brand"><img src="/images/Eindhoven_Logo_Rood.png" with="25" height="25" asp-controller="User"></a>
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -29,30 +31,28 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="Admin" asp-action="QuestionOverview">Hulpvragen</a></li>
-                    <li><a asp-area="" asp-controller="Admin" asp-action="UserOverview">Gebruikers</a></li>
-                    <li><a asp-area="" asp-controller="Admin" asp-action="ChatLogOverview">Chatlogs</a></li>
-                    <li><a asp-area="" asp-controller="Admin" asp-action="LogOverview">Logs</a></li>
-                    <li><a asp-area="" asp-controller="Admin" asp-action="ReviewOverview">Review Overview</a></li>
-                    <li><a asp-area="" asp-controller="Admin" asp-action="CreateProfessional">Maak professional</a></li>
+                    <li><a class="navigation-bar-column" asp-area="" asp-controller="Admin" asp-action="QuestionOverview">Hulpvragen</a></li>
+                    <li><a class="navigation-bar-column" asp-area="" asp-controller="Admin" asp-action="UserOverview">Gebruikers</a></li>
+                    <li><a class="navigation-bar-column" asp-area="" asp-controller="Admin" asp-action="ChatLogOverview">Chatlogs</a></li>
+                    <li><a class="navigation-bar-column" asp-area="" asp-controller="Admin" asp-action="LogOverview">Logs</a></li>
+                    <li><a class="navigation-bar-column" asp-area="" asp-controller="Admin" asp-action="CreateProfessional">Maak professional</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    @if (ViewBag.Username != null)
+                    @if (User.Identity.Name != null)
                     {
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target">
+                            <a class="nav-link dropdown-toggle navigation-bar-column" data-toggle="dropdown" data-target="dropdown_target">
                                 <span class="glyphicon glyphicon-user"></span>
-                                Welkom @ViewBag.UserName
+                                Welkom @User.Identity.Name
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="dropdown_target">
-                                <li><a asp-area="" asp-controller="User" asp-action="AccountOverview" class="dropdown-item">Mijn account</a></li>
-                                <li><a asp-area="" asp-controller="User" asp-action="EditAccount" class="dropdown-item">Account bewerken</a></li>
+                                <li><a class="navigation-bar-column" asp-area="" asp-controller="User" asp-action="AccountOverview" class="dropdown-item">Mijn account</a></li>
+                                <li><a class="navigation-bar-column" asp-area="" asp-controller="User" asp-action="EditAccount" class="dropdown-item">Account bewerken</a></li>
                             </ul>
                         </li>
-                        
                         <li>
-                            <a type="button" asp-area="" asp-controller="User" asp-action="Logout">
+                            <a class="navigation-bar-column" type="button" asp-area="" asp-controller="User" asp-action="Logout">
                                 <span class="glyphicon glyphicon-log-out"></span>
                                 Uitloggen
                             </a>
@@ -61,13 +61,13 @@
                     else
                     {
                         <li>
-                            <a type="button" asp-area="" asp-controller="User" asp-action="Login">
+                            <a class="navigation-bar-column" type="button" asp-area="" asp-controller="User" asp-action="Login">
                                 <span class="glyphicon glyphicon-user"></span>
                                 Login
                             </a>
                         </li>
                         <li>
-                            <a type="button" asp-area="" asp-controller="User" asp-action="CreateAccount">
+                            <a class="navigation-bar-column" type="button" asp-area="" asp-controller="User" asp-action="CreateAccount">
                                 <span class="glyphicon glyphicon-plus"></span>
                                 Account aanmaken
                             </a>

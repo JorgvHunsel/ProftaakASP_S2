@@ -34,9 +34,9 @@ namespace ProftaakASP_S2.Controllers
         [HttpPost]
         public ActionResult SubmitReview(ReviewViewModel reviewViewModel)
         {
-            int careRecipientId = Convert.ToInt32(Request.Cookies["id"]);
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
 
-            _reviewLogic.InsertReview(new ReviewInfo(reviewViewModel.VolunteerId, careRecipientId, reviewViewModel.Review, reviewViewModel.starAmount));
+            _reviewLogic.InsertReview(new ReviewInfo(reviewViewModel.VolunteerId, userId, reviewViewModel.Review, reviewViewModel.starAmount));
 
             return View("../Shared/Login");
         }

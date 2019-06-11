@@ -97,13 +97,15 @@ namespace ProftaakASP_S2.Controllers
 
         public ActionResult BlockUser(int id)
         {
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
+
             User updatedUser = _userLogic.GetUserById(id);
 
             updatedUser.Status = !updatedUser.Status;
 
             _userLogic.EditUser(updatedUser, "");
 
-            _logLogic.CreateUserLog(Convert.ToInt32(Request.Cookies["id"]), updatedUser);
+            _logLogic.CreateUserLog(userId, updatedUser);
 
             return RedirectToAction("UserOverview");
         }
@@ -114,7 +116,10 @@ namespace ProftaakASP_S2.Controllers
 
             foreach (Log log in _logLogic.GetAllLogs())
             {
-                logList.Add(new LogViewModel(log));
+                string username = _userLogic.GetUserById(log.UserId).FirstName +
+                                  _userLogic.GetUserById(log.UserId).LastName;
+
+                logList.Add(new LogViewModel(log, username));
             }
 
             return View("LogOverview", logList);

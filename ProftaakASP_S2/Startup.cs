@@ -1,6 +1,7 @@
 ﻿using Data.Contexts;
 using Data.Interfaces;
 using Logic;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -30,6 +31,17 @@ namespace ProftaakASP_S2
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.AccessDeniedPath = "/Home/ErrorForbidden";
+                    options.LoginPath = "/Home/ErrorNotLoggedIn";
+                });
+
+            services.AddAuthorization(options =>
+                {
+                    options.AddPolicy("Admin", p => p.RequireAuthenticatedUser().RequireRole("Admin"));
+                });
 
             services.AddSingleton<IAppointmentContext, AppointmentContextSql>();
             services.AddSingleton<ICategoryContext, CategoryContextSql>();
@@ -67,6 +79,8 @@ namespace ProftaakASP_S2
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
