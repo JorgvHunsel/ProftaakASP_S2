@@ -5,9 +5,11 @@ using ProftaakASP_S2.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ProftaakASP_S2.Controllers
 {
+    [Authorize(Policy = "Volunteer")]
     public class VolunteerController : Controller
     {
         private readonly QuestionLogic _questionLogic;

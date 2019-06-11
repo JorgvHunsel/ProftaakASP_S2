@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using Logic;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using ProftaakASP_S2.Models;
 
 namespace ProftaakASP_S2.Controllers
 {
+    [Authorize(Policy = "Professional")]
     public class ProfessionalController : Controller
     {
         private readonly QuestionLogic _questionLogic;

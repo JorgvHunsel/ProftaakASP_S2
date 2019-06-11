@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace ProftaakASP_S2.Controllers
 {
+    [Authorize(Policy = "CareRecipient")]
     public class CareRecipientController : Controller
     {
         private readonly QuestionLogic _questionLogic;
