@@ -6,23 +6,23 @@
 
 <h2>Log overzicht</h2>
 
-<table class="table table-striped">
+<table class="table">
     <thead>
         <tr>
             <th>
-                #
+                @Html.DisplayNameFor(model => model.LogId)
             </th>
             <th>
-                Gebruiker
+                @Html.DisplayNameFor(model => model.UserId)
             </th>
             <th>
-                Actie
+                @Html.DisplayNameFor(model => model.Title)
             </th>
             <th>
-                Beschrijving
+                @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
-                Tijdstip
+                @Html.DisplayNameFor(model => model.DateTime)
             </th>
             <th></th>
         </tr>
@@ -34,7 +34,7 @@
                 @Html.DisplayFor(modelItem => item.LogId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Username)
+                @Html.DisplayFor(modelItem => item.UserId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)

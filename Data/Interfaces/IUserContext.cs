@@ -15,7 +15,5 @@ namespace Data.Interfaces
         bool IsEmailValid(string email);
         bool CheckIfAccountIsActive(string email);
         User GetUserById(int userId);
-        List<User> GetAllProfessionals();
-        void LinkCareToProf(int careId, int profId);
     }
 }

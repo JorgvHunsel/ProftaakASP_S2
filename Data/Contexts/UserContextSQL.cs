@@ -13,76 +13,6 @@ namespace Data.Contexts
     {
         private readonly SqlConnection _conn = Connection.GetConnection();
 
-        public void LinkCareToProf(int careId, int profId)
-        {
-            try
-            {
-                 string query = "INSERT INTO [CareRecipientProfessional] ([CareRecipientID] ,[ProfessionalID]) VALUES  (@careId ,@profId)";
-
-
-                _conn.Open();
-                using (SqlCommand cmd = new SqlCommand(query, _conn))
-                {
-                    cmd.Parameters.AddWithValue("@careId", SqlDbType.Int).Value = careId;
-                    cmd.Parameters.AddWithValue("@profId", SqlDbType.Int).Value = profId;
-                    
-                    cmd.ExecuteNonQuery();
-                }
-            }
-            catch (Exception)
-            {
-                throw new ArgumentException("Linkcare to prof failed");
-            }
-            finally
-            {
-                _conn.Close();
-            }
-        }
-
-        public List<User> GetAllProfessionals()
-        {
-            try
-            {
-                List<User> professionalList = new List<User>();
-
-                SqlCommand cmd = new SqlCommand("SelectAllProfessionals", _conn);
-                cmd.CommandType = CommandType.StoredProcedure;
-                _conn.Open();
-
-                DataTable dt = new DataTable();
-                dt.Load(cmd.ExecuteReader());
-
-                foreach (DataRow dr in dt.Rows)
-                {
-                    int userId = Convert.ToInt32(dr["UserID"]);
-                    string accountType = dr["AccountType"].ToString();
-                    string firstName = dr["FirstName"].ToString();
-                    string lastName = dr["LastName"].ToString();
-                    DateTime birthDate = Convert.ToDateTime(dr["Birthdate"].ToString());
-                    User.Gender gender = (User.Gender)Enum.Parse(typeof(User.Gender), dr["Sex"].ToString());
-                    string email = dr["Email"].ToString();
-                    string address = dr["Address"].ToString();
-                    string postalCode = dr["PostalCode"].ToString();
-                    string city = dr["City"].ToString();
-                    bool status = Convert.ToBoolean(dr["Status"].ToString());
-                    string password = dr["Password"].ToString();
-
-                    User user = new Professional(userId, firstName, lastName, address, city, postalCode, email, birthDate, gender, status, User.AccountType.Professional, password);
-                    professionalList.Add(user);
-                }
-
-                return professionalList;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-            finally
-            {
-                _conn.Close();
-            }
-        }
-
         public void AddNewUser(User newUser)
         {
             try
@@ -105,10 +35,6 @@ namespace Data.Contexts
                     cmd.ExecuteNonQuery();
                 }
             }
-            catch (Exception)
-            {
-                throw new ArgumentException("User not added");
-            }
             finally
             {
                 _conn.Close();
@@ -120,7 +46,7 @@ namespace Data.Contexts
             try
             {
                 string query = "UPDATE [User] " +
-                               "SET FirstName = @FirstName, LastName = @LastName, Birthdate = @Birthdate, Sex = @Sex, Email = @Email, Address = @Address, PostalCode = @PostalCode, City = @City, Status = @Status " +
+                               "SET FirstName = @FirstName, LastName = @LastName, Sex = @Sex, Email = @Email, Address = @Address, PostalCode = @PostalCode, City = @City, Status = @Status " +
                                "WHERE UserID = @UserID";
                 if (password != "")
                 {
@@ -137,7 +63,6 @@ namespace Data.Contexts
                             "Status = @Status " +
                             "WHERE UserID = @UserID";
                 }
-
                 _conn.Open();
                 using (SqlCommand cmd = new SqlCommand(query, _conn))
                 {
@@ -156,100 +81,86 @@ namespace Data.Contexts
                     cmd.ExecuteNonQuery();
                 }
             }
-            catch (Exception)
-            {
-                throw new ArgumentException("User not edited");
-            }
             finally
             {
                 _conn.Close();
             }
         }
 
+
         public List<User> GetAllUsers()
         {
-            try
+            string query =
+                "SELECT UserID, AccountType, FirstName, LastName, Birthdate, Sex, Email, Address, PostalCode, City, Status, Password, CP.ProfessionalID" +
+
+
+                " FROM[User] U" +
+                "  LEFT JOIN CareRecipientProfessional CP ON CP.CareRecipientID = U.UserID ";
+
+            _conn.Open();
+            SqlCommand cmd = new SqlCommand(query, _conn);
+
+            List<User> Users = new List<User>();
+
+
+            DataTable dt = new DataTable();
+            dt.Load(cmd.ExecuteReader());
+            _conn.Close();
+
+            foreach (DataRow dr in dt.Rows)
             {
-                string query =
-                    "SELECT DISTINCT UserID, AccountType, FirstName, LastName, Birthdate, Sex, Email, Address, PostalCode, City, Status, Password, CP.ProfessionalID" +
+                int userId = Convert.ToInt32(dr["UserID"]);
+                string accountType = dr["AccountType"].ToString();
+                string firstName = dr["FirstName"].ToString();
+                string lastName = dr["LastName"].ToString();
+                DateTime birthDate = Convert.ToDateTime(dr["Birthdate"].ToString());
+                User.Gender gender = (User.Gender)Enum.Parse(typeof(User.Gender), dr["Sex"].ToString());
+                string email = dr["Email"].ToString();
+                string address = dr["Address"].ToString();
+                string postalCode = dr["PostalCode"].ToString();
+                string city = dr["City"].ToString();
+                bool status = Convert.ToBoolean(dr["Status"].ToString());
+                string password = dr["Password"].ToString();
+                int professionalId = 0;
 
-
-                    " FROM[User] U" +
-                    "  LEFT JOIN CareRecipientProfessional CP ON CP.CareRecipientID = U.UserID ";
-
-                _conn.Open();
-                SqlCommand cmd = new SqlCommand(query, _conn);
-
-                List<User> users = new List<User>();
-
-
-                DataTable dt = new DataTable();
-                dt.Load(cmd.ExecuteReader());
-
-
-                foreach (DataRow dr in dt.Rows)
+                if (dr["ProfessionalID"] != DBNull.Value)
                 {
-                    int userId = Convert.ToInt32(dr["UserID"]);
-                    string accountType = dr["AccountType"].ToString();
-                    string firstName = dr["FirstName"].ToString();
-                    string lastName = dr["LastName"].ToString();
-                    DateTime birthDate = Convert.ToDateTime(dr["Birthdate"].ToString());
-                    User.Gender gender = (User.Gender) Enum.Parse(typeof(User.Gender), dr["Sex"].ToString());
-                    string email = dr["Email"].ToString();
-                    string address = dr["Address"].ToString();
-                    string postalCode = dr["PostalCode"].ToString();
-                    string city = dr["City"].ToString();
-                    bool status = Convert.ToBoolean(dr["Status"].ToString());
-                    string password = dr["Password"].ToString();
-                    int professionalId = 0;
+                    professionalId = Int32.Parse((dr["ProfessionalID"]).ToString());
+                }
 
-                    if (dr["ProfessionalID"] != DBNull.Value)
+                if (accountType == "CareRecipient")
+                {
+                    if (professionalId != 0)
                     {
-                        professionalId = Int32.Parse((dr["ProfessionalID"]).ToString());
-                    }
+                        User professional = GetUserById(professionalId);
 
-                    if (accountType == "CareRecipient")
-                    {
-                        if (professionalId != 0)
-                        {
-                            User professional = GetUserById(professionalId);
-
-                            User user = new CareRecipient(userId, firstName, lastName, address, city, postalCode, email,
-                                birthDate, gender, status, User.AccountType.CareRecipient, password, professional);
-                            users.Add(user);
-                        }
-                        else
-                        {
-                            User user = new CareRecipient(userId, firstName, lastName, address, city, postalCode, email,
-                                birthDate, gender, status, User.AccountType.CareRecipient, password);
-                            users.Add(user);
-                        }
-                    }
-
-                    else if (accountType == "Volunteer")
-                    {
                         User user = new CareRecipient(userId, firstName, lastName, address, city, postalCode, email,
-                            birthDate, gender, status, User.AccountType.Volunteer, password);
-                        users.Add(user);
+                            birthDate, gender, status, User.AccountType.CareRecipient, password, professional);
+                        Users.Add(user);
                     }
                     else
                     {
                         User user = new CareRecipient(userId, firstName, lastName, address, city, postalCode, email,
-                            birthDate, gender, status, User.AccountType.Admin, password);
-                        users.Add(user);
+                            birthDate, gender, status, User.AccountType.CareRecipient, password);
+                        Users.Add(user);
                     }
                 }
 
-                return users;
+                else if (accountType == "Volunteer")
+                {
+                    User user = new CareRecipient(userId, firstName, lastName, address, city, postalCode, email,
+                        birthDate, gender, status, User.AccountType.Volunteer, password);
+                    Users.Add(user);
+                }
+                else
+                {
+                    User user = new CareRecipient(userId, firstName, lastName, address, city, postalCode, email,
+                        birthDate, gender, status, User.AccountType.Admin, password);
+                    Users.Add(user);
+                }
             }
-            catch (Exception)
-            {
-                return null;
-            }
-            finally
-            {
-                _conn.Close();
-            }
+
+            return Users;
         }
 
         public int GetUserId(string email)
@@ -266,13 +177,9 @@ namespace Data.Contexts
                 emailParam.Value = email;
                 cmd.Parameters.Add(emailParam);
 
-                int userId = (int) cmd.ExecuteScalar();
+                int userId = (int)cmd.ExecuteScalar();
 
                 return userId;
-            }
-            catch (Exception)
-            {
-                return 0;
             }
             finally
             {
@@ -346,7 +253,7 @@ namespace Data.Contexts
                 string firstName = dt.Rows[0].ItemArray[2].ToString();
                 string lastName = dt.Rows[0].ItemArray[3].ToString();
                 DateTime birthDate = Convert.ToDateTime(dt.Rows[0].ItemArray[4]);
-                User.Gender gender = (User.Gender) Enum.Parse(typeof(User.Gender), dt.Rows[0].ItemArray[5].ToString());
+                User.Gender gender = (User.Gender)Enum.Parse(typeof(User.Gender), dt.Rows[0].ItemArray[5].ToString());
                 string address = dt.Rows[0].ItemArray[6].ToString();
                 string postalCode = dt.Rows[0].ItemArray[7].ToString();
                 string city = dt.Rows[0].ItemArray[8].ToString();
@@ -375,10 +282,6 @@ namespace Data.Contexts
                         throw new AggregateException("User not found");
                 }
 
-            }
-            catch (Exception)
-            {
-                throw new ArgumentException("User cannot be checked");
             }
             finally
             {
@@ -410,7 +313,8 @@ namespace Data.Contexts
             }
             catch (Exception e)
             {
-                throw new ArgumentException("Check failed");
+                Console.WriteLine(e);
+                throw;
             }
             finally
             {
@@ -468,9 +372,10 @@ namespace Data.Contexts
                     return currentUser;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return null;
+                Console.WriteLine(e);
+                throw;
             }
             finally
             {
@@ -500,7 +405,7 @@ namespace Data.Contexts
                 string firstName = dt.Rows[0].ItemArray[1].ToString();
                 string lastName = dt.Rows[0].ItemArray[2].ToString();
                 DateTime birthDate = Convert.ToDateTime(dt.Rows[0].ItemArray[3].ToString());
-                User.Gender gender = (User.Gender) Enum.Parse(typeof(User.Gender), dt.Rows[0].ItemArray[4].ToString());
+                User.Gender gender = (User.Gender)Enum.Parse(typeof(User.Gender), dt.Rows[0].ItemArray[4].ToString());
                 string email = dt.Rows[0].ItemArray[5].ToString();
                 string address = dt.Rows[0].ItemArray[6].ToString();
                 string postalCode = dt.Rows[0].ItemArray[7].ToString();
@@ -523,7 +428,7 @@ namespace Data.Contexts
                 else if (accountType == "Admin")
                 {
                     return new CareRecipient(userId, firstName, lastName, address, city, postalCode, email,
-                        birthDate, gender, status, User.AccountType.Admin, password);
+                         birthDate, gender, status, User.AccountType.Admin, password);
                 }
                 else if (accountType == "Professional")
                 {
@@ -533,10 +438,6 @@ namespace Data.Contexts
 
                 return null;
 
-            }
-            catch (Exception)
-            {
-                return null;
             }
             finally
             {
@@ -555,10 +456,13 @@ namespace Data.Contexts
                 email = Regex.Replace(email, @"(@)(.+)$", DomainMapper,
                     RegexOptions.None, TimeSpan.FromMilliseconds(200));
 
+                // Examines the domain part of the email and normalizes it.
                 string DomainMapper(Match match)
                 {
+                    // Use IdnMapping class to convert Unicode domain names.
                     IdnMapping idn = new IdnMapping();
 
+                    // Pull out and process domain name (throws ArgumentException on invalid)
                     string domainName = idn.GetAscii(match.Groups[2].Value);
 
                     return match.Groups[1].Value + domainName;

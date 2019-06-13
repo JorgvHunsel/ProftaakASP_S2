@@ -11,10 +11,7 @@ namespace UnitTests
     [TestClass]
     public class UserTests
     {
-        User _user = new Mock<User>(1, "Jesse", "Oosterwijk", "Kleidonk 1", "Beuningen", "6641LM",
-            "jesse.oosterwijk@outlook.com", DateTime.Today, User.Gender.Man, true, User.AccountType.CareRecipient,
-            "1111").Object;
-
+        User _user = new Mock<User>(1, "Jesse", "Oosterwijk", "Kleidonk 1", "Beuningen", "6641LM", "jesse.oosterwijk@outlook.com", DateTime.Today, User.Gender.Man, true, User.AccountType.CareRecipient,"1111").Object;
         Mock<IUserContext> _mockContext = new Mock<IUserContext>();
 
         [TestMethod]
@@ -92,23 +89,18 @@ namespace UnitTests
             _mockContext.Verify(x => x.CheckValidityUser(_user.EmailAddress, "secret"), Times.Exactly(1));
             Assert.IsInstanceOfType(result, typeof(User));
         }
-
         [TestMethod]
         public void CheckValidityUser_IsValid_False()
         {
-            User user = new Mock<User>(1, "Jesse", "Oosterwijk", "Kleidonk 1", "Beuningen", "6641LM",
-                "jesse.oosterwijk@outlook.com", DateTime.Today, User.Gender.Man, true, User.AccountType.CareRecipient,
-                "1111").Object;
-
+            User user = new Mock<User>(1, "Jesse", "Oosterwijk", "Kleidonk 1", "Beuningen", "6641LM", "jesse.oosterwijk@outlook.com", DateTime.Today, User.Gender.Man, true, User.AccountType.CareRecipient, "1111").Object;
+            
             UserLogic userLogic = new UserLogic(_mockContext.Object);
 
             Assert.ThrowsException<ArgumentException>(() => userLogic.CheckValidityUser("", user.Password));
             Assert.ThrowsException<ArgumentException>(() => userLogic.CheckValidityUser(user.EmailAddress, ""));
 
-            Assert.ThrowsException<ArgumentException>(() =>
-                userLogic.CheckValidityUser("athornthwaite0mreynault01PGnJuDB9uNN@thetimes.co.uk", "1111"));
-            Assert.ThrowsException<ArgumentException>(() => userLogic.CheckValidityUser("Wesley.Martens@hotmail.com",
-                "173xdEamUX9D9nCeQrJ6e9HkBLQE3DwZtU14RW6PegHKonJ4gwS"));
+            Assert.ThrowsException<ArgumentException>(() => userLogic.CheckValidityUser("athornthwaite0mreynault01PGnJuDB9uNN@thetimes.co.uk", "1111"));
+            Assert.ThrowsException<ArgumentException>(() => userLogic.CheckValidityUser("Wesley.Martens@hotmail.com", "173xdEamUX9D9nCeQrJ6e9HkBLQE3DwZtU14RW6PegHKonJ4gwS"));
         }
 
 
@@ -128,10 +120,8 @@ namespace UnitTests
         [TestMethod]
         public void GetCurrentUserInfo_IsValid()
         {
-            User user = new Mock<User>(1, "Jesse", "Oosterwijk", "Kleidonk 1", "Beuningen", "6641LM",
-                "jesse.oosterwijk@outlook.com", DateTime.Today, User.Gender.Man, true, User.AccountType.CareRecipient,
-                "1111").Object;
-
+            User user = new Mock<User>(1, "Jesse", "Oosterwijk", "Kleidonk 1", "Beuningen", "6641LM", "jesse.oosterwijk@outlook.com", DateTime.Today, User.Gender.Man, true, User.AccountType.CareRecipient,"1111").Object;
+            
             _mockContext.Setup(x => x.GetUserInfo(user.EmailAddress))
                 .Returns(user);
 
@@ -167,5 +157,6 @@ namespace UnitTests
             _mockContext.Verify(x => x.IsEmailValid(_user.EmailAddress), Times.Exactly(1));
             Assert.IsInstanceOfType(result, typeof(bool));
         }
+
     }
 }
