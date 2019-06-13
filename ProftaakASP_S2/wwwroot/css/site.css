@@ -46,7 +46,7 @@ body {
     }
 }
 
-.fa-  {
+.fa-flip-horizontal  {
     transform: rotateY(180deg);
 }
 

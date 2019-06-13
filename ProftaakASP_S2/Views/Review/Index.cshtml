@@ -12,7 +12,7 @@
         <form asp-action="SubmitReview" asp-controller="Review">
 
             @Html.HiddenFor(x => x.VolunteerId)
-            @Html.HiddenFor(x => x.QuestionId)
+            <input type="hidden" name="QuestionID" value="@Model.QuestionID" />
             @Html.AntiForgeryToken()
 
             @Html.TextAreaFor(x => x.Review, new { @placeholder = "Geef een review A.U.B.", @class = "reviewTextArea form-control" })
@@ -48,5 +48,5 @@
             </div>
         </form>
     
-         </div>
+    </div>
 </div>
