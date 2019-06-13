@@ -41,6 +41,9 @@ namespace ProftaakASP_S2
             services.AddAuthorization(options =>
                 {
                     options.AddPolicy("Admin", p => p.RequireAuthenticatedUser().RequireRole("Admin"));
+                    options.AddPolicy("Volunteer", p => p.RequireAuthenticatedUser().RequireRole("Volunteer"));
+                    options.AddPolicy("CareRecipient", p => p.RequireAuthenticatedUser().RequireRole("CareRecipient"));
+                    options.AddPolicy("Professional", p => p.RequireAuthenticatedUser().RequireRole("Professional"));
                 });
 
             services.AddSingleton<IAppointmentContext, AppointmentContextSql>();

@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Logic;
+using Microsoft.AspNetCore.Authorization;
 using ProftaakASP_S2.Models;
 using Models;
 
 namespace ProftaakASP_S2.Controllers
 {
+    [Authorize(Policy = "Admin")]
     public class AdminController : Controller
     {
 
