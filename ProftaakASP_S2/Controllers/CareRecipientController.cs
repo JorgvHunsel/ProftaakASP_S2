@@ -136,7 +136,6 @@ namespace ProftaakASP_S2.Controllers
             }
         }
 
-<<<<<<< HEAD
         public ActionResult ChangeStatus(int id, string status, string path)
         {
             string[] redirectUrl = path.Split("/");
@@ -151,10 +150,6 @@ namespace ProftaakASP_S2.Controllers
         }
 
         public ActionResult CreateChat(int reactionId, int volunteerId)
-=======
-        // GET: CareRecipient/Delete/5
-        public ActionResult Delete(int id)
->>>>>>> f31cbb4c6106ce5578508bd352da8311d14caf50
         {
             int id = _chatLogic.CreateNewChatLog(reactionId, volunteerId, Convert.ToInt32(Request.Cookies["id"]));
             if (id != 0)
