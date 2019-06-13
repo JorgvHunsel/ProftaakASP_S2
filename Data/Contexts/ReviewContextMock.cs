@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Data.Interfaces;
 using Models;
@@ -17,17 +16,17 @@ namespace Data.Contexts
 
         public List<ReviewInfo> GetAllReviewsWithVolunteerId(int volunteerId)
         {
-           return ReviewList.FindAll(r => r.VolunteerId == volunteerId);
+            return ReviewList;
         }
 
         public List<ReviewInfo> GetAllReviews()
         {
-            return ReviewList;
+            return new List<ReviewInfo>();
         }
 
         public void DeleteReview(int reviewId)
         {
-            ReviewList.RemoveAll(x => x.ReviewId == reviewId);
+            throw new NotImplementedException();
         }
     }
 }
