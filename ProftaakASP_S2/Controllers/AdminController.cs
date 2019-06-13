@@ -48,8 +48,8 @@ namespace ProftaakASP_S2.Controllers
         {
             try
             {
-                _chatLogic.DeleteMessagesFromDatabase(new ChatLog(chat.ChatLogID));
-                _chatLogic.DeleteChatLogFromDatabase(new ChatLog(chat.ChatLogID));
+                _chatLogic.DeleteMessagesFromDatabase(new ChatLog(chat.ChatLogId));
+                _chatLogic.DeleteChatLogFromDatabase(new ChatLog(chat.ChatLogId));
 
                 return RedirectToAction("ChatLogOverview");
             }

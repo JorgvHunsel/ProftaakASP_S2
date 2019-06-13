@@ -25,7 +25,7 @@ namespace ProftaakASP_S2.Controllers
         public ActionResult Overview()
         {
             List<QuestionViewModel> questionView = new List<QuestionViewModel>();
-            foreach (Question question in _questionLogic.GetAllOpenQuestionCareRecipientID(Convert.ToInt32(Request.Cookies["id"])))
+            foreach (Question question in _questionLogic.GetAllOpenQuestionCareRecipientId(Convert.ToInt32(Request.Cookies["id"])))
             {
                 questionView.Add(new QuestionViewModel(question));
             }
@@ -88,10 +88,6 @@ namespace ProftaakASP_S2.Controllers
                 return View();
             }
         }
-
-        
-
-        
 
         // GET: CareRecipient/Delete/5
         public ActionResult Delete(int id)
