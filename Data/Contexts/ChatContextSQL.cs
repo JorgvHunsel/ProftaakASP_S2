@@ -44,7 +44,7 @@ namespace Data.Contexts
                     ChatLog chatLog = new ChatLog(chatLogId, questionTitle, careRecipientId, volunteerId,
                         careRecipientFirstName, careRecipientLastName, volunteerFirstName, volunteerLastName, timeStamp,
                         questionId, status);
-                    chatLogList.Add(chatLog);
+
                 }
 
                 return chatLogList;
