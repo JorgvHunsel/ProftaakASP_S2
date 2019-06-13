@@ -46,10 +46,6 @@ namespace Data.Contexts
 
                 return chatLogList;
             }
-            catch (Exception)
-            {
-                return null;
-            }
             finally
             {
                 _conn.Close();
@@ -90,10 +86,6 @@ namespace Data.Contexts
                     chatLogList.Add(chatLog);
                 }
                 return chatLogList;
-            }
-            catch (Exception)
-            {
-                return null;
             }
             finally
             {
@@ -139,9 +131,10 @@ namespace Data.Contexts
 
                 return chatLogList;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return null;
+                Console.WriteLine(e.Message);
+                throw;
             }
             finally
             {
@@ -161,9 +154,9 @@ namespace Data.Contexts
                 _conn.Open();
                 cmd.ExecuteNonQuery();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw new ArgumentException("Chatlog not created");
+                throw;
             }
             finally
             {
@@ -183,9 +176,9 @@ namespace Data.Contexts
                 _conn.Open();
                 cmd.ExecuteNonQuery();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw new ArgumentException("Delete messages failed");
+                throw;
             }
             finally
             {
@@ -223,9 +216,10 @@ namespace Data.Contexts
                 return chatMessageList;
 
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return null;
+                Console.WriteLine(e.Message);
+                throw;
             }
             finally
             {
@@ -247,9 +241,9 @@ namespace Data.Contexts
                 _conn.Open();
                 cmd.ExecuteNonQuery();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw new ArgumentException("Message not send");
+                ;
             }
             finally
             {
@@ -257,6 +251,7 @@ namespace Data.Contexts
             }
         }
 
+        //TODO Returns 0 as exceptionhandling
         public int CreateNewChatLog(int reactionId, int volunteerId, int careRecipientId)
         {
             try
@@ -277,7 +272,7 @@ namespace Data.Contexts
                 int id = (int)sqlP.Value;
                 return id;
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return 0;
             }
@@ -314,10 +309,6 @@ namespace Data.Contexts
                 return new ChatLog(chatLogId, careRecipientId, volunteerId, careName, volName, timeStamp, status);
 
             }
-            catch (Exception)
-            {
-                return null;
-            }
             finally
             {
                 _conn.Close();
@@ -335,10 +326,6 @@ namespace Data.Contexts
                 cmd.Parameters.Add("@Status", SqlDbType.Bit).Value = chatLog.Status;
 
                 cmd.ExecuteNonQuery();
-            }
-            catch (Exception)
-            {
-                throw new ArgumentException("Status not changed");
             }
             finally
             {

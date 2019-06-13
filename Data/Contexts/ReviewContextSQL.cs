@@ -14,22 +14,22 @@ using System.Text.RegularExpressions;
 
 namespace Data.Contexts
 {
-    public class ReviewContextSql : IReviewContext
+    public class ReviewContextSQL : IReviewContext
     {
         private const string ConnectionString =
             @"Data Source=mssql.fhict.local;Initial Catalog=dbi423244;User ID=dbi423244;Password=wsx234;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
-        private static readonly SqlConnection Conn = new SqlConnection(ConnectionString);
+        private static readonly SqlConnection _conn = new SqlConnection(ConnectionString);
 
 
         public void InsertReview(ReviewInfo review)
         {
             try
             {
-                Conn.Open();
+                _conn.Open();
                 string query =
                     "INSERT INTO [VolunteerReview] (CareRecipientID, VolunteerID, Content, Rating, RatingTime) VALUES (@recipientId, @volunteerId, @content, @rating, @ratingTime)";
-                using (SqlCommand insertReview = new SqlCommand(query, Conn))
+                using (SqlCommand insertReview = new SqlCommand(query, _conn))
                 {
                     insertReview.Parameters.AddWithValue("@recipientId", review.CareRecipientId);
                     insertReview.Parameters.AddWithValue("@volunteerId", review.VolunteerId);
@@ -41,11 +41,11 @@ namespace Data.Contexts
             }
             catch (SqlException ex)
             {
-                throw new ArgumentException("Insert review failed.");
+                Console.WriteLine(ex);
             }
             finally
             {
-                Conn.Close();
+                _conn.Close();
             }
         }
 
@@ -55,9 +55,9 @@ namespace Data.Contexts
             {
                 List<ReviewInfo> reviewList = new List<ReviewInfo>();
 
-                SqlCommand cmd = new SqlCommand("GetAllReviews", Conn);
+                SqlCommand cmd = new SqlCommand("GetAllReviews", _conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                Conn.Open();
+                _conn.Open();
 
                 DataTable dt = new DataTable();
                 dt.Load(cmd.ExecuteReader());
@@ -82,13 +82,14 @@ namespace Data.Contexts
 
                 return reviewList;
             }
-            catch (Exception)
+            catch(SqlException e)
             {
-                return null;
+                Console.WriteLine(e);
+                throw e;
             }
             finally
             {
-                Conn.Close();
+                _conn.Close();
                 
             }
         }
@@ -98,9 +99,9 @@ namespace Data.Contexts
             List<ReviewInfo> reviewList = new List<ReviewInfo>();
             try
             {
-                SqlCommand cmd = new SqlCommand("GetAllReviewsByVolunteerId", Conn);
+                SqlCommand cmd = new SqlCommand("GetAllReviewsByVolunteerId", _conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                Conn.Open();
+                _conn.Open();
                 cmd.Parameters.Add("@VolunteerId", SqlDbType.Int).Value = volunteerId;
 
                 DataTable dt = new DataTable();
@@ -125,13 +126,9 @@ namespace Data.Contexts
 
                 return reviewList;
             }
-            catch (Exception)
-            {
-                return null;
-            }
             finally
             {
-                Conn.Close();
+                _conn.Close();
             }
 
         }
@@ -140,20 +137,21 @@ namespace Data.Contexts
         {
             try
             {
-                SqlCommand cmd = new SqlCommand("DeleteReview", Conn);
+                SqlCommand cmd = new SqlCommand("DeleteReview", _conn);
                 cmd.Parameters.Add("@reviewId", SqlDbType.Int).Value = reviewId;
                 cmd.CommandType = CommandType.StoredProcedure;
-                Conn.Open();
+                _conn.Open();
 
                 cmd.ExecuteNonQuery();
             }
-            catch (Exception)
+            catch (SqlException e)
             {
-                throw new ArgumentException("Review not deleted");
+                Console.WriteLine(e);
+                throw e;
             }
             finally
             {
-                Conn.Close();
+                _conn.Close();
             }
         }
     }

@@ -16,7 +16,7 @@
             @Html.AntiForgeryToken()
 
             @Html.TextAreaFor(x => x.Review, new { @placeholder = "Geef een review A.U.B.", @class = "reviewTextArea form-control" })
-            @Html.HiddenFor(x => x.StarAmount)
+            @Html.HiddenFor(x => x.starAmount)
             
             @{ 
             int rating = 1;

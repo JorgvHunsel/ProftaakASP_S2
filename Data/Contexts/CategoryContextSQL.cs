@@ -34,10 +34,6 @@ namespace Data.Contexts
 
                 return categoryList;
             }
-            catch (Exception)
-            {
-                return null;
-            }
             finally
             {
                 _conn.Close();

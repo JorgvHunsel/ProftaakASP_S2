@@ -52,8 +52,8 @@ namespace ProftaakASP_S2
             services.AddSingleton<IQuestionContext, QuestionContextSql>();
             services.AddSingleton<IReactionContext, ReactionContextSql>();
             services.AddSingleton<IUserContext, UserContextSql>();
-            services.AddSingleton<ILogContext, LogContextSql>();
-            services.AddSingleton<IReviewContext, ReviewContextSql>();
+            services.AddSingleton<ILogContext, LogContextSQL>();
+            services.AddSingleton<IReviewContext, ReviewContextSQL>();
 
 
             services.AddSingleton<UserLogic>();
