@@ -27,17 +27,17 @@ namespace UnitTests
         [TestMethod]
         public void CreateUserLog()
         {
-            Assert.AreEqual(0, _logContext.logList.Count);
+            Assert.AreEqual(0, _logContext.LogList.Count);
 
-            User _user = new Volunteer(14, "Wesley", "Martens", "Drenthelaan 1", "Drenthe", "2101SZ",
+            User user = new Volunteer(14, "Wesley", "Martens", "Drenthelaan 1", "Drenthe", "2101SZ",
                 "wesley@hotmail.com", DateTime.Now, User.Gender.Man, true, User.AccountType.Professional, "1111");
-            _logLogic.CreateUserLog(_user.UserId, _user);
-            Assert.AreEqual(14, _logContext.logList[0].UserId);
+            _logLogic.CreateUserLog(user.UserId, user);
+            Assert.AreEqual(14, _logContext.LogList[0].UserId);
 
-            User _user2 = new Volunteer(15, "Boaz", "Martens", "Drenthelaan 1", "Drenthe", "2101SZ", "boaz@hotmail.com",
+            User user2 = new Volunteer(15, "Boaz", "Martens", "Drenthelaan 1", "Drenthe", "2101SZ", "boaz@hotmail.com",
                 DateTime.Now, User.Gender.Man, false, User.AccountType.Professional, "1111");
-            _logLogic.CreateUserLog(_user2.UserId, _user2);
-            Assert.AreEqual(15, _logContext.logList[1].UserId);
+            _logLogic.CreateUserLog(user2.UserId, user2);
+            Assert.AreEqual(15, _logContext.LogList[1].UserId);
         }
 
         [TestMethod]
@@ -45,10 +45,10 @@ namespace UnitTests
         {
             Assert.AreEqual(0, _logLogic.GetAllLogs().Count);
 
-            _logContext.logList.Add(new Log(1, 1, "title", "description", DateTime.Now));
+            _logContext.LogList.Add(new Log(1, 1, "title", "description", DateTime.Now));
             Assert.AreEqual(1, _logLogic.GetAllLogs().Count);
 
-            _logContext.logList.Add(new Log(2, 1, "title", "description", DateTime.Now));
+            _logContext.LogList.Add(new Log(2, 1, "title", "description", DateTime.Now));
             Assert.AreEqual(2, _logLogic.GetAllLogs().Count);
         }
     }

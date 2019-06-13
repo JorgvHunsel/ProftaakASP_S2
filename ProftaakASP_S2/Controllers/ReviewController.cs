@@ -36,7 +36,7 @@ namespace ProftaakASP_S2.Controllers
         {
             int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
 
-            _reviewLogic.InsertReview(new ReviewInfo(reviewViewModel.VolunteerId, userId, reviewViewModel.Review, reviewViewModel.starAmount));
+            _reviewLogic.InsertReview(new ReviewInfo(reviewViewModel.VolunteerId, userId, reviewViewModel.Review, reviewViewModel.StarAmount));
 
             return View("../Shared/Login");
         }
