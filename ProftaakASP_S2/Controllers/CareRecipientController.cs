@@ -133,6 +133,9 @@ namespace ProftaakASP_S2.Controllers
             ReviewViewModel reviewViewModel = new ReviewViewModel(volunteerId, questionId);
 
             return View("../Review/Index");
+<<<<<<< HEAD
+>>>>>>> parent of 5448a04... Merge branch 'Development' of https://github.com/JorgvHunsel/ProftaakASP_S2 into Development
+=======
 >>>>>>> parent of 5448a04... Merge branch 'Development' of https://github.com/JorgvHunsel/ProftaakASP_S2 into Development
         }
         
