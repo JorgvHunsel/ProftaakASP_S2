@@ -18,8 +18,8 @@ namespace ProftaakASP_S2.Models
         public ChatViewModel(ChatLog chat)
         {
             ChatLogId = chat.ChatLogId;
-            VolunteerName = chat.VolunteerFirstName + " " + chat.VolunteerLastName;
-            CareRecipientName = chat.CareRecipientFirstName + " " + chat.CareRecipientLastName;
+            VolunteerName = chat.VolunteerName;
+            CareRecipientName = chat.CareRecipientName;
             TimeStamp = chat.TimeStamp;
             QuestionName = chat.QuestionTitle;
             QuestionId = chat.QuestionId;

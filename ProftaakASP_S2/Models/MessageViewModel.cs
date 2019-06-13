@@ -28,6 +28,16 @@ namespace ProftaakASP_S2.Models
             CareRecipientName = careRecipientName;
         }
 
+        public MessageViewModel(ChatMessage cM, int userId)
+        {
+            UserId = userId;
+            ChatLogId = cM.ChatId;
+            SenderId = cM.SenderId;
+            ReceiverId = cM.ReceiverId;
+            MessageContent = cM.MessageContent;
+            Timestamp = cM.TimeStamp;
+        }
+
         public MessageViewModel()
         {
             
