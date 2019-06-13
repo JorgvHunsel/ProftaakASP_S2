@@ -38,7 +38,7 @@ namespace ProftaakASP_S2.Controllers
 
             _reviewLogic.InsertReview(new ReviewInfo(reviewViewModel.VolunteerId, userId, reviewViewModel.Review, reviewViewModel.StarAmount));
 
-            return RedirectToAction("ReactionOverview", "CareRecipient", new { id = reviewViewModel.QuestionID });
+            return RedirectToAction("ReactionOverview", "CareRecipient", new { id = reviewViewModel.QuestionId });
         }
 
         [HttpPost]
