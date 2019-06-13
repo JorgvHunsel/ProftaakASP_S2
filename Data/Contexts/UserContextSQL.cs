@@ -467,7 +467,7 @@ namespace Data.Contexts
                 string firstName = dt.Rows[0].ItemArray[1].ToString();
                 string lastName = dt.Rows[0].ItemArray[2].ToString();
                 DateTime birthDate = Convert.ToDateTime(dt.Rows[0].ItemArray[3].ToString());
-                User.Gender gender = (User.Gender)Enum.Parse(typeof(User.Gender), dt.Rows[0].ItemArray[4].ToString());
+                User.Gender gender = (User.Gender) Enum.Parse(typeof(User.Gender), dt.Rows[0].ItemArray[4].ToString());
                 string email = dt.Rows[0].ItemArray[5].ToString();
                 string address = dt.Rows[0].ItemArray[6].ToString();
                 string postalCode = dt.Rows[0].ItemArray[7].ToString();
@@ -490,7 +490,7 @@ namespace Data.Contexts
                 else if (accountType == "Admin")
                 {
                     return new CareRecipient(userId, firstName, lastName, address, city, postalCode, email,
-                         birthDate, gender, status, User.AccountType.Admin, password);
+                        birthDate, gender, status, User.AccountType.Admin, password);
                 }
                 else if (accountType == "Professional")
                 {
@@ -500,6 +500,11 @@ namespace Data.Contexts
 
                 return null;
 
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e);
+                throw;
             }
             finally
             {
