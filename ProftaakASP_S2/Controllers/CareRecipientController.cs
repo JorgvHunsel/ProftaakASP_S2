@@ -25,7 +25,7 @@ namespace ProftaakASP_S2.Controllers
         public ActionResult Overview()
         {
             List<QuestionViewModel> questionView = new List<QuestionViewModel>();
-            foreach (Question question in _questionLogic.GetAllOpenQuestionCareRecipientId(Convert.ToInt32(Request.Cookies["id"])))
+            foreach (Question question in _questionLogic.GetAllOpenQuestionCareRecipientID(Convert.ToInt32(Request.Cookies["id"])))
             {
                 questionView.Add(new QuestionViewModel(question));
             }
@@ -56,8 +56,38 @@ namespace ProftaakASP_S2.Controllers
             }
         }
 
+<<<<<<< HEAD
         // GET: CareRecipient/Details/5
         public ActionResult Details(int id)
+=======
+        [HttpGet]
+        public ActionResult ReactionOverview(int id)
+        {
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
+
+            List<ReactionViewModel> reactionViews = new List<ReactionViewModel>();
+
+            if (_reactionLogic.GetAllCommentsWithQuestionId(id).Count > 0)
+            {
+
+                foreach (Reaction reaction in _reactionLogic.GetAllCommentsWithQuestionId(id))
+                {
+                    reactionViews.Add(new ReactionViewModel(reaction, _questionLogic.GetSingleQuestion(reaction.QuestionId),
+                        _userLogic.GetUserById(userId)));
+                }
+
+                ViewBag.Message = null;
+
+                return View("Reaction/Overview", reactionViews);
+            }
+
+            TempData["ErrorMessage"] = "Vraag heeft geen reacties";
+            return RedirectToAction("Overviewclosed");
+        }
+
+        [HttpGet]
+        public ActionResult ReactionOverviewClosed(int id)
+>>>>>>> parent of 5448a04... Merge branch 'Development' of https://github.com/JorgvHunsel/ProftaakASP_S2 into Development
         {
             return View();
         }
@@ -89,11 +119,20 @@ namespace ProftaakASP_S2.Controllers
             }
         }
 
+        
+
+        
+
         // GET: CareRecipient/Delete/5
         public ActionResult Delete(int id)
         {
+<<<<<<< HEAD
             _questionLogic.ChangeStatus(id, status);
             return RedirectToAction(nameof(Overview));
+            ReviewViewModel reviewViewModel = new ReviewViewModel(volunteerId, questionId);
+
+            return View("../Review/Index");
+
         }
         
     }
