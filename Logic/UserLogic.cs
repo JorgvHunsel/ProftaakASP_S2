@@ -81,14 +81,20 @@ namespace Logic
 
         public bool SendEmailProfessional(string emailaddress)
         {
-            
             try
             {
                 MailAddress fromAddress = new MailAddress("maileye4participation@gmail.com", "NoReply Eye4Participation");
                 MailAddress toAddress = new MailAddress(emailaddress);
                 const string fromPassword = "Test1234!";
                 const string subject = "New professional acocunt";
-                const string body = "Body";
+                const string body = "Hello there," +
+                                    "" +
+                                    "Je bent uitgenodigd om een professioneel hulpverlener account aan te maken." +
+                                    "Dit kan je doen via de volgende link:" +
+                                    "" +
+                                    "Met vriendelijke groet," +
+                                    "" +
+                                    "Het administratorteam van Eye4Participation";
 
                 SmtpClient smtp = new SmtpClient
                 {
@@ -117,7 +123,14 @@ namespace Logic
         }
 
 
-        
+        public List<User> GetAllProfessionals()
+        {
+            return _user.GetAllProfessionals();
+        }
 
+        public void LinkCareToProf(int careId, int profId)
+        {
+            _user.LinkCareToProf(careId, profId);
+        }
     }
 }

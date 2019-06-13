@@ -27,6 +27,10 @@ namespace Data.Contexts
                     cmd.ExecuteNonQuery();
                 }
             }
+            catch (Exception)
+            {
+               throw new ArgumentException("Userlog not created");
+            }
             finally
             {
                 _conn.Close();
@@ -57,6 +61,10 @@ namespace Data.Contexts
                 }
 
                 return logList;
+            }
+            catch (Exception)
+            {
+                return null;
             }
             finally
             {

@@ -31,21 +31,24 @@ namespace Data.Contexts
                     string questionTitle = dr["Title"].ToString();
                     int careRecipientId = Convert.ToInt32(dr["CareRecipientID"]);
                     int volunteerId = Convert.ToInt32(dr["VolunteerID"]);
-                    string careRecipientFirstName = dr["CareRecipientFirstName"].ToString();
-                    string careRecipientLastName = dr["CareRecipientLastName"].ToString();
+                    string careRecipientName = dr["CareRecipientFirstName"].ToString() + dr["CareRecipientLastName"].ToString();
                     int questionId = Convert.ToInt32(dr["QuestionID"]);
                     bool status = Convert.ToBoolean(dr["Status"]);
 
-                    string volunteerFirstName = dr["VolunteerFirstName"].ToString();
-                    string volunteerLastName = dr["VolunteerLastName"].ToString();
+                    string volunteerName = dr["VolunteerFirstName"].ToString() + dr["VolunteerLastName"].ToString();
+
 
                     DateTime timeStamp = Convert.ToDateTime(dr["TimeStamp"].ToString());
 
-                    ChatLog chatLog = new ChatLog(chatLogId, questionTitle, careRecipientId, volunteerId, careRecipientFirstName, careRecipientLastName, volunteerFirstName, volunteerLastName, timeStamp, questionId, status);
+                    ChatLog chatLog = new ChatLog(chatLogId, questionTitle, careRecipientId, volunteerId, careRecipientName, volunteerName, timeStamp, questionId, status);
                     chatLogList.Add(chatLog);
                 }
 
                 return chatLogList;
+            }
+            catch (Exception)
+            {
+                return null;
             }
             finally
             {
@@ -72,20 +75,25 @@ namespace Data.Contexts
                     string questionTitle = dr["Title"].ToString();
                     int careRecipientId = Convert.ToInt32(dr["CareRecipientID"]);
                     int volunteerId = Convert.ToInt32(dr["VolunteerID"]);
-                    string careRecipientFirstName = dr["CareRecipientFirstName"].ToString();
-                    string careRecipientLastName = dr["CareRecipientLastName"].ToString();
+                    string careRecipientName = dr["CareRecipientFirstName"].ToString() + dr["CareRecipientLastName"].ToString();
                     int questionId = Convert.ToInt32(dr["QuestionID"]);
-                    bool status = Convert.ToBoolean(dr["Status"]);
+                    string statusstring = dr["Status"].ToString();
 
-                    string volunteerFirstName = dr["VolunteerFirstName"].ToString();
-                    string volunteerLastName = dr["VolunteerLastName"].ToString();
+                    bool status = statusstring != "False";
+
+                    string volunteerName = dr["VolunteerFirstName"].ToString() + dr["VolunteerLastName"].ToString();
+
 
                     DateTime timeStamp = Convert.ToDateTime(dr["TimeStamp"].ToString());
 
-                    ChatLog chatLog = new ChatLog(chatLogId, questionTitle, careRecipientId, volunteerId, careRecipientFirstName, careRecipientLastName, volunteerFirstName, volunteerLastName, timeStamp, questionId, status);
+                    ChatLog chatLog = new ChatLog(chatLogId, questionTitle, careRecipientId, volunteerId, careRecipientName, volunteerName, timeStamp, questionId, status);
                     chatLogList.Add(chatLog);
                 }
                 return chatLogList;
+            }
+            catch (Exception)
+            {
+                return null;
             }
             finally
             {
@@ -113,27 +121,27 @@ namespace Data.Contexts
                     string questionTitle = (dr["Title"].ToString());
                     int careRecipientId = Convert.ToInt32(dr["CareRecipientID"]);
                     int volunteerId = Convert.ToInt32(dr["VolunteerID"]);
-                    string careRecipientFirstName = dr["CareRecipientFirstName"].ToString();
-                    string careRecipientLastName = dr["CareRecipientLastName"].ToString();
+                    string careRecipientName = dr["CareRecipientFirstName"].ToString() + dr["CareRecipientLastName"].ToString();
                     int questionId = Convert.ToInt32(dr["QuestionID"]);
-                    bool status = Convert.ToBoolean(dr["ChatLogStatus"]);
+                    string statusstring = dr["Status"].ToString();
 
-                    string volunteerFirstName = dr["VolunteerFirstName"].ToString();
-                    string volunteerLastName = dr["VolunteerLastName"].ToString();
+                    bool status = statusstring != "False";
+
+                    string volunteerName = dr["VolunteerFirstName"].ToString() + dr["VolunteerLastName"].ToString();
+
 
                     DateTime timeStamp = Convert.ToDateTime(dr["TimeStamp"].ToString());
 
 
-                    ChatLog chatLog = new ChatLog(chatLogId, questionTitle, careRecipientId, volunteerId, careRecipientFirstName, careRecipientLastName, volunteerFirstName, volunteerLastName, timeStamp, questionId, status);
+                    ChatLog chatLog = new ChatLog(chatLogId, questionTitle, careRecipientId, volunteerId, careRecipientName, volunteerName, timeStamp, questionId, status);
                     chatLogList.Add(chatLog);
                 }
 
                 return chatLogList;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine(e.Message);
-                throw;
+                return null;
             }
             finally
             {
@@ -153,9 +161,9 @@ namespace Data.Contexts
                 _conn.Open();
                 cmd.ExecuteNonQuery();
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw;
+                throw new ArgumentException("Chatlog not created");
             }
             finally
             {
@@ -175,9 +183,9 @@ namespace Data.Contexts
                 _conn.Open();
                 cmd.ExecuteNonQuery();
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                throw;
+                throw new ArgumentException("Delete messages failed");
             }
             finally
             {
@@ -215,10 +223,9 @@ namespace Data.Contexts
                 return chatMessageList;
 
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                Console.WriteLine(e.Message);
-                throw;
+                return null;
             }
             finally
             {
@@ -240,9 +247,9 @@ namespace Data.Contexts
                 _conn.Open();
                 cmd.ExecuteNonQuery();
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                ;
+                throw new ArgumentException("Message not send");
             }
             finally
             {
@@ -250,7 +257,6 @@ namespace Data.Contexts
             }
         }
 
-        //TODO Returns 0 as exceptionhandling
         public int CreateNewChatLog(int reactionId, int volunteerId, int careRecipientId)
         {
             try
@@ -260,7 +266,7 @@ namespace Data.Contexts
                 cmd.Parameters.Add("@reactionID", SqlDbType.Int).Value = reactionId;
                 cmd.Parameters.Add("@volunteerID", SqlDbType.Int).Value = volunteerId;
                 cmd.Parameters.Add("@careRecipientID", SqlDbType.Int).Value = careRecipientId;
-                cmd.Parameters.Add("@status", SqlDbType.Bit).Value = true;
+                cmd.Parameters.Add("@status", SqlDbType.Bit).Value = 1;
 
                 SqlParameter sqlP = new SqlParameter("@identity", SqlDbType.Int);
                 sqlP.Direction = ParameterDirection.Output;
@@ -271,7 +277,7 @@ namespace Data.Contexts
                 int id = (int)sqlP.Value;
                 return id;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return 0;
             }
@@ -293,12 +299,24 @@ namespace Data.Contexts
                 DataTable dt = new DataTable();
                 dt.Load(cmd.ExecuteReader());
 
-                int volunteerId = Convert.ToInt32(dt.Rows[0]["VolunteerID"]);
-                int carerecipientId = Convert.ToInt32(dt.Rows[0]["CareRecipientID"]);
-                DateTime timeStamp = Convert.ToDateTime(dt.Rows[0]["TimeStamp"]);
-                bool status = Convert.ToBoolean(dt.Rows[0]["Status"]);
+                int volunteerId = Convert.ToInt32(dt.Rows[0]["UserIdVolunteer"]);
+                string volName = dt.Rows[0]["FirstNameVolunteer"].ToString() + " " + dt.Rows[0]["LastNameVolunteer"].ToString();
+                
+                int careRecipientId = Convert.ToInt32(dt.Rows[0]["UserIdCare"]);
+                string careName = dt.Rows[0]["FirstNameCare"].ToString() + " " + dt.Rows[0]["LastNameCare"].ToString();
 
-                return new ChatLog(chatLogId, carerecipientId, volunteerId, timeStamp, status);
+                DateTime timeStamp = Convert.ToDateTime(dt.Rows[0]["TimeStamp"]);
+                string statusString = dt.Rows[0]["Status"].ToString();
+                
+
+                bool status = statusString != "False";
+
+                return new ChatLog(chatLogId, careRecipientId, volunteerId, careName, volName, timeStamp, status);
+
+            }
+            catch (Exception)
+            {
+                return null;
             }
             finally
             {
@@ -317,6 +335,10 @@ namespace Data.Contexts
                 cmd.Parameters.Add("@Status", SqlDbType.Bit).Value = chatLog.Status;
 
                 cmd.ExecuteNonQuery();
+            }
+            catch (Exception)
+            {
+                throw new ArgumentException("Status not changed");
             }
             finally
             {
