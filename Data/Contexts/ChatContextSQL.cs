@@ -41,8 +41,10 @@ namespace Data.Contexts
 
                     DateTime timeStamp = Convert.ToDateTime(dr["TimeStamp"].ToString());
 
-                    ChatLog chatLog = new ChatLog(chatLogId, questionTitle, careRecipientId, volunteerId, careRecipientFirstName, careRecipientLastName, volunteerFirstName, volunteerLastName, timeStamp, questionId, status);
-                    chatLogList.Add(chatLog);
+                    ChatLog chatLog = new ChatLog(chatLogId, questionTitle, careRecipientId, volunteerId,
+                        careRecipientFirstName, careRecipientLastName, volunteerFirstName, volunteerLastName, timeStamp,
+                        questionId, status);
+
                 }
 
                 return chatLogList;

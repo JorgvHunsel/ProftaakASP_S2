@@ -11,7 +11,7 @@
     <div>
         <div class="question-box">
             <div class="question-content">
-                <h2>@question.Title</h2>
+                <h3 style="max-width: 400px">@question.Title</h3>
                 <h2 class="care-date">@question.Date</h2>
             </div>
             <div class=question-content>
@@ -24,7 +24,7 @@
                 }
             </div>
             <div style="float: right" class="question-content">
-                <input class="question-button" type="button" value="Reacties" onclick="location.href = '@Url.Action("ReactionOverview", "CareRecipient", new { id = question.QuestionId })'" />
+                <input class="question-button" type="button" value="Reacties" onclick="location.href = '@Url.Action("ReactionOverviewClosed", "CareRecipient", new { id = question.QuestionId })'" />
                 <br />
                 <input class="question-button" type="button" value="Maak open" onclick="location.href = '@Url.Action("ChangeStatus", "CareRecipient", new { id = question.QuestionId, status = question.Status, path = Context.Request.Path })'" />
                 <br />

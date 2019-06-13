@@ -6,7 +6,7 @@
 
 <h2>Gebruikersoverzicht</h2>
 
-<table class="table">
+<table class="table table-striped">
     <thead>
         <tr>
             <th>
@@ -42,6 +42,7 @@
             <th>
                 Gekoppelde professional
             </th>
+            <th></th>
             <th></th>
         </tr>
     </thead>
@@ -98,8 +99,12 @@
             @if (item.UserAccountType == Models.User.AccountType.CareRecipient)
             {
                 <td>
-                    @Html.ActionLink("Koppel aan professional", "LinkToProfessional", new { id = item.UserId })
+                    @Html.ActionLink("Koppel aan professional", "LinkToProfessional", new { userId = item.UserId })
                 </td>
+            }
+            else
+            {
+                <td></td>
             }
         </tr>
 }

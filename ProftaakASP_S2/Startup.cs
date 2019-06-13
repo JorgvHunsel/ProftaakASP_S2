@@ -1,6 +1,7 @@
 ﻿using Data.Contexts;
 using Data.Interfaces;
 using Logic;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -30,7 +31,20 @@ namespace ProftaakASP_S2
             });
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(options =>
+                {
+                    options.AccessDeniedPath = "/Home/ErrorForbidden";
+                    options.LoginPath = "/Home/ErrorNotLoggedIn";
+                });
 
+            services.AddAuthorization(options =>
+                {
+                    options.AddPolicy("Admin", p => p.RequireAuthenticatedUser().RequireRole("Admin"));
+                    options.AddPolicy("Volunteer", p => p.RequireAuthenticatedUser().RequireRole("Volunteer"));
+                    options.AddPolicy("CareRecipient", p => p.RequireAuthenticatedUser().RequireRole("CareRecipient"));
+                    options.AddPolicy("Professional", p => p.RequireAuthenticatedUser().RequireRole("Professional"));
+                });
 
             services.AddSingleton<IAppointmentContext, AppointmentContextSql>();
             services.AddSingleton<ICategoryContext, CategoryContextSql>();
@@ -39,6 +53,7 @@ namespace ProftaakASP_S2
             services.AddSingleton<IReactionContext, ReactionContextSql>();
             services.AddSingleton<IUserContext, UserContextSql>();
             services.AddSingleton<ILogContext, LogContextSQL>();
+            services.AddSingleton<IReviewContext, ReviewContextSQL>();
 
 
             services.AddSingleton<UserLogic>();
@@ -48,6 +63,7 @@ namespace ProftaakASP_S2
             services.AddSingleton<ChatLogic>();
             services.AddSingleton<AppointmentLogic>();
             services.AddSingleton<LogLogic>();
+            services.AddSingleton<ReviewLogic>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,6 +82,8 @@ namespace ProftaakASP_S2
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

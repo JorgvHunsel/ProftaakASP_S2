@@ -4,11 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Logic;
+using Microsoft.AspNetCore.Authorization;
 using ProftaakASP_S2.Models;
 using Models;
 
 namespace ProftaakASP_S2.Controllers
 {
+    [Authorize(Policy = "Admin")]
     public class AdminController : Controller
     {
 
@@ -18,8 +20,9 @@ namespace ProftaakASP_S2.Controllers
         private readonly UserLogic _userLogic;
         private readonly ChatLogic _chatLogic;
         private readonly LogLogic _logLogic;
+        private readonly ReviewLogic _reviewLogic;
 
-        public AdminController(QuestionLogic questionLogic, CategoryLogic categoryLogic, ReactionLogic reactionLogic, UserLogic userLogic, ChatLogic chatLogic, LogLogic logLogic)
+        public AdminController(QuestionLogic questionLogic, CategoryLogic categoryLogic, ReactionLogic reactionLogic, UserLogic userLogic, ChatLogic chatLogic, LogLogic logLogic, ReviewLogic reviewLogic)
         {
             _questionLogic = questionLogic;
             _categoryLogic = categoryLogic;
@@ -27,6 +30,7 @@ namespace ProftaakASP_S2.Controllers
             _userLogic = userLogic;
             _chatLogic = chatLogic;
             _logLogic = logLogic;
+            _reviewLogic = reviewLogic;
         }
 
         public ActionResult ChatLogOverview()
@@ -44,8 +48,8 @@ namespace ProftaakASP_S2.Controllers
         {
             try
             {
-                _chatLogic.DeleteMessagesFromDatabase(new ChatLog(chat.ChatLogID));
-                _chatLogic.DeleteChatLogFromDatabase(new ChatLog(chat.ChatLogID));
+                _chatLogic.DeleteMessagesFromDatabase(new ChatLog(chat.ChatLogId));
+                _chatLogic.DeleteChatLogFromDatabase(new ChatLog(chat.ChatLogId));
 
                 return RedirectToAction("ChatLogOverview");
             }
@@ -95,13 +99,15 @@ namespace ProftaakASP_S2.Controllers
 
         public ActionResult BlockUser(int id)
         {
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
+
             User updatedUser = _userLogic.GetUserById(id);
 
             updatedUser.Status = !updatedUser.Status;
 
             _userLogic.EditUser(updatedUser, "");
 
-            _logLogic.CreateUserLog(Convert.ToInt32(Request.Cookies["id"]), updatedUser);
+            _logLogic.CreateUserLog(userId, updatedUser);
 
             return RedirectToAction("UserOverview");
         }
@@ -112,17 +118,60 @@ namespace ProftaakASP_S2.Controllers
 
             foreach (Log log in _logLogic.GetAllLogs())
             {
-                logList.Add(new LogViewModel(log));
+                string username = _userLogic.GetUserById(log.UserId).FirstName +
+                                  _userLogic.GetUserById(log.UserId).LastName;
+
+                logList.Add(new LogViewModel(log, username));
             }
 
             return View("LogOverview", logList);
         }
 
+        public ActionResult CreateProfessional()
+        {
+            return View("CreateProfessional");
+        }
+
+        [HttpPost]
+        public ActionResult CreateProfessional(string emailaddress)
+        {
+            _userLogic.SendEmailProfessional(emailaddress);
+
+            return RedirectToAction("UserOverview");
+        }
+
+
+
         public ActionResult LinkToProfessional(int userId)
         {
-            
+            User careRecipient = _userLogic.GetUserById(userId);
+            List<User> professionals = _userLogic.GetAllProfessionals();
 
-           return View("LinkCareProfessional");
+            LinkToProfessionalViewModel linkToProfessionalViewModel = new LinkToProfessionalViewModel(careRecipient, professionals);
+
+
+           return View("LinkCareProfessional", linkToProfessionalViewModel);
+        }
+
+        public ActionResult LinkCareToProf(int careId, int profId)
+        {
+            _userLogic.LinkCareToProf(careId, profId);
+
+            return RedirectToAction("UserOverview");
+        }
+
+        public ActionResult ReviewOverview()
+        {
+            List<ReviewInfo> reviews = _reviewLogic.GetAllReviews();
+            List<ReviewViewModel> reviewViewModels = new List<ReviewViewModel>();
+
+            foreach (ReviewInfo review in reviews)
+            {
+                ReviewViewModel reviewViewModel = new ReviewViewModel(review);
+                reviewViewModels.Add(reviewViewModel);
+            }
+
+            return View(reviewViewModels);
         }
     }
 }
