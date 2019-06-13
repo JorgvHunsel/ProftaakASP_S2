@@ -8,15 +8,5 @@ namespace ProftaakASP_S2.Controllers
         {
             return View("../Home/Index");
         }
-
-        public IActionResult ErrorForbidden()
-        {
-            return View();
-        }
-
-        public IActionResult ErrorNotLoggedIn()
-        {
-            return View();
-        }
     }
 }

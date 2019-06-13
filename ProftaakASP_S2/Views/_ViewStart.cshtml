@@ -1,41 +1,24 @@
-﻿@using Microsoft.AspNetCore.Http
-@{
-    string currentRole = "";
-
-    if (User.IsInRole("Admin"))
-    {
-        currentRole = "Admin";
-    }
-    else if (User.IsInRole("CareRecipient"))
-    {
-        currentRole = "CareRecipient";
-    }
-    else if(User.IsInRole("Volunteer"))
-    {
-        currentRole = "Volunteer";
-    }
-    else if (User.IsInRole("Professional"))
-    {
-        currentRole = "Professional";
-    }
+﻿@{
+    string currentRole = Context.Request.Cookies["role"];
+    ViewBag.Username = Context.Request.Cookies["name"];
 
     switch (currentRole)
     {
         case "CareRecipient":
-            Layout = "~/Views/CareRecipient/_Layout.cshtml";
+            Layout = "~/Views/Shared/_LayoutCareRecipient.cshtml";
 
             break;
         case "Volunteer":
-            Layout = "~/Views/Volunteer/_Layout.cshtml";
+            Layout = "~/Views/Shared/_LayoutVolunteer.cshtml";
             break;
         case "Professional":
-            Layout = "~/Views/Professional/_Layout.cshtml";
+            Layout = "~/Views/Shared/_LayoutProfessional.cshtml";
             break;
         case "Admin":
-            Layout = "~/Views/Admin/_Layout.cshtml";
+            Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
             break;
         default:
-            Layout = "~/Views/Shared/_LayoutHome.cshtml";
+            Layout = "~/Views/Shared/_Layout.cshtml";
             break;
     }
 }

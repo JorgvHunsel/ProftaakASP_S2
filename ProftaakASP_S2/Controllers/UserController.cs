@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Linq;
-using System.Security.Claims;
-using System.Security.Policy;
 using Logic;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using ProftaakASP_S2.Models;
@@ -42,23 +37,10 @@ namespace ProftaakASP_S2.Controllers
                     return View();
                 }
 
-                
-                var identity = new ClaimsIdentity(new[]
-                {
-                    new Claim(ClaimTypes.Sid, newCustomer.UserId.ToString()),
-                    new Claim(ClaimTypes.Name, newCustomer.FirstName + " " + newCustomer.LastName),
-                    new Claim(ClaimTypes.Gender, newCustomer.UserGender.ToString()),
-                    new Claim(ClaimTypes.Email, newCustomer.EmailAddress),
-                    new Claim(ClaimTypes.PostalCode, newCustomer.PostalCode),
-                    new Claim(ClaimTypes.StreetAddress, newCustomer.Address),
-                    new Claim(ClaimTypes.Role, newCustomer.UserAccountType.ToString())
-                }, CookieAuthenticationDefaults.AuthenticationScheme);
-
-                var principal = new ClaimsPrincipal(identity);
-
-                HttpContext.SignInAsync(
-                    CookieAuthenticationDefaults.AuthenticationScheme,
-                    principal);
+                HttpContext.Response.Cookies.Append("id", newCustomer.UserId.ToString());
+                HttpContext.Response.Cookies.Append("name", newCustomer.FirstName);
+                HttpContext.Response.Cookies.Append("role", newCustomer.UserAccountType.ToString());
+                HttpContext.Response.Cookies.Append("email", newCustomer.EmailAddress);
 
                 switch (newCustomer.UserAccountType)
                 {
@@ -82,19 +64,16 @@ namespace ProftaakASP_S2.Controllers
                 ViewBag.Message = "De gegevens komen niet overeen";
                 return View();
             }
-            catch (ArgumentException)
-            {
-                ViewBag.Message = "Wachtwoord verkeerd ingevuld";
-                return View();
-            }
 
         }
 
-        public IActionResult Logout()
+        public ActionResult Logout()
         {
-            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-            return RedirectToAction(nameof(Login));
+            Response.Cookies.Delete("id");
+            Response.Cookies.Delete("name");
+            Response.Cookies.Delete("role");
+            Response.Cookies.Delete("email");
+            return RedirectToAction("Login", "User");
         }
 
         [HttpGet]
@@ -191,18 +170,14 @@ namespace ProftaakASP_S2.Controllers
         [HttpGet]
         public ActionResult AccountOverview()
         {
-            string email = User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Email)?.Value;
-
-            User currentUser = _userLogic.GetCurrentUserInfo(email);
+            User currentUser = _userLogic.GetCurrentUserInfo(Request.Cookies["email"]);
             return View("AccountOverview", new UserViewModel(currentUser));
         }
 
         [HttpGet]
         public ActionResult EditAccount()
         {
-            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid)?.Value);
-
-            User user = _userLogic.GetUserById(userId);
+            User user = _userLogic.GetUserById(Convert.ToInt32(Request.Cookies["id"]));
 
             return View("EditAccount", new UserViewModel(user));
         }
@@ -246,7 +221,7 @@ namespace ProftaakASP_S2.Controllers
 
             _userLogic.EditUser(updatedUser, "");
 
-            _logLogic.CreateUserLog(userId, updatedUser);
+            _logLogic.CreateUserLog(Convert.ToInt32(Request.Cookies["id"]), updatedUser);
 
             return RedirectToAction("Logout");
         }

@@ -5,12 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ProftaakASP_S2</title>
 
-    <environment include="Development, Production">
+    <environment include="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
-        <link rel="stylesheet" href="~/css/GeneralStyleSheet.css" />
     </environment>
-    <environment exclude="Development, Production">
+    <environment exclude="Development">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
@@ -18,8 +17,7 @@
     </environment>
 </head>
 <body>
-    <nav class="navbar navigation-bar navbar-fixed-top">
-        <a class="navbar-brand"><img src="/images/Eindhoven_Logo_Rood.png" with="25" height="25" asp-controller="User"></a>
+    <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -31,28 +29,27 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a class="navigation-bar-column" asp-area="" asp-controller="Admin" asp-action="QuestionOverview">Hulpvragen</a></li>
-                    <li><a class="navigation-bar-column" asp-area="" asp-controller="Admin" asp-action="UserOverview">Gebruikers</a></li>
-                    <li><a class="navigation-bar-column" asp-area="" asp-controller="Admin" asp-action="ChatLogOverview">Chatlogs</a></li>
-                    <li><a class="navigation-bar-column" asp-area="" asp-controller="Admin" asp-action="LogOverview">Logs</a></li>
-                    <li><a class="navigation-bar-column" asp-area="" asp-controller="Admin" asp-action="CreateProfessional">Maak professional</a></li>
+                    <li><a asp-area="" asp-controller="Volunteer" asp-action="QuestionOverview">Hulpvragen</a></li>
+                    <li><a asp-area="" asp-controller="Volunteer" asp-action="QuestionClosedOverview">Afgeronde hulpvragen</a></li>
+                    <li><a asp-area="" asp-controller="Volunteer" asp-action="ChatOverview">Chats</a></li>
+                    <li><a asp-area="" asp-controller="Volunteer" asp-action="AppointmentOverview">Afspraken</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    @if (User.Identity.Name != null)
+                    @if (ViewBag.Username != null)
                     {
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle navigation-bar-column" data-toggle="dropdown" data-target="dropdown_target">
-                                <span class="glyphicon glyphicon-user"></span>
-                                Welkom @User.Identity.Name
-                                <span class="caret"></span>
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="dropdown_target">
-                                <li><a class="navigation-bar-column" asp-area="" asp-controller="User" asp-action="AccountOverview" class="dropdown-item">Mijn account</a></li>
-                                <li><a class="navigation-bar-column" asp-area="" asp-controller="User" asp-action="EditAccount" class="dropdown-item">Account bewerken</a></li>
-                            </ul>
-                        </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target">
+                            <span class="glyphicon glyphicon-user"></span>
+                            Welkom @ViewBag.UserName
+                            <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="dropdown_target">
+                            <li><a asp-area="" asp-controller="User" asp-action="AccountOverview" class="dropdown-item">Mijn account</a></li>
+                            <li><a asp-area="" asp-controller="User" asp-action="EditAccount" class="dropdown-item">Account bewerken</a></li>
+                        </ul>
+                    </li>
                         <li>
-                            <a class="navigation-bar-column" type="button" asp-area="" asp-controller="User" asp-action="Logout">
+                            <a type="button" asp-area="" asp-controller="User" asp-action="Logout">
                                 <span class="glyphicon glyphicon-log-out"></span>
                                 Uitloggen
                             </a>
@@ -61,13 +58,13 @@
                     else
                     {
                         <li>
-                            <a class="navigation-bar-column" type="button" asp-area="" asp-controller="User" asp-action="Login">
+                            <a type="button" asp-area="" asp-controller="User" asp-action="Login">
                                 <span class="glyphicon glyphicon-user"></span>
                                 Login
                             </a>
                         </li>
                         <li>
-                            <a class="navigation-bar-column" type="button" asp-area="" asp-controller="User" asp-action="CreateAccount">
+                            <a type="button" asp-area="" asp-controller="User" asp-action="CreateAccount">
                                 <span class="glyphicon glyphicon-plus"></span>
                                 Account aanmaken
                             </a>
@@ -88,12 +85,12 @@
         </footer>
     </div>
 
-    <environment include="Development, Production">
+    <environment include="Development">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
-    <environment exclude="Development, Production">
+    <environment exclude="Development">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
                 asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
                 asp-fallback-test="window.jQuery"

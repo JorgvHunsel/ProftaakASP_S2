@@ -27,10 +27,6 @@ namespace Data.Contexts
                 _conn.Open();
                 cmd.ExecuteNonQuery();
             }
-            catch (Exception)
-            {
-                throw new ArgumentException("Question not added");
-            }
             finally
             {
                 _conn.Close();
@@ -48,10 +44,6 @@ namespace Data.Contexts
 
                 _conn.Open();
                 cmd.ExecuteNonQuery();
-            }
-            catch (Exception)
-            {
-                throw new ArgumentException("Question not deleted");
             }
             finally
             {
@@ -89,10 +81,6 @@ namespace Data.Contexts
 
                 return questionList;
             }
-            catch (Exception)
-            {
-                return null;
-            }
             finally
             {
                 _conn.Close();
@@ -127,10 +115,6 @@ namespace Data.Contexts
                 }
 
                 return questionList;
-            }
-            catch (Exception)
-            {
-                return null;
             }
             finally
             {
@@ -169,10 +153,6 @@ namespace Data.Contexts
 
                 return questionList;
             }
-            catch (Exception)
-            {
-                return null;
-            }
             finally
             {
                 _conn.Close();
@@ -208,10 +188,6 @@ namespace Data.Contexts
                 }
                 return questionList;
             }
-            catch (Exception)
-            {
-                return null;
-            }
             finally
             {
                 _conn.Close();
@@ -245,10 +221,6 @@ namespace Data.Contexts
                     questionList.Add(new Question(questionId, title, content, status, date, urgency, category, careRecipientId));
                 }
                 return questionList;
-            }
-            catch (Exception)
-            {
-                return null;
             }
             finally
             {
@@ -284,10 +256,6 @@ namespace Data.Contexts
                 }
                 return questionList;
             }
-            catch (Exception)
-            {
-                return null;
-            }
             finally
             {
                 _conn.Close();
@@ -319,10 +287,6 @@ namespace Data.Contexts
                 Category category = new Category(categoryId, categoryName, categoryDescription);
                 return new Question(questionId, title, content, Question.QuestionStatus.Open, timeStamp, urgency, category, careRecipientId);
             }
-            catch (Exception)
-            {
-                return null;
-            }
             finally
             {
                 _conn.Close();
@@ -344,10 +308,6 @@ namespace Data.Contexts
 
                 cmd.ExecuteNonQuery();
             }
-            catch (Exception)
-            {
-                throw new ArgumentException("Question not edited");
-            }
             finally
             {
                 _conn.Close();
@@ -365,10 +325,6 @@ namespace Data.Contexts
                 cmd.Parameters.Add("@questionstatus", SqlDbType.NVarChar).Value = status;
 
                 cmd.ExecuteNonQuery();
-            }
-            catch (Exception)
-            {
-                throw new ArgumentException("Question status not changed");
             }
             finally
             {

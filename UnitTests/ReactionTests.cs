@@ -16,7 +16,7 @@ namespace UnitTests
         {
             Mock<IReactionContext> mockContext = new Mock<IReactionContext>();
             Mock<Reaction> mockReaction = new Mock<Reaction>(1, 2, "foo");
-
+            
             mockContext.Setup(x => x.PostReaction(mockReaction.Object));
 
             ReactionLogic reactionLogic = new ReactionLogic(mockContext.Object);
@@ -30,8 +30,7 @@ namespace UnitTests
         {
             Mock<IReactionContext> mockContext = new Mock<IReactionContext>();
             Mock<Category> category = new Mock<Category>("Medisch");
-            Mock<Question> question = new Mock<Question>(1, "foo", "baa", Question.QuestionStatus.Open, DateTime.Today,
-                true, category.Object, 12);
+            Mock<Question> question = new Mock<Question>(1, "foo", "baa", Question.QuestionStatus.Open, DateTime.Today, true, category.Object, 12);
             List<Reaction> mockList = new List<Reaction>();
             mockContext.Setup(x => x.GetAllReactions(question.Object.QuestionId))
                 .Returns(mockList);
