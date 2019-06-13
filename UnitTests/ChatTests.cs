@@ -103,7 +103,7 @@ namespace UnitTests
         {
             List<ChatLog> output = new List<ChatLog>
             {
-                new ChatLog(12, "foo", 12, 13, "baa", "doo", "aah", "hi", DateTime.Today, 18, true)
+                new ChatLog(12, "foo", 12, 13, "doo", "hi", DateTime.Today, 18, true)
             };
             return output;
         }

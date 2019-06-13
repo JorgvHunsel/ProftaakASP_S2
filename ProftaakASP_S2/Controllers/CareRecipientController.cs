@@ -103,7 +103,7 @@ namespace ProftaakASP_S2.Controllers
             }
 
             TempData["ErrorMessage"] = "Vraag heeft geen reacties";
-            return RedirectToAction("Overviewclosed");
+            return RedirectToAction("Overview");
         }
 
         [HttpGet]
@@ -257,7 +257,7 @@ namespace ProftaakASP_S2.Controllers
         {
             ReviewViewModel reviewViewModel = new ReviewViewModel(volunteerId, questionId);
 
-            return View("../Review/Index");
+            return View("../Review/Index", reviewViewModel);
         }
 
         
