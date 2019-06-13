@@ -29,10 +29,6 @@ namespace Data.Contexts
                     cmd.ExecuteNonQuery();
                 }
             }
-            catch (Exception)
-            {
-                throw new ArgumentException("Appointment not created");
-            }
             finally
             {
                 _conn.Close();
@@ -63,15 +59,10 @@ namespace Data.Contexts
                     DateTime timestampAppointment = Convert.ToDateTime(dr["TimeStamp_appointment"]);
                     string location = dr["Location"].ToString();
 
-                    appointments.Add(new Appointment(appointmentId, questionId, careRecipientId, volunteerId,
-                        timestampCreation, timestampAppointment, location));
+                    appointments.Add(new Appointment(appointmentId, questionId, careRecipientId, volunteerId, timestampCreation, timestampAppointment, location));
                 }
 
                 return appointments;
-            }
-            catch (Exception)
-            {
-                return null;
             }
             finally
             {
@@ -90,10 +81,6 @@ namespace Data.Contexts
                 _conn.Open();
                 cmd.ExecuteNonQuery();
             }
-            catch (Exception)
-            {
-                throw new ArgumentException("Appoinment not created");
-            }
             finally
             {
                 _conn.Close();
@@ -110,10 +97,6 @@ namespace Data.Contexts
 
                 _conn.Open();
                 cmd.ExecuteNonQuery();
-            }
-            catch (Exception)
-            {
-                throw new ArgumentException("Appointment not deleted");
             }
             finally
             {

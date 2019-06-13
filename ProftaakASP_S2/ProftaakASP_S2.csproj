@@ -19,13 +19,13 @@
     <Content Update="Views\CareRecipient\Question\OverviewClosed.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\CareRecipient\_Layout.cshtml">
+    <Content Update="Views\Shared\_LayoutCareRecipient.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Professional\_Layout.cshtml">
+    <Content Update="Views\Shared\_LayoutProfessional.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Views\Volunteer\_Layout.cshtml">
+    <Content Update="Views\Shared\_LayoutVolunteer.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
   </ItemGroup>

@@ -7,9 +7,9 @@
 <h2>Account bewerken</h2>
 
 <hr />
-<div class="row login-div care-label">
+<div class="row">
     <div class="col-md-4">
-        <form style="width: 465px" asp-action="EditAccount">
+        <form asp-action="EditAccount">
             <input type="hidden" asp-for="UserId" class="form-control" />
             <div class="form-group">
                 <label asp-for="FirstName" class="control-label">Voornaam</label>
@@ -54,7 +54,7 @@
             <input type="hidden" asp-for="UserAccountType" class="form-control" />
             <input type="hidden" asp-for="Status" />
             <div class="form-group">
-                <input class="btn btn-primary btn-lg btn-block" type="submit" value="Opslaan" class="btn btn-default" />
+                <input type="submit" value="Opslaan" class="btn btn-default" />
             </div>
         </form>
     </div>

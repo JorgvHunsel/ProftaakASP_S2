@@ -23,10 +23,6 @@ namespace Data.Contexts
                 _conn.Open();
                 cmd.ExecuteNonQuery();
             }
-            catch (Exception)
-            {
-                throw new ArgumentException("Reaction not posted");
-            }
             finally
             {
                 _conn.Close();
@@ -59,10 +55,6 @@ namespace Data.Contexts
                 }
 
                 return reactionList;
-            }
-            catch (Exception)
-            {
-                return null;
             }
             finally
             {

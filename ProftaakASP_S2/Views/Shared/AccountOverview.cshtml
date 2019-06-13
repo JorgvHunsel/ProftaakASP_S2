@@ -6,40 +6,61 @@
 
 <h2>Account overzicht</h2>
 
-<ul class="list-group">
-    <li class="list-group-item">
-        <h5>Voornaam:</h5>
-        <h4>@Model.FirstName</h4>
-    </li>
-    <li class="list-group-item">
-        <h5>Achternaam:</h5>
-        <h4>@Model.LastName</h4>
-    </li>
-    <li class="list-group-item">
-        <h5>Adres:</h5>
-        <h4>@Model.Address</h4>
-    </li>
-    <li class="list-group-item">
-        <h5>Woonplaats:</h5>
-        <h4>@Model.City</h4>
-    </li>
-    <li class="list-group-item">
-        <h5>Postcode:</h5>
-        <h4>@Model.PostalCode</h4>
-    </li>
-    <li class="list-group-item">
-        <h5>Emailadres:</h5>
-        <h4>@Model.EmailAddress</h4>
-    </li>
-    <li class="list-group-item">
-        <h5>Geboortedatum:</h5>
-        <h4>@Model.BirthDate</h4>
-    </li>
-    <li class="list-group-item">
-        <h5>Geslacht:</h5>
-        <h4>@Model.UserGender</h4>
-    </li>
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            Voornaam
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt>
+            Achternaam
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt>
+            Adres
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+        <dt>
+            Woonplaats
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.City)
+        </dd>
+        <dt>
+            Postcode
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PostalCode)
+        </dd>
+        <dt>
+            E-mailadres
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EmailAddress)
+        </dd>
+        <dt>
+            Geboortedatum
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.BirthDate)
+        </dd>
+        <dt>
+            Geslacht
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserGender)
+        </dd>
+    </dl>
+</div>
 
-</ul>
 
-<button style="background-color: red" type="button" onclick="location.href = '@Url.Action("BlockUser", "User", new {  userId = Model.UserId })'" class="btn btn-danger">Account deactiveren</button>
+<div>
+    @Html.ActionLink("Account deactiveren", "BlockUser", "User", new {  userId = Model.UserId })
+</div>
