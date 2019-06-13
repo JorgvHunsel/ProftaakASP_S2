@@ -47,6 +47,7 @@ namespace ProftaakASP_S2.Controllers
         public ActionResult OverviewClosed()
         {
             int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
+            ViewBag.Message = TempData["ErrorMessage"] as string;
 
             List<QuestionViewModel> questionView = new List<QuestionViewModel>();
             foreach (Question question in _questionLogic.GetAllClosedQuestionsCareRecipientId(userId))
@@ -102,9 +103,33 @@ namespace ProftaakASP_S2.Controllers
             }
 
             TempData["ErrorMessage"] = "Vraag heeft geen reacties";
-            return RedirectToAction("Overview");
+            return RedirectToAction("Overviewclosed");
         }
 
+        [HttpGet]
+        public ActionResult ReactionOverviewClosed(int id)
+        {
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
+
+            List<ReactionViewModel> reactionViews = new List<ReactionViewModel>();
+
+            if (_reactionLogic.GetAllCommentsWithQuestionId(id).Count > 0)
+            {
+
+                foreach (Reaction reaction in _reactionLogic.GetAllCommentsWithQuestionId(id))
+                {
+                    reactionViews.Add(new ReactionViewModel(reaction, _questionLogic.GetSingleQuestion(reaction.QuestionId),
+                        _userLogic.GetUserById(userId)));
+                }
+
+                ViewBag.Message = null;
+
+                return View("Reaction/Overview", reactionViews);
+            }
+
+            TempData["ErrorMessage"] = "Vraag heeft geen reacties";
+            return RedirectToAction("OverviewClosed");
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
