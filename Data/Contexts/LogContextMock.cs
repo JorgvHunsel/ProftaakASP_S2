@@ -10,16 +10,16 @@ namespace Data.Contexts
     public class LogContextMock : ILogContext
     {
 
-        public List<Log> logList = new List<Log>();
+        public List<Log> LogList = new List<Log>();
 
         public void CreateUserLog(Log log)
         {
-            logList.Add(log);
+            LogList.Add(log);
         }
 
         public List<Log> GetAllLogs()
         {
-            return logList;
+            return LogList;
         }
     }
 }
