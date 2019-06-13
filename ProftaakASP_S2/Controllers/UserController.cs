@@ -191,7 +191,7 @@ namespace ProftaakASP_S2.Controllers
         [HttpGet]
         public ActionResult AccountOverview()
         {
-            string email = User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Email).Value;
+            string email = User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Email)?.Value;
 
             User currentUser = _userLogic.GetCurrentUserInfo(email);
             return View("AccountOverview", new UserViewModel(currentUser));
@@ -200,7 +200,7 @@ namespace ProftaakASP_S2.Controllers
         [HttpGet]
         public ActionResult EditAccount()
         {
-            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
+            int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid)?.Value);
 
             User user = _userLogic.GetUserById(userId);
 
