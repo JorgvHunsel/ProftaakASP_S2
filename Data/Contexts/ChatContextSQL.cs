@@ -31,16 +31,19 @@ namespace Data.Contexts
                     string questionTitle = dr["Title"].ToString();
                     int careRecipientId = Convert.ToInt32(dr["CareRecipientID"]);
                     int volunteerId = Convert.ToInt32(dr["VolunteerID"]);
-                    string careRecipientName = dr["CareRecipientFirstName"].ToString() + dr["CareRecipientLastName"].ToString();
+                    string careRecipientFirstName = dr["CareRecipientFirstName"].ToString();
+                    string careRecipientLastName = dr["CareRecipientLastName"].ToString();
                     int questionId = Convert.ToInt32(dr["QuestionID"]);
                     bool status = Convert.ToBoolean(dr["Status"]);
 
-                    string volunteerName = dr["VolunteerFirstName"].ToString() + dr["VolunteerLastName"].ToString();
-
+                    string volunteerFirstName = dr["VolunteerFirstName"].ToString();
+                    string volunteerLastName = dr["VolunteerLastName"].ToString();
 
                     DateTime timeStamp = Convert.ToDateTime(dr["TimeStamp"].ToString());
 
-                    ChatLog chatLog = new ChatLog(chatLogId, questionTitle, careRecipientId, volunteerId, careRecipientName, volunteerName, timeStamp, questionId, status);
+                    ChatLog chatLog = new ChatLog(chatLogId, questionTitle, careRecipientId, volunteerId,
+                        careRecipientFirstName, careRecipientLastName, volunteerFirstName, volunteerLastName, timeStamp,
+                        questionId, status);
                     chatLogList.Add(chatLog);
                 }
 
@@ -71,18 +74,19 @@ namespace Data.Contexts
                     string questionTitle = dr["Title"].ToString();
                     int careRecipientId = Convert.ToInt32(dr["CareRecipientID"]);
                     int volunteerId = Convert.ToInt32(dr["VolunteerID"]);
-                    string careRecipientName = dr["CareRecipientFirstName"].ToString() + dr["CareRecipientLastName"].ToString();
+                    string careRecipientFirstName = dr["CareRecipientFirstName"].ToString();
+                    string careRecipientLastName = dr["CareRecipientLastName"].ToString();
                     int questionId = Convert.ToInt32(dr["QuestionID"]);
                     string statusstring = dr["Status"].ToString();
 
                     bool status = statusstring != "False";
 
-                    string volunteerName = dr["VolunteerFirstName"].ToString() + dr["VolunteerLastName"].ToString();
-
+                    string volunteerFirstName = dr["VolunteerFirstName"].ToString();
+                    string volunteerLastName = dr["VolunteerLastName"].ToString();
 
                     DateTime timeStamp = Convert.ToDateTime(dr["TimeStamp"].ToString());
 
-                    ChatLog chatLog = new ChatLog(chatLogId, questionTitle, careRecipientId, volunteerId, careRecipientName, volunteerName, timeStamp, questionId, status);
+                    ChatLog chatLog = new ChatLog(chatLogId, questionTitle, careRecipientId, volunteerId, careRecipientFirstName, careRecipientLastName, volunteerFirstName, volunteerLastName, timeStamp, questionId, status);
                     chatLogList.Add(chatLog);
                 }
                 return chatLogList;
@@ -113,19 +117,20 @@ namespace Data.Contexts
                     string questionTitle = (dr["Title"].ToString());
                     int careRecipientId = Convert.ToInt32(dr["CareRecipientID"]);
                     int volunteerId = Convert.ToInt32(dr["VolunteerID"]);
-                    string careRecipientName = dr["CareRecipientFirstName"].ToString() + dr["CareRecipientLastName"].ToString();
+                    string careRecipientFirstName = dr["CareRecipientFirstName"].ToString();
+                    string careRecipientLastName = dr["CareRecipientLastName"].ToString();
                     int questionId = Convert.ToInt32(dr["QuestionID"]);
                     string statusstring = dr["Status"].ToString();
 
                     bool status = statusstring != "False";
 
-                    string volunteerName = dr["VolunteerFirstName"].ToString() + dr["VolunteerLastName"].ToString();
-
+                    string volunteerFirstName = dr["VolunteerFirstName"].ToString();
+                    string volunteerLastName = dr["VolunteerLastName"].ToString();
 
                     DateTime timeStamp = Convert.ToDateTime(dr["TimeStamp"].ToString());
 
 
-                    ChatLog chatLog = new ChatLog(chatLogId, questionTitle, careRecipientId, volunteerId, careRecipientName, volunteerName, timeStamp, questionId, status);
+                    ChatLog chatLog = new ChatLog(chatLogId, questionTitle, careRecipientId, volunteerId, careRecipientFirstName, careRecipientLastName, volunteerFirstName, volunteerLastName, timeStamp, questionId, status);
                     chatLogList.Add(chatLog);
                 }
 
@@ -294,20 +299,14 @@ namespace Data.Contexts
                 DataTable dt = new DataTable();
                 dt.Load(cmd.ExecuteReader());
 
-                int volunteerId = Convert.ToInt32(dt.Rows[0]["UserIdVolunteer"]);
-                string volName = dt.Rows[0]["FirstNameVolunteer"].ToString() + " " + dt.Rows[0]["LastNameVolunteer"].ToString();
-                
-                int careRecipientId = Convert.ToInt32(dt.Rows[0]["UserIdCare"]);
-                string careName = dt.Rows[0]["FirstNameCare"].ToString() + " " + dt.Rows[0]["LastNameCare"].ToString();
-
+                int volunteerId = Convert.ToInt32(dt.Rows[0]["VolunteerID"]);
+                int carerecipientId = Convert.ToInt32(dt.Rows[0]["CareRecipientID"]);
                 DateTime timeStamp = Convert.ToDateTime(dt.Rows[0]["TimeStamp"]);
-                string statusString = dt.Rows[0]["Status"].ToString();
-                
+                string statusstring = dt.Rows[0]["Status"].ToString();
 
-                bool status = statusString != "False";
+                bool status = statusstring != "False";
 
-                return new ChatLog(chatLogId, careRecipientId, volunteerId, careName, volName, timeStamp, status);
-
+                return new ChatLog(chatLogId, carerecipientId, volunteerId, timeStamp, status);
             }
             finally
             {

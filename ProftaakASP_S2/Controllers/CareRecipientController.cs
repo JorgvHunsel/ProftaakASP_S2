@@ -209,17 +209,13 @@ namespace ProftaakASP_S2.Controllers
         }
         
 
-        public ActionResult OpenChat(int id)
+        public ActionResult OpenChat(int id, string volunteerName, string careRecipientName, int volunteerId)
         {
             int userId = int.Parse(User.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Sid).Value);
 
             List<MessageViewModel> messageView = new List<MessageViewModel>();
 
-            ChatLog currentChatLog = _chatLogic.GetSingleChatLog(id);
-            string volunteerName = currentChatLog.VolunteerName;
-            string careRecipientName = currentChatLog.CareRecipientName;
-
-            MessageViewModel2 messageView2 = new MessageViewModel2(currentChatLog.VolunteerId, userId, id, currentChatLog.Status);
+            MessageViewModel2 messageView2 = new MessageViewModel2(volunteerId, userId, id, _chatLogic.GetSingleChatLog(id).Status);
 
             foreach (ChatMessage cMessage in _chatLogic.LoadMessageListWithChatId(id))
             {
@@ -234,8 +230,7 @@ namespace ProftaakASP_S2.Controllers
         public ActionResult NewMessage(MessageViewModel2 mvMessageViewModel2)
         {
             _chatLogic.SendMessage(mvMessageViewModel2.ChatLogId, mvMessageViewModel2.ReceiverId, mvMessageViewModel2.SenderId, mvMessageViewModel2.NewMessage);
-            ChatLog currentChatLog = _chatLogic.GetSingleChatLog(mvMessageViewModel2.ChatLogId);
-            return RedirectToAction("OpenChat", new { id = currentChatLog.ChatLogId } );
+            return RedirectToAction(nameof(ChatOverview));
         }
 
 
