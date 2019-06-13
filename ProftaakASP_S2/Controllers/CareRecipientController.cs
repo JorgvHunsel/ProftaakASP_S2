@@ -137,6 +137,9 @@ namespace ProftaakASP_S2.Controllers
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 5448a04... Merge branch 'Development' of https://github.com/JorgvHunsel/ProftaakASP_S2 into Development
+=======
 >>>>>>> parent of 5448a04... Merge branch 'Development' of https://github.com/JorgvHunsel/ProftaakASP_S2 into Development
 =======
 >>>>>>> parent of 5448a04... Merge branch 'Development' of https://github.com/JorgvHunsel/ProftaakASP_S2 into Development
