@@ -15,7 +15,6 @@ namespace Models
         public string VolLastName { get; set; }
         public string CareFirstName { get; set; }
         public string CareLastName { get; set; }
-        public int QuestionId { get; set; }
 
         public ReviewInfo(int reviewId, int volunteerId, int careRecipientId, string review, int starAmount, string volFirstName, string volLastName, string careFirstName, string careLastName)
         {
