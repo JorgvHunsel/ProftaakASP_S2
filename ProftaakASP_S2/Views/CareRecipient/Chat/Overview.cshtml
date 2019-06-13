@@ -18,7 +18,7 @@
                 <h2 style="font-size: 30px">@chat.QuestionName</h2>
             </div>
             <div style="float: right" class="question-content">
-                <input class="question-button" type="button" value="Open chat" onclick="location.href = '@Url.Action("OpenChat", "CareRecipient", new { id = chat.ChatLogId, volunteerName = chat.VolunteerName, careRecipientName = chat.CareRecipientName, volunteerId = chat.VolunteerId })'" />
+                <input class="question-button" type="button" value="Open chat" onclick="location.href = '@Url.Action("OpenChat", "CareRecipient", new { id = chat.ChatLogId })'" />
                 <br />
                 @if (chat.Status)
                 {
