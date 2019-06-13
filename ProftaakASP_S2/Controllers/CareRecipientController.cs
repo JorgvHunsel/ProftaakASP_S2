@@ -101,15 +101,10 @@ namespace ProftaakASP_S2.Controllers
 
         [HttpGet]
         public ActionResult ReactionOverviewClosed(int id)
->>>>>>> parent of 5448a04... Merge branch 'Development' of https://github.com/JorgvHunsel/ProftaakASP_S2 into Development
         {
-            return View();
-        }
 
                 ViewBag.Message = null;
 
-                return View("Reaction/Overview", reactionViews);
-            }
 
             TempData["ErrorMessage"] = "Vraag heeft geen reacties";
             return RedirectToAction("Overview");
