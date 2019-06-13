@@ -7,7 +7,7 @@ using Models;
 
 namespace Data.Contexts
 {
-    public class LogContextSql : ILogContext
+    public class LogContextSQL : ILogContext
     {
         private readonly SqlConnection _conn = Connection.GetConnection();
 
@@ -26,10 +26,6 @@ namespace Data.Contexts
 
                     cmd.ExecuteNonQuery();
                 }
-            }
-            catch (Exception)
-            {
-               throw new ArgumentException("Userlog not created");
             }
             finally
             {
@@ -61,10 +57,6 @@ namespace Data.Contexts
                 }
 
                 return logList;
-            }
-            catch (Exception)
-            {
-                return null;
             }
             finally
             {
