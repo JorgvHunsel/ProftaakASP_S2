@@ -54,7 +54,9 @@ namespace UnitTests
             Mock<IChatContext> mockContext = new Mock<IChatContext>();
             List<ChatMessage> stub = new List<ChatMessage>();
 
-            User user = new Mock<User>(1, "Jesse", "Oosterwijk", "Kleidonk 1", "Beuningen", "6641LM", "jesse.oosterwijk@outlook.com", DateTime.Today, User.Gender.Man, true, User.AccountType.CareRecipient,"1111").Object;
+            User user = new Mock<User>(1, "Jesse", "Oosterwijk", "Kleidonk 1", "Beuningen", "6641LM",
+                "jesse.oosterwijk@outlook.com", DateTime.Today, User.Gender.Man, true, User.AccountType.CareRecipient,
+                "1111").Object;
             mockContext.Setup(x => x.LoadMessage(user.UserId))
                 .Returns(stub);
 
@@ -62,7 +64,7 @@ namespace UnitTests
 
             List<ChatMessage> result = chatLogic.LoadMessageListWithChatId(user.UserId);
             List<ChatMessage> expected = stub;
-            
+
 
             Assert.IsNotNull(result);
             Assert.IsInstanceOfType(result, typeof(List<ChatMessage>));
@@ -77,7 +79,7 @@ namespace UnitTests
 
             ChatLogic chatLogic = new ChatLogic(mockContext.Object);
             chatLogic.SendMessage(0, 1, 2, "hoi");
-            mockContext.Verify((x => x.SendMessage(0,1,2,"hoi")), Times.Exactly(1));
+            mockContext.Verify((x => x.SendMessage(0, 1, 2, "hoi")), Times.Exactly(1));
         }
 
         [TestMethod]
@@ -95,15 +97,13 @@ namespace UnitTests
             mockContext.Verify(x => x.CreateNewChatLog(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<int>()));
             Assert.IsInstanceOfType(result, typeof(int));
             Assert.AreEqual(newChatLogId, result);
-            
-
         }
 
         private List<ChatLog> GetSampleChats()
         {
             List<ChatLog> output = new List<ChatLog>
             {
-                new ChatLog(12, "foo", 12, 13, "baa", "doo", "aah", "hi", DateTime.Today, 18, true)
+                new ChatLog(12, "foo", 12, 13, "doo", "hi", DateTime.Today, 18, true)
             };
             return output;
         }

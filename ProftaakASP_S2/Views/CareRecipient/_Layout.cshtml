@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ProftaakASP_S2</title>
 
-    <environment include="Development">
+    <environment include="Development, Production">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/GeneralStyleSheet.css" />
     </environment>
-    <environment exclude="Development">
+    <environment exclude="Development, Production">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
               asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
               asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
@@ -17,7 +18,8 @@
     </environment>
 </head>
 <body>
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+    <nav class="navbar navbar-fixed-top navigation-bar">
+        <a class="navbar-brand"><img src="/images/Eindhoven_Logo_Rood.png" with="25" height="25" asp-controller="User"></a>
         <div class="container">
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -29,27 +31,32 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a asp-area="" asp-controller="CareRecipient" asp-action="Overview">Hulpvragen Open</a></li>
-                    <li><a asp-area="" asp-controller="CareRecipient" asp-action="OverviewClosed">Hulpvragen Gesloten</a></li>
-                    <li><a asp-area="" asp-controller="CareRecipient" asp-action="Create">Nieuwe hulpvraag</a></li>
-                    <li><a asp-area="" asp-controller="CareRecipient" asp-action="ChatOverview">Chats</a></li>
+                    <li>
+                        <a class="navigation-bar-column" type="button" asp-area="" asp-controller="Home" asp-action="Index">
+                            Home
+                        </a>
+                    </li>
+                    <li><a class="navigation-bar-column" asp-area="" asp-controller="CareRecipient" asp-action="Overview">Hulpvragen Open</a></li>
+                    <li><a class="navigation-bar-column" asp-area="" asp-controller="CareRecipient" asp-action="OverviewClosed">Hulpvragen Gesloten</a></li>
+                    <li><a class="navigation-bar-column" asp-area="" asp-controller="CareRecipient" asp-action="Create">Nieuwe hulpvraag</a></li>
+                    <li><a class="navigation-bar-column" asp-area="" asp-controller="CareRecipient" asp-action="ChatOverview">Chats</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
-                    @if (ViewBag.Username != null)
+                    @if (User.Identity.Name != null)
                     {
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" data-target="dropdown_target">
+                            <a class="nav-link dropdown-toggle navigation-bar-column" data-toggle="dropdown" data-target="dropdown_target">
                                 <span class="glyphicon glyphicon-user"></span>
-                                Welkom @ViewBag.UserName
+                                Welkom @User.Identity.Name
                                 <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="dropdown_target">
-                                <li><a asp-area="" asp-controller="User" asp-action="AccountOverview" class="dropdown-item">Mijn account</a></li>
-                                <li><a asp-area="" asp-controller="User" asp-action="EditAccount" class="dropdown-item">Account bewerken</a></li>
+                                <li><a asp-area="" asp-controller="User" asp-action="AccountOverview" class="dropdown-item navigation-bar-column">Mijn account</a></li>
+                                <li><a asp-area="" asp-controller="User" asp-action="EditAccount" class="dropdown-item navigation-bar-column">Account bewerken</a></li>
                             </ul>
                         </li>
                         <li>
-                            <a type="button" asp-area="" asp-controller="User" asp-action="Logout">
+                            <a class="navigation-bar-column" type="button" asp-area="" asp-controller="User" asp-action="Logout">
                                 <span class="glyphicon glyphicon-log-out"></span>
                                 Uitloggen
                             </a>
@@ -81,16 +88,16 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2019 - ProftaakASP_S2</p>
+            <p>2019 - Proftaak Dreamteam</p>
         </footer>
     </div>
 
-    <environment include="Development">
+    <environment include="Development, Production">
         <script src="~/lib/jquery/dist/jquery.js"></script>
         <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
         <script src="~/js/site.js" asp-append-version="true"></script>
     </environment>
-    <environment exclude="Development">
+    <environment exclude="Development, Production">
         <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
                 asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
                 asp-fallback-test="window.jQuery"

@@ -7020,7 +7020,8 @@ function defaultPrefilter( elem, props, opts ) {
 		// Per-property setup
 		propTween = createTween( hidden ? dataShow[ prop ] : 0, prop, anim );
 		if ( !( prop in dataShow ) ) {
-			dataShow[ prop ] = propTween.start;
+            dataShow[prop] = propTween.
+                t;
 			if ( hidden ) {
 				propTween.end = propTween.start;
 				propTween.start = 0;
@@ -10144,7 +10145,10 @@ jQuery.each( [ "top", "left" ], function( i, prop ) {
 				computed = curCSS( elem, prop );
 
 				// If curCSS returns percentage, fallback to offset
-				return rnumnonpx.test( computed ) ?
+                return rnumnon
+
+
+                    .test(computed) ?
 					jQuery( elem ).position()[ prop ] + "px" :
 					computed;
 			}
